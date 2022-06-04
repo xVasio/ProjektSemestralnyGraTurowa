@@ -7,9 +7,11 @@
 #include <random>
 #include <cassert>
 
+// constructor
 Creature::Creature(const std::string &name, int power, float agility, int health, int exp) : Name_(
         name), power_(power), agility_(agility), health_(health), Exp_(exp) {}
 
+// attack move with doging
 auto Creature::attack(Creature &other) -> bool {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -22,8 +24,7 @@ auto Creature::attack(Creature &other) -> bool {
     return false;
 }
 
-
-
+// Generates random creatures
 auto Creature::createRandomCreature() -> std::unique_ptr<Creature> {
     std::unique_ptr<Creature> creature;
     std::random_device rd;
@@ -61,7 +62,7 @@ auto Creature::createRandomCreature() -> std::unique_ptr<Creature> {
 
     return creature;
 }
-
+// evolve function
 auto Creature::evolve() -> void {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -70,12 +71,12 @@ auto Creature::evolve() -> void {
     /// ETC
 }
 
-
+// effectivnes against other creature type
 auto getEffectiveness(Creature &attacker, Creature &defender) -> int {
     /// TODO implement the interaction table
 }
 
-
+// enum to string
 auto enumToString(CreatureType type) -> std::string {
     switch (type) {
         case CreatureType::Water:

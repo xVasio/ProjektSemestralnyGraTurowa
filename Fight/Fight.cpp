@@ -5,6 +5,7 @@
 #include "Fight.hpp"
 #include <random>
 
+
 Fight::Fight(const std::vector<Creature*> &player1Creatures, const std::vector<Creature*> &player2Creatures) {
     for (auto creature : player1Creatures) {
         player1Creatures_.push_back(creature->cloneCreature());

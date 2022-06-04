@@ -24,13 +24,14 @@ class Creature {
     int health_;
     int Exp_;
 
-    constexpr inline static int interactionTable[6][6] = {
-            {0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0}
+    //table of interactions beetween types
+    constexpr inline static float interactionTable[6][6] = {
+            {0.5, 1.5, 1, 1.5, 1, 1},
+            {1, 1, 0.5, 1.5, 1.5, 1.5},
+            {1, 1, 0.5, 1, 2, 0.5},
+            {0.5, 0.5, 1, 1, 1, 1.5},
+            {0.5, 1.5, 1, 0.5, 1, 1},
+            {1.5, 1, 1.5, 0.5, 1, 0.5}
     };
 
 
@@ -40,11 +41,14 @@ public:
     virtual auto cloneCreature() const -> std::unique_ptr<Creature> = 0;
 
     friend std::ostream &operator<<(std::ostream &os, const Creature &creature) {
-        os << "Name_: " << creature.Name_ << " power_: " << creature.power_ << " agility_: " << creature.agility_
-           << " health_: " << creature.health_ << " Exp_: " << creature.Exp_ << " type: " << enumToString(creature.getType());
+        os << "Name: " << creature.Name_ << " Power: " << creature.power_ << " Agility: " << creature.agility_
+           << " Health: " << creature.health_ << " Exp: " << creature.Exp_ << " Type: " << enumToString(creature.getType());
         return os;
     }
 
+    auto getEfficiency(const Creature &creature) const -> float {
+        return interactionTable[static_cast<int>(getType())][static_cast<int>(creature.getType())];
+    }
     auto evolve() -> void;
 
     Creature() = default;

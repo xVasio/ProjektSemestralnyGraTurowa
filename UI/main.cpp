@@ -20,6 +20,18 @@ auto main() -> int {
     }
 
 
+    auto& creature = creatures[0];
+    auto& creature2 = creatures[1];
+
+    std::cout << '\n';
+    std::cout << *creature << '\n';
+    std::cout << *creature2 << '\n';
+
+    std::cout << creature->getEfficiency(*creatures[1]) << '\n';
+    std::cout << creature2->getEfficiency(*creatures[0]) << '\n';
+
+    float efficiency = creature->getEfficiency(*creature2);
+    std::cout << "Efficiency: " << efficiency << '\n';
 
     return 0;
 }
