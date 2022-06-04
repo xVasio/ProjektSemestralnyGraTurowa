@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include "Creature.hpp"
+#include "../Creature/Creature.hpp"
 #include <vector>
 
 class Fight {

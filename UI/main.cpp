@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "Creature.hpp"
+#include "../Creature/Creature.hpp"
 #include <memory>
 
 auto main() -> int {
