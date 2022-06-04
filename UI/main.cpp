@@ -33,5 +33,10 @@ auto main() -> int {
     float efficiency = creature->getEfficiency(*creature2);
     std::cout << "Efficiency: " << efficiency << '\n';
 
+    creature2->addExp(1100);
+    creature->getExp();
+    creature2->evolve();
+    std::cout << *creature2 << '\n';
+
     return 0;
 }

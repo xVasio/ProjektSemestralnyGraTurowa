@@ -6,10 +6,11 @@
 #include <vector>
 #include <random>
 #include <cassert>
+#include <iostream>
 
 // constructor
-Creature::Creature(const std::string &name, int power, float agility, int health, int exp) : Name_(
-        name), power_(power), agility_(agility), health_(health), Exp_(exp) {}
+Creature::Creature(const std::string &name, int power, float agility, int health, int exp, int expNeededToEvolve) : Name_(
+        name), power_(power), agility_(agility), health_(health), Exp_(exp), ExpNeededToEvolve_(expNeededToEvolve) {}
 
 // attack move with doging
 auto Creature::attack(Creature &other) -> bool {
@@ -56,25 +57,38 @@ auto Creature::createRandomCreature() -> std::unique_ptr<Creature> {
     creature->Name_ = "Creature " + std::to_string(1);
     creature->health_ = std::uniform_int_distribution<>(1, 100)(gen);
     creature->power_ = std::uniform_int_distribution<>(1, 100)(gen);
-    creature->agility_ = std::uniform_real_distribution<float>(0, 1)(gen);
+    creature->agility_ = std::uniform_real_distribution<float>(0, 0.7)(gen);
     creature->Exp_ = 0;
+    creature->ExpNeededToEvolve_ = std::uniform_int_distribution<>(500, 1000)(gen);
 
 
     return creature;
 }
 // evolve function
 auto Creature::evolve() -> void {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(-5, 50);
-    power_ += dis(gen);
-    /// ETC
+    if(Exp_ >= ExpNeededToEvolve_) {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(-5, 50);
+        Name_ = "Evloved " + Name_;
+        power_ += dis(gen);
+        agility_ += std::uniform_real_distribution<float>(-0.1, 0.2)(gen);
+        health_ += dis(gen);
+        Exp_ = 0;
+        ExpNeededToEvolve_ = std::uniform_int_distribution<>(1000, 2225)(gen);
+    } else {
+        std::cout << "You need more exp to evolve" << std::endl;
+    }
 }
 
-// effectivnes against other creature type
-auto getEffectiveness(Creature &attacker, Creature &defender) -> int {
-    /// TODO implement the interaction table
+auto Creature::addExp(int exp) -> void {
+    Exp_ += exp;
 }
+
+auto Creature::getExp() const -> int {
+    return Exp_;
+}
+
 
 // enum to string
 auto enumToString(CreatureType type) -> std::string {

@@ -23,7 +23,7 @@ class Creature {
     float agility_;
     int health_;
     int Exp_;
-
+    int ExpNeededToEvolve_;
     //table of interactions beetween types
     constexpr inline static float interactionTable[6][6] = {
             {0.5, 1.5, 1, 1.5, 1, 1},
@@ -42,7 +42,7 @@ public:
 
     friend std::ostream &operator<<(std::ostream &os, const Creature &creature) {
         os << "Name: " << creature.Name_ << " Power: " << creature.power_ << " Agility: " << creature.agility_
-           << " Health: " << creature.health_ << " Exp: " << creature.Exp_ << " Type: " << enumToString(creature.getType());
+           << " Health: " << creature.health_ << " Exp: " << creature.Exp_ << " ExpNeeded: " << creature.ExpNeededToEvolve_ << " Type: " << enumToString(creature.getType());
         return os;
     }
 
@@ -51,13 +51,18 @@ public:
     }
     auto evolve() -> void;
 
+    auto addExp(int exp) -> void;
+
+    auto getExp() const -> int;
+
     Creature() = default;
 
-    Creature(const std::string &name, int power, float agility, int health, int exp);
+    Creature(const std::string &name, int power, float agility, int health, int exp, int expNeededToEvolve);
 
     auto attack(Creature &other) -> bool;
 
     static auto createRandomCreature() -> std::unique_ptr<Creature>;
+
 };
 
 class WaterCreature : public Creature {
