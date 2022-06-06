@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "../Creature/Creature.hpp"
+#include "../Fight/Fight.hpp"
 #include <memory>
 
 auto main() -> int {
@@ -10,10 +11,16 @@ auto main() -> int {
     std::cout << "========================================" << '\n';
 
     std::vector<std::unique_ptr<Creature>> creatures;
+    std::vector<std::unique_ptr<Creature>> creatures2;
 
-    for (int i = 0; i < 15; i++) {
+for (int i = 0; i < 5; i++) {
         creatures.push_back(Creature::createRandomCreature());
     }
+
+    for (int i = 0; i < 5; i++) {
+        creatures2.push_back(Creature::createRandomCreature());
+    }
+
 
     for (auto &creature : creatures) {
         std::cout << *creature << '\n';
@@ -37,6 +44,7 @@ auto main() -> int {
     creature->getExp();
     creature2->evolve();
     std::cout << *creature2 << '\n';
+
 
     return 0;
 }

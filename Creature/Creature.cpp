@@ -19,7 +19,7 @@ auto Creature::attack(Creature &other) -> bool {
     std::uniform_real_distribution<float> dis(0, 1);
 
     if (dis(gen) < other.agility_) {
-        other.health_ -= power_;
+        other.health_ -= power_ * Creature::getEfficiency(other);
         return true;
     }
     return false;
