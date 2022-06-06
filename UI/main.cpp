@@ -3,8 +3,11 @@
 #include "../Creature/Creature.hpp"
 #include "../Fight/Fight.hpp"
 #include <memory>
+#include "../Creature/CreatureGenerator.hpp"
 
 auto main() -> int {
+    // wywalić potem using namespace
+    using namespace vasio;
 
     std::cout << "========================================" << '\n';
     std::cout << "Welcome to turn-based pokemon-like game!" << '\n';
@@ -13,19 +16,17 @@ auto main() -> int {
     std::vector<std::unique_ptr<Creature>> creatures;
     std::vector<std::unique_ptr<Creature>> creatures2;
 
-    for (int i = 0; i < 5; i++) {
-        creatures.push_back(Creature::createRandomCreature());
+    for (int i = 0; i < 15; i++) {
+        creatures.push_back(createRandomCreature());
     }
 
-    for (int i = 0; i < 5; i++) {
-        creatures2.push_back(Creature::createRandomCreature());
+    for (int i = 0; i < 15; i++) {
+        creatures2.push_back(createRandomCreature());
     }
-
 
     for (auto &creature : creatures) {
         std::cout << *creature << '\n';
     }
-
 
     auto& creature = creatures[0];
     auto& creature2 = creatures[1];
@@ -44,12 +45,6 @@ auto main() -> int {
     creature->getExp();
     creature2->evolve();
     std::cout << *creature2 << '\n';
-
-
-
-
-//    Fight fight(creatures, creatures2);
-//    fight.attack(1,1);
 
     return 0;
 }
