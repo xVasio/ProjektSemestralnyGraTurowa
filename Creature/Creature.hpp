@@ -16,8 +16,7 @@ enum class CreatureType {
 auto enumToString(CreatureType type) -> std::string;
 
 class Creature {
-    /// dodac evolution
-    ///dodac special ability
+    ///dodac special ability i uzależnić je od CreatureType, losować z predefiniowanej puli
     std::string Name_;
     int power_;
     float agility_;

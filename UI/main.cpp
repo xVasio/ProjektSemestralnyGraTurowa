@@ -46,6 +46,8 @@ auto main() -> int {
     std::cout << *creature2 << '\n';
 
 
+
+
 //    Fight fight(creatures, creatures2);
 //    fight.attack(1,1);
 
