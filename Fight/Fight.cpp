@@ -6,11 +6,11 @@
 #include <random>
 
 
-Fight::Fight(const std::vector<Creature*> &player1Creatures, const std::vector<Creature*> &player2Creatures) {
-    for (auto creature : player1Creatures) {
+Fight::Fight(const std::vector<std::unique_ptr<Creature>> &player1Creatures, const std::vector<std::unique_ptr<Creature>> &player2Creatures) {
+    for (auto &creature : player1Creatures) {
         player1Creatures_.push_back(creature->cloneCreature());
     }
-    for (auto creature : player2Creatures) {
+    for (auto &creature : player2Creatures) {
         player2Creatures_.push_back(creature->cloneCreature());
     }
 }

@@ -13,7 +13,7 @@ auto main() -> int {
     std::vector<std::unique_ptr<Creature>> creatures;
     std::vector<std::unique_ptr<Creature>> creatures2;
 
-for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++) {
         creatures.push_back(Creature::createRandomCreature());
     }
 
@@ -45,6 +45,9 @@ for (int i = 0; i < 5; i++) {
     creature2->evolve();
     std::cout << *creature2 << '\n';
 
+
+//    Fight fight(creatures, creatures2);
+//    fight.attack(1,1);
 
     return 0;
 }
