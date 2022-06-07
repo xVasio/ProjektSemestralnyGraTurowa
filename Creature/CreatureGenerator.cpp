@@ -8,6 +8,7 @@
 
 namespace vasio {
 
+    //creature name generator
     auto generateName(CreatureType type) -> std::string {
         switch (type) {
             case CreatureType::Water:
@@ -31,6 +32,7 @@ namespace vasio {
         }
     }
 
+    // random creature generator
     auto createRandomCreature() -> std::unique_ptr<Creature> {
         std::unique_ptr<Creature> creature;
         std::random_device rd;

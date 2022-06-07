@@ -78,7 +78,6 @@ namespace vasio {
         auto cloneCreature() const -> std::unique_ptr<Creature> override {
             return std::make_unique<WaterCreature>(*this);
         }
-
     };
 
     class EarthCreature : public Creature {
