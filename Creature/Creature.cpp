@@ -10,9 +10,9 @@
 
 namespace vasio {
 // constructor
-    Creature::Creature(const std::string &name, int power, float agility, int health, int exp, int expNeededToEvolve)
+    Creature::Creature(const std::string &name, int power, float agility, int health, int currentHealth, int exp, int expNeededToEvolve)
             : Name_(
-            name), power_(power), agility_(agility), health_(health), Exp_(exp),
+            name), power_(power), agility_(agility), health_(health), currentHealth_(currentHealth), Exp_(exp),
               ExpNeededToEvolve_(expNeededToEvolve) {}
 
 // attack move with doging
@@ -29,6 +29,7 @@ namespace vasio {
     }
 
 // evolve function
+// co jesli wyewoluujemy stworzenie podczas walki a operujeym na klonach
     auto Creature::evolve() -> void {
         if (Exp_ >= ExpNeededToEvolve_) {
             std::random_device rd;
@@ -106,6 +107,7 @@ namespace vasio {
         }
         creature->Name_ = generateName(creature->getType());
         creature->health_ = std::uniform_int_distribution<>(80, 100)(gen);
+        creature->currentHealth_ = creature->health_;
         creature->power_ = std::uniform_int_distribution<>(1, 12)(gen);
         creature->agility_ = std::uniform_real_distribution<float>(0.3, 0.7)(gen);
         creature->Exp_ = 0;

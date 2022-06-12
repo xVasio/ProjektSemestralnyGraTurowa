@@ -24,8 +24,10 @@ namespace vasio {
         int power_;
         float agility_;
         int health_;
+        int currentHealth_;
         int Exp_;
         int ExpNeededToEvolve_;
+        //SpecialAbility specialAbility_;
         //table of interactions beetween types
         constexpr inline static float interactionTable[6][6] = {
                 {0.5, 1.5, 1,   1.5, 1,   1},
@@ -44,7 +46,7 @@ namespace vasio {
 
         friend std::ostream &operator<<(std::ostream &os, const Creature &creature) {
             os << "Name: " << creature.Name_ << " Power: " << creature.power_ << " Agility: " << std::setprecision(2) << creature.agility_
-               << " Health: " << creature.health_ << " Exp: " << creature.Exp_ << " ExpNeeded: "
+               << " Health: " << creature.health_ << " Current Health " << creature.currentHealth_ << " Exp: " << creature.Exp_ << " ExpNeeded: "
                << creature.ExpNeededToEvolve_ << " Type: " << enumToString(creature.getType());
             return os;
         }
@@ -63,11 +65,11 @@ namespace vasio {
 
         Creature() = default;
 
-        Creature(const std::string &name, int power, float agility, int health, int exp, int expNeededToEvolve);
+        Creature(const std::string &name, int power, float agility, int health, int currentHealth, int exp, int expNeededToEvolve);
 
         auto attack(Creature &other) -> bool;
 
-
+        virtual ~Creature() = default;
     };
 
     class WaterCreature : public Creature {
