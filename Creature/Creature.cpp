@@ -54,6 +54,10 @@ namespace vasio {
         return Exp_;
     }
 
+    auto Creature::getName() const -> std::string {
+        return Name_;
+    }
+
     auto generateName(CreatureType type) -> std::string {
         switch (type) {
             case CreatureType::Water:

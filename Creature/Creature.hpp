@@ -42,7 +42,7 @@ namespace vasio {
     public:
         virtual auto getType() const -> CreatureType = 0;
 
-        virtual auto cloneCreature() const -> std::unique_ptr<Creature> = 0;
+
 
         friend std::ostream &operator<<(std::ostream &os, const Creature &creature) {
             os << "Name: " << creature.Name_ << " Power: " << creature.power_ << " Agility: " << std::setprecision(2) << creature.agility_
@@ -56,6 +56,8 @@ namespace vasio {
         }
 
         auto static createRandomCreature() -> std::unique_ptr<Creature>;
+
+        auto getName() const -> std::string;
 
         auto evolve() -> void;
 
@@ -79,10 +81,6 @@ namespace vasio {
         auto getType() const -> CreatureType override {
             return CreatureType::Water;
         }
-
-        auto cloneCreature() const -> std::unique_ptr<Creature> override {
-            return std::make_unique<WaterCreature>(*this);
-        }
     };
 
     class EarthCreature : public Creature {
@@ -91,10 +89,6 @@ namespace vasio {
 
         auto getType() const -> CreatureType override {
             return CreatureType::Earth;
-        }
-
-        auto cloneCreature() const -> std::unique_ptr<Creature> override {
-            return std::make_unique<EarthCreature>(*this);
         }
     };
 
@@ -105,10 +99,6 @@ namespace vasio {
         auto getType() const -> CreatureType override {
             return CreatureType::Air;
         }
-
-        auto cloneCreature() const -> std::unique_ptr<Creature> override {
-            return std::make_unique<AirCreature>(*this);
-        }
     };
 
     class FireCreature : public Creature {
@@ -117,10 +107,6 @@ namespace vasio {
 
         auto getType() const -> CreatureType override {
             return CreatureType::Fire;
-        }
-
-        auto cloneCreature() const -> std::unique_ptr<Creature> override {
-            return std::make_unique<FireCreature>(*this);
         }
     };
 
@@ -131,10 +117,6 @@ namespace vasio {
         auto getType() const -> CreatureType override {
             return CreatureType::Ice;
         }
-
-        auto cloneCreature() const -> std::unique_ptr<Creature> override {
-            return std::make_unique<IceCreature>(*this);
-        }
     };
 
     class SteelCreature : public Creature {
@@ -143,10 +125,6 @@ namespace vasio {
 
         auto getType() const -> CreatureType override {
             return CreatureType::Steel;
-        }
-
-        auto cloneCreature() const -> std::unique_ptr<Creature> override {
-            return std::make_unique<SteelCreature>(*this);
         }
     };
 }

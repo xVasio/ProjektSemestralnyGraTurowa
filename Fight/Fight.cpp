@@ -8,12 +8,6 @@
 namespace vasio {
     Fight::Fight(const std::vector<std::unique_ptr<Creature>> &player1Creatures,
                  const std::vector<std::unique_ptr<Creature>> &player2Creatures) {
-        for (auto &creature: player1Creatures) {
-            player1Creatures_.push_back(creature->cloneCreature());
-        }
-        for (auto &creature: player2Creatures) {
-            player2Creatures_.push_back(creature->cloneCreature());
-        }
     }
 
 
@@ -31,5 +25,13 @@ namespace vasio {
 
     auto Fight::changeTurn() -> void {
         player1Turn_ = !player1Turn_;
+    }
+
+    auto Fight::getPlayer1CreatureInfo(std::vector<std::unique_ptr<Creature>> &player1Creatures) -> std::vector<std::string> {
+        std::vector<std::string> creatureInfo;
+        for (auto &creature : player1Creatures) {
+            creatureInfo.push_back(creature->getName());
+        }
+        return creatureInfo;
     }
 }
