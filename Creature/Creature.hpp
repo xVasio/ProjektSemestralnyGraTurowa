@@ -34,7 +34,6 @@ namespace vasio {
                 {1.5, 1,   1.5, 0.5, 1,   0.5}
         };
 
-    friend auto createRandomCreature() -> std::unique_ptr<Creature>;
 
     public:
         virtual auto getType() const -> CreatureType = 0;
@@ -51,6 +50,8 @@ namespace vasio {
         auto getEfficiency(const Creature &creature) const -> float {
             return interactionTable[static_cast<int>(getType())][static_cast<int>(creature.getType())];
         }
+
+        auto static createRandomCreature() -> std::unique_ptr<Creature>;
 
         auto evolve() -> void;
 

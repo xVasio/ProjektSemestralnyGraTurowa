@@ -3,7 +3,6 @@
 #include "../Creature/Creature.hpp"
 #include "../Fight/Fight.hpp"
 #include <memory>
-#include "../Creature/CreatureGenerator.hpp"
 
 auto main() -> int {
     // wywalić potem using namespace
@@ -17,11 +16,11 @@ auto main() -> int {
     std::vector<std::unique_ptr<Creature>> creatures2;
 
     for (int i = 0; i < 15; i++) {
-        creatures.push_back(createRandomCreature());
+        creatures.push_back(Creature::createRandomCreature());
     }
 
     for (int i = 0; i < 15; i++) {
-        creatures2.push_back(createRandomCreature());
+        creatures2.push_back(Creature::createRandomCreature());
     }
 
     for (auto &creature : creatures) {
