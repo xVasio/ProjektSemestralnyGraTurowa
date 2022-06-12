@@ -8,6 +8,7 @@
 #include <functional>
 #include <memory>
 #include <ostream>
+#include <iomanip>
 
 namespace vasio {
     enum class CreatureType {
@@ -41,7 +42,7 @@ namespace vasio {
         virtual auto cloneCreature() const -> std::unique_ptr<Creature> = 0;
 
         friend std::ostream &operator<<(std::ostream &os, const Creature &creature) {
-            os << "Name: " << creature.Name_ << " Power: " << creature.power_ << " Agility: " << creature.agility_
+            os << "Name: " << creature.Name_ << " Power: " << creature.power_ << " Agility: " << std::setprecision(2) << creature.agility_
                << " Health: " << creature.health_ << " Exp: " << creature.Exp_ << " ExpNeeded: "
                << creature.ExpNeededToEvolve_ << " Type: " << enumToString(creature.getType());
             return os;
