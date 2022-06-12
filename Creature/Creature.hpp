@@ -17,6 +17,7 @@ namespace vasio {
 
     auto enumToString(CreatureType type) -> std::string;
 
+
     class Creature {
         ///dodac special ability i uzależnić je od CreatureType, losować z predefiniowanej puli
         std::string Name_;
