@@ -80,6 +80,10 @@ namespace vasio {
                 return "Steel Creature " + std::to_string(steelNamesCounter++);
         }
     }
+//    auto generateSpecialAbility(AbilityType abilityType, CreatureType creatureType) -> SpecialAbility {
+//
+//    }
+
 
     auto Creature::createRandomCreature() -> std::unique_ptr<Creature> {
         std::unique_ptr<Creature> creature;

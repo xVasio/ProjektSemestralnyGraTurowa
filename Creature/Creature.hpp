@@ -9,6 +9,7 @@
 #include <memory>
 #include <ostream>
 #include <iomanip>
+#include "../SpecialAbility/SpecialAbility.hpp"
 
 namespace vasio {
     enum class CreatureType {
@@ -27,7 +28,7 @@ namespace vasio {
         int currentHealth_;
         int Exp_;
         int ExpNeededToEvolve_;
-        //SpecialAbility specialAbility_;
+        SpecialAbility specialAbility_;
         //table of interactions beetween types
         constexpr inline static float interactionTable[6][6] = {
                 {0.5, 1.5, 1,   1.5, 1,   1},
@@ -41,7 +42,6 @@ namespace vasio {
 
     public:
         virtual auto getType() const -> CreatureType = 0;
-
 
 
         friend std::ostream &operator<<(std::ostream &os, const Creature &creature) {

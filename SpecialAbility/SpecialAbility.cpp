@@ -17,8 +17,10 @@ namespace vasio {
         }
     }
 
-    SpecialAbility::SpecialAbility(std::string nameOfAbility, AbilityType typeOfAbility,
-                                   std::string descriptionOfAbility, unsigned int maxNumberOfUses,
-                                   std::function<void(Fight &)> abilityFunction) {}
+
+    SpecialAbility::SpecialAbility(const std::string &nameOfAbility, AbilityType typeOfAbility,
+                                   const std::string &descriptionOfAbility, unsigned int maxNumberOfUses)
+            : NameOfAbility_(nameOfAbility), TypeOfAbility_(typeOfAbility), DescriptionOfAbility_(descriptionOfAbility),
+              maxNumberOfUses_(maxNumberOfUses) {};
 }
 
