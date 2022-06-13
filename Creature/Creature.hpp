@@ -46,7 +46,7 @@ namespace vasio {
         friend std::ostream &operator<<(std::ostream &os, const Creature &creature) {
             os << "Name: " << creature.Name_ << " Power: " << creature.power_ << " Agility: " << std::setprecision(2) << creature.agility_
                << " Health: " << creature.health_ << " Current Health " << creature.currentHealth_ << " Exp: " << creature.Exp_ << " ExpNeeded: "
-               << creature.ExpNeededToEvolve_ << " Type: " << enumToString(creature.getType()) << " Special Ability Name: " << creature.specialAbility_.NameOfAbility_;
+               << creature.ExpNeededToEvolve_ << " Type: " << enumToString(creature.getType()) << " Ability Name: " << creature.specialAbility_.NameOfAbility_;
             return os;
         }
 
@@ -55,6 +55,8 @@ namespace vasio {
         }
 
         auto static createRandomCreature() -> std::unique_ptr<Creature>;
+
+//        auto useSpecialAbility(Fight &fight) -> void;
 
         auto getName() const -> std::string;
 
