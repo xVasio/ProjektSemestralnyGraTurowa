@@ -46,9 +46,9 @@ namespace vasio {
 
 
         friend std::ostream &operator<<(std::ostream &os, const Creature &creature) {
-            os << "Name: " << creature.Name_ << " Power: " << creature.power_ << " Agility: " << std::setprecision(2) << creature.agility_
-               << " Health: " << creature.health_ << " Current Health " << creature.currentHealth_ << " Exp: " << creature.Exp_ << " ExpNeeded: "
-               << creature.ExpNeededToEvolve_ << " Type: " << enumToString(creature.getType()) << " Ability Name: " << creature.specialAbility_.NameOfAbility_;
+            os <<"NAME: " << creature.Name_ << " PWR: " << creature.power_ << " AGL: " << std::setprecision(2) << creature.agility_
+               << " HP: " << creature.health_ << " CHP: " << creature.currentHealth_ << " EXP: " << creature.Exp_ << " EXPN: "
+               << creature.ExpNeededToEvolve_ << " TYPE: " << enumToString(creature.getType()) << " AB NAME: " << creature.specialAbility_.NameOfAbility_;
             return os;
         }
 
