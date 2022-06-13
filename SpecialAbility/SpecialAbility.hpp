@@ -7,22 +7,30 @@
 #include <string>
 #include <functional>
 
+
+
 namespace vasio {
     enum class AbilityType {
         Offensive, Defensive
     };
 
+    class Fight;
+
     class SpecialAbility {
+    public:
         std::string NameOfAbility_;
         AbilityType TypeOfAbility_;
         std::string DescriptionOfAbility_;
         unsigned int maxNumberOfUses_;
+        std::function<void(Fight &fight)> abilityFunction_;
 
-    public:
         SpecialAbility() = default;
 
         SpecialAbility(const std::string &nameOfAbility, AbilityType typeOfAbility,
-                       const std::string &descriptionOfAbility, unsigned int maxNumberOfUses);
+                   const std::string &descriptionOfAbility, unsigned int maxNumberOfUses,
+                   std::function<void(Fight &fight)> abilityFunction);
+
+    auto applyAbility(Fight &fight) -> void;
     };
 }
 

@@ -19,10 +19,6 @@ namespace vasio {
         Fight::changeTurn();
     }
 
-//    auto Fight::useSpecialAbility(unsigned int creatureUsingAbilityIndex) -> void {
-//
-//    }
-
     auto Fight::changeTurn() -> void {
         player1Turn_ = !player1Turn_;
     }

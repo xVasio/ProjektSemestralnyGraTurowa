@@ -9,11 +9,13 @@
 #include <iostream>
 
 namespace vasio {
-// constructor
-    Creature::Creature(const std::string &name, int power, float agility, int health, int currentHealth, int exp, int expNeededToEvolve)
-            : Name_(
-            name), power_(power), agility_(agility), health_(health), currentHealth_(currentHealth), Exp_(exp),
-              ExpNeededToEvolve_(expNeededToEvolve) {}
+    // constructor
+    Creature::Creature(const std::string &name, int power, float agility, int health, int currentHealth, int exp,
+                       int expNeededToEvolve, SpecialAbility specialAbility) : Name_(name), power_(power),
+                                                                               agility_(agility),
+                                                                               health_(health),
+                                                                               currentHealth_(currentHealth),
+                                                                               Exp_(exp), ExpNeededToEvolve_(expNeededToEvolve), specialAbility_(specialAbility) {}
 
 // attack move with doging
     auto Creature::attack(Creature &other) -> bool {
@@ -80,9 +82,6 @@ namespace vasio {
                 return "Steel Creature " + std::to_string(steelNamesCounter++);
         }
     }
-//    auto generateSpecialAbility(AbilityType abilityType, CreatureType creatureType) -> SpecialAbility {
-//
-//    }
 
 
     auto Creature::createRandomCreature() -> std::unique_ptr<Creature> {
@@ -120,6 +119,7 @@ namespace vasio {
         creature->agility_ = std::uniform_real_distribution<float>(0.3, 0.7)(gen);
         creature->Exp_ = 0;
         creature->ExpNeededToEvolve_ = std::uniform_int_distribution<>(500, 1000)(gen);
+        creature->specialAbility_ = SpecialAbility();
         return creature;
     }
 

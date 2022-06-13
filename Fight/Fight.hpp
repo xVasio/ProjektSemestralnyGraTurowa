@@ -5,6 +5,7 @@
 
 #include "../Creature/Creature.hpp"
 #include <vector>
+
 namespace vasio {
     class Fight {
         std::vector<std::unique_ptr<Creature>> player1Creatures_;
@@ -20,7 +21,7 @@ namespace vasio {
         // auto useSpecialAbility(unsigned int creatureUsingAbilityIndex) -> void;
 
         /// Funkcja zwracająca imiona pokemonów dzięki czemu będziemy znali ich indeksy w wektorze potrzebne do attack
-        auto getPlayer1CreatureInfo(std::vector<std::unique_ptr<Creature>> &player1Creatures) -> std::vector<std::string>;
+        static auto getPlayer1CreatureInfo(std::vector<std::unique_ptr<Creature>> &player1Creatures) -> std::vector<std::string>;
 
         auto changeTurn() -> void;
 
