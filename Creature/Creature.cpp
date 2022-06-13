@@ -2,8 +2,8 @@
 // Created by theer on 24.05.2022.
 //
 #include "Creature.hpp"
+#include "../Fight/Fight.hpp"
 #include <string>
-#include <vector>
 #include <random>
 #include <cassert>
 #include <iostream>
@@ -63,19 +63,25 @@ namespace vasio {
         return Name_;
     }
 
-//    auto generateSpecialAbility(CreatureType creatureType, AbilityType abilityType) -> SpecialAbility {
-//        switch (creatureType) {
-//            case CreatureType::Water:
-//                switch (abilityType) {
-//                    case AbilityType::Offensive:
-//                        return SpecialAbility("Water Attack","Attack with water",2, [](Fight &fight) -> void {
-//
-//                });
-//                    case AbilityType::Defensive:
-//                        return SpecialAbility("Water Shield", 10, 0.5);
-//                    default:
-//                        assert(false);
-//                }
+
+    // no prawie działa
+    auto generateSpecialAbility(CreatureType creatureType, AbilityType abilityType) -> SpecialAbility {
+        switch (creatureType) {
+            case CreatureType::Water:
+                switch (abilityType) {
+                    case AbilityType::Offensive:
+                        return SpecialAbility("Water Attack", AbilityType::Offensive, "Attack with water", 2,
+                                              [](Fight &fight) -> void {
+                                                  std::cout << "Water Attack" << std::endl;
+                                              });
+                    case AbilityType::Defensive:
+                        return SpecialAbility("Water Defence", AbilityType::Offensive, "Attack with water", 2,
+                                              [](Fight &fight) -> void {
+                                                  std::cout << "Water Defence" << std::endl;
+                                              });
+                    default:
+                        assert(false);
+                }
 //            case CreatureType::Fire:
 //                switch (abilityType) {
 //                    case AbilityType::Offensive:
@@ -121,71 +127,74 @@ namespace vasio {
 //                    default:
 //                        assert(false);
 //                }
-//        }
-
-
-        auto generateName(CreatureType type) -> std::string {
-            switch (type) {
-                case CreatureType::Water:
-                    static int waterNamesCounter = 1;
-                    return "Water Creature " + std::to_string(waterNamesCounter++);
-                case CreatureType::Fire:
-                    static int fireNamesCounter = 1;
-                    return "Fire Creature " + std::to_string(fireNamesCounter++);
-                case CreatureType::Earth:
-                    static int earthNamesCounter = 1;
-                    return "Earth Creature " + std::to_string(earthNamesCounter++);
-                case CreatureType::Air:
-                    static int airNamesCounter = 1;
-                    return "Air Creature " + std::to_string(airNamesCounter++);
-                case CreatureType::Ice:
-                    static int iceNamesCounter = 1;
-                    return "Ice Creature " + std::to_string(iceNamesCounter++);
-                case CreatureType::Steel:
-                    static int steelNamesCounter = 1;
-                    return "Steel Creature " + std::to_string(steelNamesCounter++);
-            }
+            default:
+                assert(false);
         }
+    }
 
 
-        auto Creature::createRandomCreature() -> std::unique_ptr<Creature> {
-            std::unique_ptr<Creature> creature;
-            std::random_device rd;
-            std::mt19937 gen(rd());
-            std::uniform_int_distribution<> dis(0, 5);
-            int random = dis(gen);
-            switch (random) {
-                case 0:
-                    creature = std::make_unique<WaterCreature>();
-                    break;
-                case 1:
-                    creature = std::make_unique<FireCreature>();
-                    break;
-                case 2:
-                    creature = std::make_unique<EarthCreature>();
-                    break;
-                case 3:
-                    creature = std::make_unique<AirCreature>();
-                    break;
-                case 4:
-                    creature = std::make_unique<IceCreature>();
-                    break;
-                case 5:
-                    creature = std::make_unique<SteelCreature>();
-                    break;
-                default:
-                    assert(false);
-            }
-            creature->Name_ = generateName(creature->getType());
-            creature->health_ = std::uniform_int_distribution<>(80, 100)(gen);
-            creature->currentHealth_ = creature->health_;
-            creature->power_ = std::uniform_int_distribution<>(1, 12)(gen);
-            creature->agility_ = std::uniform_real_distribution<float>(0.3, 0.7)(gen);
-            creature->Exp_ = 0;
-            creature->ExpNeededToEvolve_ = std::uniform_int_distribution<>(500, 1000)(gen);
-            creature->specialAbility_ = SpecialAbility();
-            return creature;
+    auto generateName(CreatureType type) -> std::string {
+        switch (type) {
+            case CreatureType::Water:
+                static int waterNamesCounter = 1;
+                return "Water Creature " + std::to_string(waterNamesCounter++);
+            case CreatureType::Fire:
+                static int fireNamesCounter = 1;
+                return "Fire Creature " + std::to_string(fireNamesCounter++);
+            case CreatureType::Earth:
+                static int earthNamesCounter = 1;
+                return "Earth Creature " + std::to_string(earthNamesCounter++);
+            case CreatureType::Air:
+                static int airNamesCounter = 1;
+                return "Air Creature " + std::to_string(airNamesCounter++);
+            case CreatureType::Ice:
+                static int iceNamesCounter = 1;
+                return "Ice Creature " + std::to_string(iceNamesCounter++);
+            case CreatureType::Steel:
+                static int steelNamesCounter = 1;
+                return "Steel Creature " + std::to_string(steelNamesCounter++);
         }
+    }
+
+
+    auto Creature::createRandomCreature() -> std::unique_ptr<Creature> {
+        std::unique_ptr<Creature> creature;
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(0, 5);
+        int random = dis(gen);
+        switch (random) {
+            case 0:
+                creature = std::make_unique<WaterCreature>();
+                break;
+            case 1:
+                creature = std::make_unique<FireCreature>();
+                break;
+            case 2:
+                creature = std::make_unique<EarthCreature>();
+                break;
+            case 3:
+                creature = std::make_unique<AirCreature>();
+                break;
+            case 4:
+                creature = std::make_unique<IceCreature>();
+                break;
+            case 5:
+                creature = std::make_unique<SteelCreature>();
+                break;
+            default:
+                assert(false);
+        }
+        creature->Name_ = generateName(creature->getType());
+        creature->health_ = std::uniform_int_distribution<>(80, 100)(gen);
+        creature->currentHealth_ = creature->health_;
+        creature->power_ = std::uniform_int_distribution<>(1, 12)(gen);
+        creature->agility_ = std::uniform_real_distribution<float>(0.3, 0.7)(gen);
+        creature->Exp_ = 0;
+        creature->ExpNeededToEvolve_ = std::uniform_int_distribution<>(500, 1000)(gen);
+        creature->specialAbility_ = SpecialAbility();
+        return creature;
+    }
 
 //    auto Creature::useSpecialAbility(Fight &fight) -> void {
 //        specialAbility_.abilityFunction_(fight);
@@ -193,22 +202,22 @@ namespace vasio {
 
 
 // enum to string
-        auto enumToString(CreatureType type) -> std::string {
-            switch (type) {
-                case CreatureType::Water:
-                    return "Water";
-                case CreatureType::Fire:
-                    return "Fire";
-                case CreatureType::Earth:
-                    return "Earth";
-                case CreatureType::Air:
-                    return "Air";
-                case CreatureType::Ice:
-                    return "Ice";
-                case CreatureType::Steel:
-                    return "Steel";
-                default:
-                    assert(false);
-            }
+    auto enumToString(CreatureType type) -> std::string {
+        switch (type) {
+            case CreatureType::Water:
+                return "Water";
+            case CreatureType::Fire:
+                return "Fire";
+            case CreatureType::Earth:
+                return "Earth";
+            case CreatureType::Air:
+                return "Air";
+            case CreatureType::Ice:
+                return "Ice";
+            case CreatureType::Steel:
+                return "Steel";
+            default:
+                assert(false);
         }
     }
+}

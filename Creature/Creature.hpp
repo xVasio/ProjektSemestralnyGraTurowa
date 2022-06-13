@@ -16,6 +16,8 @@ namespace vasio {
         Water, Earth, Air, Fire, Ice, Steel
     };
 
+    class Fight;
+
     auto enumToString(CreatureType type) -> std::string;
 
 
