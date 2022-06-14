@@ -3,7 +3,6 @@
 //
 
 #include <cassert>
-#include <utility>
 #include "SpecialAbility.hpp"
 #include "../Fight/Fight.hpp"
 
@@ -20,12 +19,13 @@ namespace vasio {
     }
 
     SpecialAbility::SpecialAbility(const std::string &nameOfAbility, AbilityType typeOfAbility,
-                                   const std::string &descriptionOfAbility, unsigned int maxNumberOfUses,
-                                   std::function<void(Fight &)> abilityFunction) : NameOfAbility_(nameOfAbility), TypeOfAbility_(typeOfAbility), DescriptionOfAbility_(descriptionOfAbility),
-                                                                                   maxNumberOfUses_(maxNumberOfUses), abilityFunction_(std::move(abilityFunction)) {}
+                                   const std::string &descriptionOfAbility, unsigned int maxNumberOfUses
+    ) : NameOfAbility_(nameOfAbility), TypeOfAbility_(typeOfAbility), DescriptionOfAbility_(descriptionOfAbility),
+        maxNumberOfUses_(maxNumberOfUses) {}
 
     auto SpecialAbility::applyAbility(Fight &fight) -> void {
-        abilityFunction_(fight);
+        fight.currentPlayer1Pokemon->specialAction(
+                *fight.currentPlayer2Pokemon);
     }
 }
 

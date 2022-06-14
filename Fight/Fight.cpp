@@ -25,21 +25,26 @@ namespace vasio {
 
 
     auto Fight::useSpecialAbility(unsigned int creatureUsingAbilityIndex) -> void {
-        auto &creatureUsingAbility = *(player1Turn_ ? player1Creatures_ : player2Creatures_).at(creatureUsingAbilityIndex);
+        auto &creatureUsingAbility = *(player1Turn_ ? player1Creatures_ : player2Creatures_).at(
+                creatureUsingAbilityIndex);
         creatureUsingAbility.useSpecialAbility(*this);
         Fight::changeTurn();
     }
+
     auto Fight::changeTurn() -> void {
         player1Turn_ = !player1Turn_;
     }
 
 
     auto Fight::getPlayer1CreatureInfo(std::vector<std::unique_ptr<Creature>> &player1Creatures) -> void {
-        std::vector<std::string> creatureInfo;
-        for (auto &creature : player1Creatures) {
+        auto creatureInfo = std::vector<std::string>(player1Creatures.size());
+
+//        std::ranges::transform(player1Creatures.begin(), player1Creatures.end(),creatureInfo.begin(),[](){});
+
+        for (auto &creature: player1Creatures) {
             creatureInfo.push_back(creature->getName());
         }
-        for(auto c : creatureInfo) {
+        for (const auto &c: creatureInfo) {
             std::cout << c << std::endl;
         }
     }

@@ -93,12 +93,46 @@ namespace vasio {
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_int_distribution<> dis(-5, 20);
-            Name_ = "Evloved " + Name_;
-            power_ += dis(gen);
-            agility_ += std::uniform_real_distribution<float>(-0.1, 0.2)(gen);
-            health_ += dis(gen);
+            Name_ = "Evolved " + Name_;
             Exp_ = 0;
             ExpNeededToEvolve_ = std::uniform_int_distribution<>(1000, 2225)(gen);
+
+            // Choose parameters to evolve
+            // (1) Power, (2) Agility, (3) Health
+            // Type two numbers seperated by space: 1 2
+
+            std::cout << "Type two numbers seperated by space to choose what attributes you want to upgrade:" << '\n';
+            std::cout << "(1) Power, (2) Agility, (3) Health" << '\n';
+            std::string choice;
+            std::getline(std::cin, choice);
+
+            auto stringstream = std::stringstream(choice);
+            auto istringiterator_begin = std::istream_iterator<std::string>(stringstream);
+            auto istringiterator_end = std::istream_iterator<std::string>();
+            auto string_vector = std::vector(istringiterator_begin, istringiterator_end);
+
+            auto choiceVector = std::vector<int>(2);
+
+            std::ranges::transform(string_vector.begin(), string_vector.end(), choiceVector.begin(),
+                                   [](const std::string &choice) -> int {
+                                       return std::stoi(choice);
+                                   });
+
+            for (const auto &choice: choiceVector) {
+                switch (choice) {
+                    case 1:
+                        power_ += dis(gen);
+                        break;
+                    case 2:
+                        agility_ += std::uniform_real_distribution<float>(-0.1, 0.2)(gen);
+                        break;
+                    case 3:
+                        health_ += dis(gen);
+                        break;
+                    default:
+                        assert(false);
+                }
+            }
         } else {
             std::cout << "You need more exp to evolve" << std::endl;
         }
@@ -254,8 +288,8 @@ namespace vasio {
         return creature;
     }
 
-      auto Creature::useSpecialAbility(Fight &fight) -> void {
-        specialAbility_.abilityFunction_(fight);
+    auto Creature::useSpecialAbility(Fight &fight) -> void {
+        specialAbility_.applyAbility(fight);
     }
 
 
