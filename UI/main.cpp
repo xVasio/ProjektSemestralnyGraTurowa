@@ -45,6 +45,9 @@ auto main() -> int {
     creature2->evolve();
     std::cout << *creature2 << '\n';
 
+    Fight fight(creatures, creatures2);
+    creature2->useSpecialAbility(fight);
+
 
     return 0;
 }

@@ -58,7 +58,7 @@ namespace vasio {
 
         auto static createRandomCreature() -> std::unique_ptr<Creature>;
 
-//        auto useSpecialAbility(Fight &fight) -> void;
+        auto useSpecialAbility(Fight &fight) -> void;
 
         auto getName() const -> std::string;
 

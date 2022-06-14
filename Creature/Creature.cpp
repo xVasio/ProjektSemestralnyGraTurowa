@@ -39,7 +39,7 @@ namespace vasio {
         if (Exp_ >= ExpNeededToEvolve_) {
             std::random_device rd;
             std::mt19937 gen(rd());
-            std::uniform_int_distribution<> dis(-5, 50);
+            std::uniform_int_distribution<> dis(-5, 20);
             Name_ = "Evloved " + Name_;
             power_ += dis(gen);
             agility_ += std::uniform_real_distribution<float>(-0.1, 0.2)(gen);
@@ -79,7 +79,7 @@ namespace vasio {
                     case 1:
                         return SpecialAbility("Water Attack", AbilityType::Offensive, "Attack with water", 2,
                                               [](Fight &fight) -> void {
-                                                  std::cout << "Water Attack" << std::endl;
+
                                               });
                     case 2:
                         return SpecialAbility("Water Defence", AbilityType::Defensive, "Defence with water", 2,
@@ -169,7 +169,6 @@ namespace vasio {
         }
     }
 
-
     auto generateName(CreatureType type) -> std::string {
         switch (type) {
             case CreatureType::Water:
@@ -238,9 +237,9 @@ namespace vasio {
         return creature;
     }
 
-//    auto Creature::useSpecialAbility(Fight &fight) -> void {
-//        specialAbility_.abilityFunction_(fight);
-//    }
+      auto Creature::useSpecialAbility(Fight &fight) -> void {
+        specialAbility_.abilityFunction_(fight);
+    }
 
 
 // enum to string
