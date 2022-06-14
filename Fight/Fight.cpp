@@ -4,6 +4,7 @@
 
 #include "Fight.hpp"
 #include <random>
+#include <iostream>
 
 namespace vasio {
     Fight::Fight(const std::vector<std::unique_ptr<Creature>> &player1Creatures,
@@ -27,11 +28,13 @@ namespace vasio {
         player1Turn_ = !player1Turn_;
     }
 
-    auto Fight::getPlayer1CreatureInfo(std::vector<std::unique_ptr<Creature>> &player1Creatures) -> std::vector<std::string> {
+    auto Fight::getPlayer1CreatureInfo(std::vector<std::unique_ptr<Creature>> &player1Creatures) -> void {
         std::vector<std::string> creatureInfo;
         for (auto &creature : player1Creatures) {
             creatureInfo.push_back(creature->getName());
         }
-        return creatureInfo;
+        for(auto c : creatureInfo) {
+            std::cout << c << std::endl;
+        }
     }
 }

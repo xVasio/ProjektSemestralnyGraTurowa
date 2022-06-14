@@ -47,6 +47,7 @@ auto main() -> int {
 
     Fight fight(creatures, creatures2);
     creature2->useSpecialAbility(fight);
+    fight.getPlayer1CreatureInfo(creatures);
 
 
     return 0;
