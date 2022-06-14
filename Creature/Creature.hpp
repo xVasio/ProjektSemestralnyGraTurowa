@@ -23,13 +23,14 @@ namespace vasio {
 
     class Creature {
         ///dodac special ability i uzależnić je od CreatureType, losować z predefiniowanej puli
-        std::string Name_;
-        int power_;
-        float agility_;
-        int health_;
-        int currentHealth_;
-        int Exp_;
-        int ExpNeededToEvolve_;
+        std::string Name_{};
+        int power_{};
+        float agility_{};
+        int health_{};
+        int currentHealth_{};
+        int Exp_{};
+        int ExpNeededToEvolve_{};
+//        bool isSpecialAbilityActive;
         SpecialAbility specialAbility_;
         constexpr inline static float interactionTable[6][6] = {
                 {0.5, 1.5, 1,   1.5, 1,   1},
@@ -73,6 +74,8 @@ namespace vasio {
         Creature(const std::string &name, int power, float agility, int health, int currentHealth, int exp, int expNeededToEvolve, SpecialAbility specialAbility);
 
         auto attack(Creature &other) -> bool;
+
+        auto specialAction(Creature &other) -> void;
 
         virtual ~Creature() = default;
     };

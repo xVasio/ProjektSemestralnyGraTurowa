@@ -7,6 +7,7 @@
 #include <random>
 #include <cassert>
 #include <iostream>
+#include <sstream>
 
 namespace vasio {
     // constructor
@@ -24,7 +25,6 @@ namespace vasio {
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_real_distribution<float> dis(0, 1); //zmienic wartości
-
         if (dis(gen) < other.agility_) {
             other.health_ -= power_ * Creature::getEfficiency(other);
             return true;
@@ -32,6 +32,59 @@ namespace vasio {
         return false;
     }
 
+    auto Creature::specialAction(Creature &other) -> void {
+        switch (this->specialAbility_.TypeOfAbility_) {
+            case AbilityType::Offensive:
+                switch (this->getType()) {
+                    case CreatureType::Water:
+                        other.health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        break;
+                    case CreatureType::Earth:
+                        other.health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        break;
+                    case CreatureType::Air:
+                        other.health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        break;
+                    case CreatureType::Fire:
+                        other.health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        break;
+                    case CreatureType::Ice:
+                        other.health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        break;
+                    case CreatureType::Steel:
+                        other.health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        break;
+                }
+
+            case AbilityType::Defensive:
+                switch (this->getType()) {
+                    case CreatureType::Water:
+                        this->currentHealth_ += 50 * Creature::getEfficiency(other);
+                        this->Exp_ += 100 * Creature::getEfficiency(other);
+                        break;
+                    case CreatureType::Earth:
+                        this->currentHealth_ += 50 * Creature::getEfficiency(other);
+                        this->Exp_ += 100 * Creature::getEfficiency(other);
+                        break;
+                    case CreatureType::Air:
+                        this->currentHealth_ += 50 * Creature::getEfficiency(other);
+                        this->Exp_ += 100 * Creature::getEfficiency(other);
+                        break;
+                    case CreatureType::Fire:
+                        this->currentHealth_ += 50 * Creature::getEfficiency(other);
+                        this->Exp_ += 100 * Creature::getEfficiency(other);
+                        break;
+                    case CreatureType::Ice:
+                        this->currentHealth_ += 50 * Creature::getEfficiency(other);
+                        this->Exp_ += 100 * Creature::getEfficiency(other);
+                        break;
+                    case CreatureType::Steel:
+                        this->currentHealth_ += 50 * Creature::getEfficiency(other);
+                        this->Exp_ += 100 * Creature::getEfficiency(other);
+                        break;
+                }
+        }
+    }
 
 // evolve function
 // co jesli wyewoluujemy stworzenie podczas walki a operujeym na klonach
@@ -77,90 +130,54 @@ namespace vasio {
             case CreatureType::Water:
                 switch (random) {
                     case 1:
-                        return SpecialAbility("Water Attack", AbilityType::Offensive, "Attack with water", 2,
-                                              [](Fight &fight) -> void {
-
-                                              });
+                        return SpecialAbility{"Water Attack", AbilityType::Offensive, "Attack with water", 2};
                     case 2:
-                        return SpecialAbility("Water Defence", AbilityType::Defensive, "Defence with water", 2,
-                                              [](Fight &fight) -> void {
-                                                  std::cout << "Water Defence" << std::endl;
-                                              });
+                        return SpecialAbility{"Water Defence", AbilityType::Defensive, "Defence with water", 2};
                     default:
                         assert(false);
                 }
             case CreatureType::Fire:
                 switch (random) {
                     case 1:
-                        return SpecialAbility("Fire Attack", AbilityType::Offensive, "Attack with Fire", 2,
-                                              [](Fight &fight) -> void {
-                                                  std::cout << "Fire Attack" << std::endl;
-                                              });
+                        return SpecialAbility{"Fire Attack", AbilityType::Offensive, "Attack with Fire", 2};
                     case 2:
-                        return SpecialAbility("Fire Defence", AbilityType::Defensive, "Defence with Fire", 2,
-                                              [](Fight &fight) -> void {
-                                                  std::cout << "Fire Defence" << std::endl;
-                                              });
+                        return SpecialAbility{"Fire Defence", AbilityType::Defensive, "Defence with Fire", 2};
                     default:
                         assert(false);
                 }
             case CreatureType::Earth:
                 switch (random) {
                     case 1:
-                        return SpecialAbility("Earth Attack", AbilityType::Offensive, "Attack with Earth", 2,
-                                              [](Fight &fight) -> void {
-                                                  std::cout << "Earth Attack" << std::endl;
-                                              });
+                        return SpecialAbility{"Earth Attack", AbilityType::Offensive, "Attack with Earth", 2};
                     case 2:
-                        return SpecialAbility("Earth Defence", AbilityType::Defensive, "Defence with Earth", 2,
-                                              [](Fight &fight) -> void {
-                                                  std::cout << "Earth Defence" << std::endl;
-                                              });
+                        return SpecialAbility{"Earth Defence", AbilityType::Defensive, "Defence with Earth", 2};
                     default:
                         assert(false);
                 }
             case CreatureType::Air:
                 switch (random) {
                     case 1:
-                        return SpecialAbility("Air Attack", AbilityType::Offensive, "Attack with Air", 2,
-                                              [](Fight &fight) -> void {
-                                                  std::cout << "Air Attack" << std::endl;
-                                              });
+                        return SpecialAbility{"Air Attack", AbilityType::Offensive, "Attack with Air", 2};
                     case 2:
-                        return SpecialAbility("Air Defence", AbilityType::Defensive, "Defence with Air", 2,
-                                              [](Fight &fight) -> void {
-                                                  std::cout << "Air Defence" << std::endl;
-                                              });
+                        return SpecialAbility{"Air Defence", AbilityType::Defensive, "Defence with Air", 2};
                     default:
                         assert(false);
                 }
             case CreatureType::Ice:
                 switch (random) {
                     case 1:
-                        return SpecialAbility("Ice Attack", AbilityType::Offensive, "Attack with Ice", 2,
-                                              [](Fight &fight) -> void {
-                                                  std::cout << "Ice Attack" << std::endl;
-                                              });
+                        return SpecialAbility{"Ice Attack", AbilityType::Offensive, "Attack with Ice", 2};
                     case 2:
-                        return SpecialAbility("Ice Defence", AbilityType::Defensive, "Defence with Ice", 2,
-                                              [](Fight &fight) -> void {
-                                                  std::cout << "Ice Defence" << std::endl;
-                                              });
+                        return SpecialAbility{"Ice Defence", AbilityType::Defensive, "Defence with Ice", 2};
                     default:
                         assert(false);
                 }
             case CreatureType::Steel:
                 switch (random) {
                     case 1:
-                        return SpecialAbility("Steel Attack", AbilityType::Offensive, "Attack with Steel", 2,
-                                              [](Fight &fight) -> void {
-                                                  std::cout << "Steel Attack" << std::endl;
-                                              });
+                        return SpecialAbility{"Steel Attack", AbilityType::Offensive, "Attack with Steel", 2};
                     case 2:
-                        return SpecialAbility("Steel Defence", AbilityType::Defensive, "Defence with Steel", 2,
-                                              [](Fight &fight) -> void {
-                                                  std::cout << "Steel Defence" << std::endl;
-                                              });
+                        return SpecialAbility{"Steel Defence", AbilityType::Defensive, "Defence with Steel", 2};
                     default:
                         assert(false);
                 }

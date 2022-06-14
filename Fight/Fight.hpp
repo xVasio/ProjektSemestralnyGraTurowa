@@ -13,6 +13,9 @@ namespace vasio {
         bool player1Turn_ = true;
 
     public:
+        std::unique_ptr<Creature> currentPlayer1Pokemon;
+        std::unique_ptr<Creature> currentPlayer2Pokemon;
+
         Fight(const std::vector<std::unique_ptr<Creature>> &player1Creatures,
               const std::vector<std::unique_ptr<Creature>> &player2Creatures);
 

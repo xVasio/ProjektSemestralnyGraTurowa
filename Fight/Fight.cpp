@@ -16,9 +16,14 @@ namespace vasio {
         auto &creatureAttacker = *(player1Turn_ ? player1Creatures_ : player2Creatures_).at(creatureAttackerIndex);
         auto &creatureAttacked = *(player1Turn_ ? player2Creatures_ : player1Creatures_).at(creatureAttackedIndex);
 
+        *currentPlayer1Pokemon = (player1Turn_ ? creatureAttacker : creatureAttacked);
+        *currentPlayer2Pokemon = (player1Turn_ ? creatureAttacked : creatureAttacker);
+
         creatureAttacker.attack(creatureAttacked);
         Fight::changeTurn();
     }
+
+
     auto Fight::useSpecialAbility(unsigned int creatureUsingAbilityIndex) -> void {
         auto &creatureUsingAbility = *(player1Turn_ ? player1Creatures_ : player2Creatures_).at(creatureUsingAbilityIndex);
         creatureUsingAbility.useSpecialAbility(*this);
@@ -27,6 +32,7 @@ namespace vasio {
     auto Fight::changeTurn() -> void {
         player1Turn_ = !player1Turn_;
     }
+
 
     auto Fight::getPlayer1CreatureInfo(std::vector<std::unique_ptr<Creature>> &player1Creatures) -> void {
         std::vector<std::string> creatureInfo;
