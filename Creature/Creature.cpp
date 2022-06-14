@@ -87,7 +87,6 @@ namespace vasio {
     }
 
 // evolve function
-// co jesli wyewoluujemy stworzenie podczas walki a operujeym na klonach
     auto Creature::evolve() -> void {
         if (Exp_ >= ExpNeededToEvolve_) {
             std::random_device rd;
@@ -96,10 +95,6 @@ namespace vasio {
             Name_ = "Evolved " + Name_;
             Exp_ = 0;
             ExpNeededToEvolve_ = std::uniform_int_distribution<>(1000, 2225)(gen);
-
-            // Choose parameters to evolve
-            // (1) Power, (2) Agility, (3) Health
-            // Type two numbers seperated by space: 1 2
 
             std::cout << "Type two numbers seperated by space to choose what attributes you want to upgrade:" << '\n';
             std::cout << "(1) Power, (2) Agility, (3) Health" << '\n';
@@ -153,7 +148,6 @@ namespace vasio {
 
     // no prawie działa
     auto generateSpecialAbility(CreatureType creatureType) -> SpecialAbility {
-        AbilityType abilityType;
         std::unique_ptr<Creature> creature;
         std::random_device rd;
         std::mt19937 gen(rd());

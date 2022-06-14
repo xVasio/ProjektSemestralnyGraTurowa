@@ -25,6 +25,7 @@ namespace vasio {
 
         /// Funkcja zwracająca imiona pokemonów dzięki czemu będziemy znali ich indeksy w wektorze potrzebne do attack
         static auto getPlayer1CreatureInfo(std::vector<std::unique_ptr<Creature>> &player1Creatures) -> void;
+        static auto getPlayer2CreatureInfo(std::vector<std::unique_ptr<Creature>> &player2Creatures) -> void;
 
         auto changeTurn() -> void;
 

@@ -30,7 +30,7 @@ namespace vasio {
         int currentHealth_{};
         int Exp_{};
         int ExpNeededToEvolve_{};
-//        bool isSpecialAbilityActive;
+//      bool isSpecialAbilityActive;
         SpecialAbility specialAbility_;
         constexpr inline static float interactionTable[6][6] = {
                 {0.5, 1.5, 1,   1.5, 1,   1},

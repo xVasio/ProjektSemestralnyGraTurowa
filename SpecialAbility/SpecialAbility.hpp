@@ -22,7 +22,6 @@ namespace vasio {
         AbilityType TypeOfAbility_;
         std::string DescriptionOfAbility_;
         unsigned int maxNumberOfUses_;
-//        std::function<void(Fight &fight)> abilityFunction_;
 
         SpecialAbility() = default;
 

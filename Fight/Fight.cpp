@@ -39,12 +39,21 @@ namespace vasio {
     auto Fight::getPlayer1CreatureInfo(std::vector<std::unique_ptr<Creature>> &player1Creatures) -> void {
         auto creatureInfo = std::vector<std::string>(player1Creatures.size());
 
-//        std::ranges::transform(player1Creatures.begin(), player1Creatures.end(),creatureInfo.begin(),[](){});
 
         for (auto &creature: player1Creatures) {
             creatureInfo.push_back(creature->getName());
         }
         for (const auto &c: creatureInfo) {
+            std::cout << c << std::endl;
+        }
+    }
+
+    auto Fight::getPlayer2CreatureInfo(std::vector<std::unique_ptr<Creature>> &player2Creatures) -> void {
+        auto creatureInfo = std::vector<std::string>(player2Creatures.size());
+        for(auto &creature: player2Creatures) {
+            creatureInfo.push_back(creature->getName());
+        }
+        for(const auto &c: creatureInfo) {
             std::cout << c << std::endl;
         }
     }
