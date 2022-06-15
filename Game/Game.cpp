@@ -61,6 +61,7 @@ namespace vasio {
                 } else {
                     auto choiceInt = std::stoi(choice);
                     player1Creatures.push_back(creaturesInGame[choiceInt]);
+                    std::cout << creaturesInGame[choiceInt]->Name_ << " added to your team!" << '\n';
                 }
                 counter++;
             }

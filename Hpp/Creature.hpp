@@ -31,7 +31,7 @@ namespace vasio {
      *
      */
     class Creature {
-        ///dodac special ability i uzależnić je od CreatureType, losować z predefiniowanej puli
+    public:
         std::string Name_{};
         int power_{};
         float agility_{};
@@ -50,8 +50,6 @@ namespace vasio {
                 {1.5, 1,   1.5, 0.5, 1,   0.5}
         };
 
-
-    public:
         /**
          *
          * @return
