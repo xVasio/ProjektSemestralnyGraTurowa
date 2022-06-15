@@ -4,4 +4,12 @@
 
 #pragma once
 
+/// Dificulty of the game
+/// Start, load, exit
+/// Generate creatures and let the player choose 6
+
+
+
+
+
 

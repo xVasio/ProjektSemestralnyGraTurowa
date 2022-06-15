@@ -25,7 +25,7 @@ namespace vasio {
 
     auto SpecialAbility::applyAbility(Fight &fight) -> void {
         fight.currentPlayer1Pokemon->specialAction(
-                *fight.currentPlayer2Pokemon);
+                fight.currentPlayer2Pokemon);
     }
 }
 

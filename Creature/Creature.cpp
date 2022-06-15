@@ -26,8 +26,8 @@ namespace vasio {
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_real_distribution<float> dis(0, 1);
-        if (dis(gen) < other.agility_) {
-            other.health_ -= power_ * Creature::getEfficiency(other);
+        if (dis(gen) < other->agility_) {
+            other->health_ -= power_ * Creature::getEfficiency(other);
             return true;
         }
         return false;
@@ -49,10 +49,10 @@ namespace vasio {
                         other.health_ -= power_ * 1.2 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Ice:
-                        other.health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->health_ -= power_ * 1.2 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Steel:
-                        other.health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->health_ -= power_ * 1.2 * Creature::getEfficiency(other);
                         break;
                 }
 

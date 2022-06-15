@@ -34,10 +34,10 @@ auto main() -> int {
     std::cout << *creature << '\n';
     std::cout << *creature2 << '\n';
 
-    std::cout << creature->getEfficiency(*creatures[1]) << '\n';
-    std::cout << creature2->getEfficiency(*creatures[0]) << '\n';
+    std::cout << creature->getEfficiency(creatures[1]) << '\n';
+    std::cout << creature2->getEfficiency(creatures[0]) << '\n';
 
-    float efficiency = creature->getEfficiency(*creature2);
+    float efficiency = creature->getEfficiency(creature2);
     std::cout << "Efficiency: " << efficiency << '\n';
 
     creature2->addExp(1100);
