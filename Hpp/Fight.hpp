@@ -53,6 +53,11 @@ namespace vasio {
          *
          * @param player1Creatures
          */
+
+        auto evolveCreature() -> void;
+
+        auto switchCreature() -> void;
+
         auto getPlayer1CreatureInfo() -> void;
 
         auto getPlayerTeamInfo(const auto &playerChoices) -> void;

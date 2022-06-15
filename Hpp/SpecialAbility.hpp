@@ -47,6 +47,8 @@ namespace vasio {
          */
         auto applyAbility(Fight &fight) -> void;
 
+        auto getNameOfAbility() const -> std::string;
+
     };
 
 }

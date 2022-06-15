@@ -44,7 +44,7 @@ namespace vasio {
     }
 
     auto Game::letHumanPlayerChooseCreatures() -> void {
-            int player1TeamSize = 6;
+            constexpr int player1TeamSize = 6;
             int counter = 0;
             std::string choice;
 
@@ -58,7 +58,7 @@ namespace vasio {
                 std::cin >> choice;
                 if (choice == "-h" || choice == "--help") {
                     std::cout << "Manual: " << '\n';
-                } else {
+                } else  {
                     auto choiceInt = std::stoi(choice);
                     player1Creatures.push_back(creaturesInGame[choiceInt]);
                     std::cout << creaturesInGame[choiceInt]->Name_ << " added to your team!" << '\n';
@@ -66,6 +66,18 @@ namespace vasio {
                 counter++;
             }
         }
+    auto Game::generateEnemyTeam() -> void {
+        constexpr int player2TeamSize = 4;
+        int counter = 0;
+        while (counter != player2TeamSize) {
+            auto randomCreature = std::rand() % creaturesInGame.size();
+            if (std::find(player1Creatures.begin(), player1Creatures.end(), creaturesInGame[randomCreature]) ==
+                player1Creatures.end()) {
+                player2Creatures.push_back(creaturesInGame[randomCreature]);
+                counter++;
+            }
+        }
+    }
 
     auto Game::showTeam(const std::vector<std::shared_ptr<Creature>> &teamCreatures) -> void {
             std::cout << "Creatures:" << '\n';
@@ -81,6 +93,8 @@ namespace vasio {
             std::cout << i << ". " << *((*teamCreatures)[i]) << '\n';
         }
     }
+
+
 
 }
 

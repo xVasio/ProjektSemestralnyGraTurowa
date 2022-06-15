@@ -22,15 +22,16 @@ namespace vasio {
                                                                                specialAbility_(specialAbility) {}
 
 // attack move with doging
-    auto Creature::attack(std::shared_ptr<Creature> &other) -> bool {
+    auto Creature::attack(std::shared_ptr<Creature> &other) -> int {
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_real_distribution<float> dis(0, 1);
         if (dis(gen) < other->agility_) {
-            other->health_ -= power_ * Creature::getEfficiency(other);
-            return true;
+            int damage = power_ * Creature::getEfficiency(other);
+            other->currentHealth_ -= damage;
+            return damage;
         }
-        return false;
+        return 0;
     }
 
     auto Creature::specialAction(std::shared_ptr<Creature> &other) -> void {
@@ -280,6 +281,10 @@ namespace vasio {
 
     auto Creature::useSpecialAbility(Fight &fight) -> void {
         specialAbility_.applyAbility(fight);
+    }
+
+    auto Creature::getCurrentHealth() const -> int {
+        return currentHealth_;
     }
 
 

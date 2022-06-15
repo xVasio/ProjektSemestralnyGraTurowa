@@ -114,6 +114,9 @@ namespace vasio {
          *
          * @return
          */
+
+        auto getCurrentHealth() const -> int;
+
         auto getExp() const -> int;
 
         /**
@@ -140,7 +143,7 @@ namespace vasio {
          * @param other
          * @return
          */
-        auto attack(std::shared_ptr<Creature>& other) -> bool;
+        auto attack(std::shared_ptr<Creature>& other) -> int;
 
         /**
          *

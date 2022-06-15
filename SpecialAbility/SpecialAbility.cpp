@@ -27,5 +27,9 @@ namespace vasio {
         fight.currentPlayer1Pokemon->specialAction(
                 fight.currentPlayer2Pokemon);
     }
+
+    auto SpecialAbility::getNameOfAbility() const -> std::string {
+        return NameOfAbility_;
+    }
 }
 

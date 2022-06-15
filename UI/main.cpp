@@ -27,33 +27,37 @@ auto main() -> int {
         creatures2.push_back(Creature::createRandomCreature());
     }
 
-    for (auto &creature: creatures) {
-        std::cout << *creature << '\n';
-    }
-
-    auto &creature = creatures[0];
-    auto &creature2 = creatures[1];
-
-    std::cout << '\n';
-    std::cout << *creature << '\n';
-    std::cout << *creature2 << '\n';
-
-    std::cout << creature->getEfficiency(creatures[1]) << '\n';
-    std::cout << creature2->getEfficiency(creatures[0]) << '\n';
-
-    float efficiency = creature->getEfficiency(creature2);
-    std::cout << "Efficiency: " << efficiency << '\n';
-
-    creature2->addExp(1100);
-    creature->getExp();
+//    for (auto &creature: creatures) {
+//        std::cout << *creature << '\n';
+//    }
+//
+//    auto &creature = creatures[0];
+//    auto &creature2 = creatures[1];
+//
+//    std::cout << '\n';
+//    std::cout << *creature << '\n';
+//    std::cout << *creature2 << '\n';
+//
+//    std::cout << creature->getEfficiency(creatures[1]) << '\n';
+//    std::cout << creature2->getEfficiency(creatures[0]) << '\n';
+//
+//    float efficiency = creature->getEfficiency(creature2);
+//    std::cout << "Efficiency: " << efficiency << '\n';
+//
+//    creature2->addExp(1100);
+//    creature->getExp();
 //    creature2->evolve();
-    std::cout << *creature2 << '\n';
+//    std::cout << *creature2 << '\n';
 
 
     Game game(creatures);
     game.chooseDifficulty();
     game.letHumanPlayerChooseCreatures();
+    game.generateEnemyTeam();
     game.showTeam(game.player1Creatures);
+    game.showTeam(game.player2Creatures);
+    game.createFight();
+    game.fights[0].startFight();
 
 
     return 0;

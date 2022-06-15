@@ -48,14 +48,17 @@ namespace vasio {
 
         auto letHumanPlayerChooseCreatures() -> void;
 
+        auto generateEnemyTeam() -> void;
+
         auto chooseDifficulty() -> void;
 
         auto createFight() -> void {
-
+            fights.push_back(Fight(player1Creatures[0], player2Creatures[0]));
         }
 
         static auto startGame() -> void {
             // Game::letHumanPlayerChooseCreatures();
+
             // while (!isOver) {
             //    Game::createFight();
             //    currentFight.startFight();
