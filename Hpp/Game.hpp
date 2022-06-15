@@ -40,8 +40,6 @@ namespace vasio {
 
         }
 
-        auto showTeam(const std::shared_ptr<std::vector<std::shared_ptr<Creature>>> &teamCreatures) -> void;
-
 
         auto showTeam(const std::vector<std::shared_ptr<Creature>> &teamCreatures) -> void;
 

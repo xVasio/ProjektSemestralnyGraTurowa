@@ -85,17 +85,6 @@ namespace vasio {
                 std::cout << i << ". " << *(teamCreatures[i]) << '\n';
             }
         }
-
-    auto Game::showTeam(const std::shared_ptr<std::vector<std::shared_ptr<Creature>>> &teamCreatures) -> void {
-
-        std::cout << "Available creatures:" << '\n';
-        for (int i = 0; i < teamCreatures->size(); i++) {
-            std::cout << i << ". " << *((*teamCreatures)[i]) << '\n';
-        }
-    }
-
-
-
 }
 
 
