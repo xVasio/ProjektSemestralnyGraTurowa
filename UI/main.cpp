@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
-#include "../Creature/Creature.hpp"
-#include "../Fight/Fight.hpp"
+#include "../Hpp/Creature.hpp"
+#include "../Hpp/Fight.hpp"
 #include <memory>
 
 auto main() -> int {

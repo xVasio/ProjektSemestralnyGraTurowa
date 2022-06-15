@@ -1,13 +1,13 @@
 //
 // Created by theer on 24.05.2022.
 //
-#include "Creature.hpp"
-#include "../Fight/Fight.hpp"
+#include "../Hpp/Creature.hpp"
+#include "../Hpp/Fight.hpp"
 #include <string>
 #include <random>
 #include <cassert>
 #include <iostream>
-#include <sstream>
+
 
 namespace vasio {
     // constructor
@@ -24,14 +24,13 @@ namespace vasio {
     auto Creature::attack(Creature &other) -> bool {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_real_distribution<float> dis(0, 1); //zmienic wartości
+        std::uniform_real_distribution<float> dis(0, 1);
         if (dis(gen) < other.agility_) {
             other.health_ -= power_ * Creature::getEfficiency(other);
             return true;
         }
         return false;
     }
-
     auto Creature::specialAction(Creature &other) -> void {
         switch (this->specialAbility_.TypeOfAbility_) {
             case AbilityType::Offensive:
@@ -95,25 +94,17 @@ namespace vasio {
             Name_ = "Evolved " + Name_;
             Exp_ = 0;
             ExpNeededToEvolve_ = std::uniform_int_distribution<>(1000, 2225)(gen);
+            int i = 1;
+            while (i <= 2) {
+                std::cout << "Type " << i << ". attribute you want to upgrade:"
+                          << '\n';
+                std::cout << "(1) Power, (2) Agility, (3) Health" << '\n';
 
-            std::cout << "Type two numbers seperated by space to choose what attributes you want to upgrade:" << '\n';
-            std::cout << "(1) Power, (2) Agility, (3) Health" << '\n';
-            std::string choice;
-            std::getline(std::cin, choice);
+                std::string choiceString{};
+                std::cin >> choiceString;
 
-            auto stringstream = std::stringstream(choice);
-            auto istringiterator_begin = std::istream_iterator<std::string>(stringstream);
-            auto istringiterator_end = std::istream_iterator<std::string>();
-            auto string_vector = std::vector(istringiterator_begin, istringiterator_end);
+                auto choice = std::stoi(choiceString);
 
-            auto choiceVector = std::vector<int>(2);
-
-            std::ranges::transform(string_vector.begin(), string_vector.end(), choiceVector.begin(),
-                                   [](const std::string &choice) -> int {
-                                       return std::stoi(choice);
-                                   });
-
-            for (const auto &choice: choiceVector) {
                 switch (choice) {
                     case 1:
                         power_ += dis(gen);
@@ -125,22 +116,21 @@ namespace vasio {
                         health_ += dis(gen);
                         break;
                     default:
-                        assert(false);
+                        std::cerr << "Wrong atribute number" << '\n';
+                        continue;
                 }
             }
         } else {
-            std::cout << "You need more exp to evolve" << std::endl;
+            std::cout << "You need more exp to evolve" <<
+                      std::endl;
         }
     }
-
     auto Creature::addExp(int exp) -> void {
         Exp_ += exp;
     }
-
     auto Creature::getExp() const -> int {
         return Exp_;
     }
-
     auto Creature::getName() const -> std::string {
         return Name_;
     }
@@ -213,7 +203,6 @@ namespace vasio {
                 assert(false);
         }
     }
-
     auto generateName(CreatureType type) -> std::string {
         switch (type) {
             case CreatureType::Water:

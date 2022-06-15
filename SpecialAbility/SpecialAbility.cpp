@@ -3,8 +3,8 @@
 //
 
 #include <cassert>
-#include "SpecialAbility.hpp"
-#include "../Fight/Fight.hpp"
+#include "../Hpp/SpecialAbility.hpp"
+#include "../Hpp/Fight.hpp"
 
 namespace vasio {
     auto enumAbilityTypeToString(AbilityType type) -> std::string {

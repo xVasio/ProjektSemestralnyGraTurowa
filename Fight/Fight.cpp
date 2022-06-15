@@ -2,7 +2,7 @@
 // Created by theer on 04.06.2022.
 //
 
-#include "Fight.hpp"
+#include "../Hpp/Fight.hpp"
 #include <random>
 #include <iostream>
 
