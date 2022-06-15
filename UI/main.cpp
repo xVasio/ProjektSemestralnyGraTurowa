@@ -6,29 +6,33 @@
 
 auto main() -> int {
     // wywalić potem using namespace
-    using namespace vasio;
+//    using namespace vasio;
+    using Creature = vasio::Creature;
+    using Game = vasio::Game;
 
     std::cout << "========================================" << '\n';
     std::cout << "Welcome to turn-based pokemon-like game!" << '\n';
     std::cout << "========================================" << '\n';
 
-    std::vector<std::unique_ptr<Creature>> creatures;
-    std::vector<std::unique_ptr<Creature>> creatures2;
+    std::vector<std::shared_ptr<Creature>> creatures;
+    std::vector<std::shared_ptr<Creature>> creatures2;
+
 
     for (int i = 0; i < 15; i++) {
         creatures.push_back(Creature::createRandomCreature());
     }
 
+
     for (int i = 0; i < 15; i++) {
         creatures2.push_back(Creature::createRandomCreature());
     }
 
-    for (auto &creature : creatures) {
+    for (auto &creature: creatures) {
         std::cout << *creature << '\n';
     }
 
-    auto& creature = creatures[0];
-    auto& creature2 = creatures[1];
+    auto &creature = creatures[0];
+    auto &creature2 = creatures[1];
 
     std::cout << '\n';
     std::cout << *creature << '\n';

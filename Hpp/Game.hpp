@@ -12,6 +12,18 @@
 /// Dificulty of the game
 /// Start, load, exit
 /// Generate creatures and let the player choose 6
+namespace vasio {
+    using Fight = vasio::Fight;
+    using Creature = vasio::Creature;
+
+    enum class GameDifficulty {
+        Undefined,
+        Easy,
+        Medium,
+        Hard
+    };
+
+    auto enumGameDifficultyToString(GameDifficulty difficulty) -> std::string;
 
     class Game {
 

@@ -33,7 +33,7 @@ namespace vasio {
         return false;
     }
 
-    auto Creature::specialAction(std::unique_ptr<Creature> &other) -> void {
+    auto Creature::specialAction(std::shared_ptr<Creature> &other) -> void {
         switch (this->specialAbility_.TypeOfAbility_) {
             case AbilityType::Offensive:
                 switch (this->getType()) {
@@ -144,7 +144,7 @@ namespace vasio {
     }
 
 
-// no prawie działa
+    // no prawie działa
     auto generateSpecialAbility(CreatureType creatureType) -> SpecialAbility {
         std::random_device rd;
         std::mt19937 gen(rd());

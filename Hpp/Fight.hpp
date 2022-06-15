@@ -8,6 +8,13 @@
 
 
 namespace vasio {
+
+
+    class Game;
+
+    enum class GameDifficulty;
+
+
     /**
      *
      */
@@ -16,16 +23,18 @@ namespace vasio {
         bool player1Turn_ = true;
 
     public:
-        std::unique_ptr<Creature> currentPlayer1Pokemon;
-        std::unique_ptr<Creature> currentPlayer2Pokemon;
+        std::shared_ptr<Creature> currentPlayer1Pokemon;
+        std::shared_ptr<Creature> currentPlayer2Pokemon;
 
         /**
          *
          * @param player1Creatures
          * @param player2Creatures
          */
-        Fight(std::unique_ptr<Creature> player1Creatures,
-              std::unique_ptr<Creature> player2Creatures);
+        Fight(
+                std::shared_ptr<Creature> currentPlayer1Creature,
+                std::shared_ptr<Creature> currentPlayer2Creature
+        );
 
         /**
          *

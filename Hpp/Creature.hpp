@@ -61,7 +61,7 @@ namespace vasio {
         /**
          *
          * @param os
-         * @param creature
+         * @param creature;
          * @return
          */
         friend std::ostream &operator<<(std::ostream &os, const Creature &creature) {
@@ -142,13 +142,13 @@ namespace vasio {
          * @param other
          * @return
          */
-        auto attack(std::unique_ptr<Creature>& other) -> bool;
+        auto attack(std::shared_ptr<Creature>& other) -> bool;
 
         /**
          *
          * @param other
          */
-        auto specialAction(std::unique_ptr<Creature> &other) -> void;
+        auto specialAction(std::shared_ptr<Creature> &other) -> void;
 
         /**
          *
