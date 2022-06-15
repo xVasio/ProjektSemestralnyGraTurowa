@@ -3,4 +3,5 @@ project(ProjektSemestralnyGraTurowa)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(ProjektSemestralnyGraTurowa UI/main.cpp Creature/Creature.cpp Creature/Creature.hpp Fight/Fight.cpp Fight/Fight.hpp SpecialAbility/SpecialAbility.cpp SpecialAbility/SpecialAbility.hpp Game/Game.cpp Game/Game.hpp)
+add_executable(ProjektSemestralnyGraTurowa UI/main.cpp Creature/Creature.cpp Fight/Fight.cpp SpecialAbility/SpecialAbility.cpp Game/Game.cpp)
+target_include_directories(ProjektSemestralnyGraTurowa PUBLIC Hpp)

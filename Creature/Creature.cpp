@@ -11,6 +11,7 @@
 
 namespace vasio {
     // constructor
+
     Creature::Creature(const std::string &name, int power, float agility, int health, int currentHealth, int exp,
                        int expNeededToEvolve, SpecialAbility specialAbility) : Name_(name), power_(power),
                                                                                agility_(agility),
@@ -108,12 +109,15 @@ namespace vasio {
                 switch (choice) {
                     case 1:
                         power_ += dis(gen);
+                        i++;
                         break;
                     case 2:
                         agility_ += std::uniform_real_distribution<float>(-0.1, 0.2)(gen);
+                        i++;
                         break;
                     case 3:
                         health_ += dis(gen);
+                        i++;
                         break;
                     default:
                         std::cerr << "Wrong atribute number" << '\n';
@@ -136,7 +140,7 @@ namespace vasio {
     }
 
 
-    // no prawie działa
+// no prawie działa
     auto generateSpecialAbility(CreatureType creatureType) -> SpecialAbility {
         std::unique_ptr<Creature> creature;
         std::random_device rd;
@@ -225,8 +229,6 @@ namespace vasio {
                 return "Steel Creature " + std::to_string(steelNamesCounter++);
         }
     }
-
-
     auto Creature::createRandomCreature() -> std::unique_ptr<Creature> {
         std::unique_ptr<Creature> creature;
         std::random_device rd;

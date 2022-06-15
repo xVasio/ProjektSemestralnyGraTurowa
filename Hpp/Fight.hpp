@@ -3,10 +3,13 @@
 //
 #pragma once
 
-#include "../Creature/Creature.hpp"
+#include "Creature.hpp"
 #include <vector>
 
 namespace vasio {
+    /**
+     *
+     */
     class Fight {
         std::vector<std::unique_ptr<Creature>> player1Creatures_;
         std::vector<std::unique_ptr<Creature>> player2Creatures_;
@@ -15,21 +18,37 @@ namespace vasio {
     public:
         std::unique_ptr<Creature> currentPlayer1Pokemon;
         std::unique_ptr<Creature> currentPlayer2Pokemon;
-
+        /**
+         *
+         * @param player1Creatures
+         * @param player2Creatures
+         */
         Fight(const std::vector<std::unique_ptr<Creature>> &player1Creatures,
               const std::vector<std::unique_ptr<Creature>> &player2Creatures);
-
+        /**
+         *
+         * @param creatureAttackerIndex
+         * @param creatureAttackedIndex
+         */
         auto attack(unsigned int creatureAttackerIndex, unsigned int creatureAttackedIndex) -> void;
-
+        /**
+         *
+         * @param creatureUsingAbilityIndex
+         */
         auto useSpecialAbility(unsigned int creatureUsingAbilityIndex) -> void;
-
-        /// Funkcja zwracająca imiona pokemonów dzięki czemu będziemy znali ich indeksy w wektorze potrzebne do attack
+        /**
+         *
+         * @param player1Creatures
+         */
         static auto getPlayer1CreatureInfo(std::vector<std::unique_ptr<Creature>> &player1Creatures) -> void;
+        /**
+         *
+         * @param player2Creatures
+         */
         static auto getPlayer2CreatureInfo(std::vector<std::unique_ptr<Creature>> &player2Creatures) -> void;
-
+        /**
+         *
+         */
         auto changeTurn() -> void;
-
-
     };
-
 }
