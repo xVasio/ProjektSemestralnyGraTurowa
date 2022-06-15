@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
-#include "../Hpp/Creature.hpp"
-#include "../Hpp/Fight.hpp"
+#include "Creature.hpp"
+#include "Game.hpp"
 #include <memory>
 
 auto main() -> int {
@@ -42,8 +42,15 @@ auto main() -> int {
 
     creature2->addExp(1100);
     creature->getExp();
-    creature2->evolve();
+//    creature2->evolve();
     std::cout << *creature2 << '\n';
+
+
+    Game game(creatures);
+    game.chooseDifficulty();
+    game.letHumanPlayerChooseCreatures();
+    game.showTeam(game.player1Creatures);
+
 
     return 0;
 }

@@ -6,10 +6,12 @@
 #include "Creature.hpp"
 #include <vector>
 
+
 namespace vasio {
     /**
      *
      */
+
     class Fight {
         bool player1Turn_ = true;
 
@@ -44,6 +46,8 @@ namespace vasio {
          */
         auto getPlayer1CreatureInfo() -> void;
 
+        auto getPlayerTeamInfo(const auto &playerChoices) -> void;
+
         /**
          *
          * @param player2Creatures
@@ -54,5 +58,11 @@ namespace vasio {
          *
          */
         auto changeTurn() -> void;
+
+        auto player1Turn() -> void;
+
+        auto player2Turn() -> void;
+
+        auto startFight() -> void;
     };
 }

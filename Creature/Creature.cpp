@@ -22,7 +22,7 @@ namespace vasio {
                                                                                specialAbility_(specialAbility) {}
 
 // attack move with doging
-    auto Creature::attack(std::unique_ptr<Creature> &other) -> bool {
+    auto Creature::attack(std::shared_ptr<Creature> &other) -> bool {
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_real_distribution<float> dis(0, 1);
@@ -146,7 +146,6 @@ namespace vasio {
 
 // no prawie działa
     auto generateSpecialAbility(CreatureType creatureType) -> SpecialAbility {
-        std::unique_ptr<Creature> creature;
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> dis(1, 2);
@@ -235,35 +234,35 @@ namespace vasio {
         }
     }
 
-    auto Creature::createRandomCreature() -> std::unique_ptr<Creature> {
-        std::unique_ptr<Creature> creature;
+    auto Creature::createRandomCreature() -> std::shared_ptr<Creature> {
+        std::shared_ptr<Creature> creature;
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> dis(0, 5);
         int random = dis(gen);
         switch (random) {
             case 0:
-                creature = std::make_unique<WaterCreature>();
+                creature = std::make_shared<WaterCreature>();
                 creature->specialAbility_ = generateSpecialAbility(CreatureType::Water);
                 break;
             case 1:
-                creature = std::make_unique<FireCreature>();
+                creature = std::make_shared<FireCreature>();
                 creature->specialAbility_ = generateSpecialAbility(CreatureType::Fire);
                 break;
             case 2:
-                creature = std::make_unique<EarthCreature>();
+                creature = std::make_shared<EarthCreature>();
                 creature->specialAbility_ = generateSpecialAbility(CreatureType::Earth);
                 break;
             case 3:
-                creature = std::make_unique<AirCreature>();
+                creature = std::make_shared<AirCreature>();
                 creature->specialAbility_ = generateSpecialAbility(CreatureType::Air);
                 break;
             case 4:
-                creature = std::make_unique<IceCreature>();
+                creature = std::make_shared<IceCreature>();
                 creature->specialAbility_ = generateSpecialAbility(CreatureType::Ice);
                 break;
             case 5:
-                creature = std::make_unique<SteelCreature>();
+                creature = std::make_shared<SteelCreature>();
                 creature->specialAbility_ = generateSpecialAbility(CreatureType::Steel);
                 break;
             default:
@@ -285,7 +284,7 @@ namespace vasio {
 
 
 // enum to string
-    auto enumToString(CreatureType type) -> std::string {
+    auto enumCreatureTypeToString(CreatureType type) -> std::string {
         switch (type) {
             case CreatureType::Water:
                 return "Water";

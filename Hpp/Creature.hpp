@@ -25,7 +25,7 @@ namespace vasio {
      * @param type
      * @return
      */
-    auto enumToString(CreatureType type) -> std::string;
+    auto enumCreatureTypeToString(CreatureType type) -> std::string;
 
     /**
      *
@@ -69,7 +69,7 @@ namespace vasio {
                << creature.agility_
                << " HP: " << creature.health_ << " CHP: " << creature.currentHealth_ << " EXP: " << creature.Exp_
                << " EXPN: "
-               << creature.ExpNeededToEvolve_ << " TYPE: " << enumToString(creature.getType()) << " AB NAME: "
+               << creature.ExpNeededToEvolve_ << " TYPE: " << enumCreatureTypeToString(creature.getType()) << " AB NAME: "
                << creature.specialAbility_.NameOfAbility_;
             return os;
         }
@@ -79,7 +79,7 @@ namespace vasio {
          * @param creature
          * @return
          */
-        auto getEfficiency(const std::unique_ptr<Creature> &creature) const -> float {
+        auto getEfficiency(const std::shared_ptr<Creature> &creature) const -> float {
             return interactionTable[static_cast<int>(getType())][static_cast<int>(creature->getType())];
         }
 
@@ -87,7 +87,7 @@ namespace vasio {
          *
          * @return
          */
-        auto static createRandomCreature() -> std::unique_ptr<Creature>;
+        auto static createRandomCreature() -> std::shared_ptr<Creature>;
 
         /**
          *
