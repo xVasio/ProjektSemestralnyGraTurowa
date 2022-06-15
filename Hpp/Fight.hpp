@@ -11,41 +11,45 @@ namespace vasio {
      *
      */
     class Fight {
-        std::vector<std::unique_ptr<Creature>> player1Creatures_;
-        std::vector<std::unique_ptr<Creature>> player2Creatures_;
         bool player1Turn_ = true;
 
     public:
         std::unique_ptr<Creature> currentPlayer1Pokemon;
         std::unique_ptr<Creature> currentPlayer2Pokemon;
+
         /**
          *
          * @param player1Creatures
          * @param player2Creatures
          */
-        Fight(const std::vector<std::unique_ptr<Creature>> &player1Creatures,
-              const std::vector<std::unique_ptr<Creature>> &player2Creatures);
+        Fight(std::unique_ptr<Creature> player1Creatures,
+              std::unique_ptr<Creature> player2Creatures);
+
         /**
          *
          * @param creatureAttackerIndex
          * @param creatureAttackedIndex
          */
-        auto attack(unsigned int creatureAttackerIndex, unsigned int creatureAttackedIndex) -> void;
+        auto attack() -> void;
+
         /**
          *
          * @param creatureUsingAbilityIndex
          */
-        auto useSpecialAbility(unsigned int creatureUsingAbilityIndex) -> void;
+        auto useSpecialAbility() -> void;
+
         /**
          *
          * @param player1Creatures
          */
-        static auto getPlayer1CreatureInfo(std::vector<std::unique_ptr<Creature>> &player1Creatures) -> void;
+        auto getPlayer1CreatureInfo() -> void;
+
         /**
          *
          * @param player2Creatures
          */
-        static auto getPlayer2CreatureInfo(std::vector<std::unique_ptr<Creature>> &player2Creatures) -> void;
+        auto getPlayer2CreatureInfo() -> void;
+
         /**
          *
          */

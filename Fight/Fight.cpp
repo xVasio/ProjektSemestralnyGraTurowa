@@ -7,26 +7,23 @@
 #include <iostream>
 
 namespace vasio {
-    Fight::Fight(const std::vector<std::unique_ptr<Creature>> &player1Creatures,
-                 const std::vector<std::unique_ptr<Creature>> &player2Creatures) {
+    Fight::Fight(std::unique_ptr<Creature> currentPlayer1Creature,
+                 std::unique_ptr<Creature> currentPlayer2Creature) {
     }
 
 
-    auto Fight::attack(unsigned int creatureAttackerIndex, unsigned int creatureAttackedIndex) -> void {
-        auto &creatureAttacker = *(player1Turn_ ? player1Creatures_ : player2Creatures_).at(creatureAttackerIndex);
-        auto &creatureAttacked = *(player1Turn_ ? player2Creatures_ : player1Creatures_).at(creatureAttackedIndex);
-
-        *currentPlayer1Pokemon = (player1Turn_ ? creatureAttacker : creatureAttacked);
-        *currentPlayer2Pokemon = (player1Turn_ ? creatureAttacked : creatureAttacker);
-
-        creatureAttacker.attack(creatureAttacked);
+    auto Fight::attack() -> void {
+        if (player1Turn_) {
+            currentPlayer1Pokemon->attack(currentPlayer2Pokemon);
+        } else {
+            currentPlayer2Pokemon->attack(currentPlayer1Pokemon);
+        }
         Fight::changeTurn();
     }
 
 
-    auto Fight::useSpecialAbility(unsigned int creatureUsingAbilityIndex) -> void {
-        auto &creatureUsingAbility = *(player1Turn_ ? player1Creatures_ : player2Creatures_).at(
-                creatureUsingAbilityIndex);
+    auto Fight::useSpecialAbility() -> void {
+        auto &creatureUsingAbility = *(player1Turn_ ? currentPlayer1Pokemon : currentPlayer2Pokemon);
         creatureUsingAbility.useSpecialAbility(*this);
         Fight::changeTurn();
     }
@@ -36,25 +33,11 @@ namespace vasio {
     }
 
 
-    auto Fight::getPlayer1CreatureInfo(std::vector<std::unique_ptr<Creature>> &player1Creatures) -> void {
-        auto creatureInfo = std::vector<std::string>(player1Creatures.size());
-
-
-        for (auto &creature: player1Creatures) {
-            creatureInfo.push_back(creature->getName());
-        }
-        for (const auto &c: creatureInfo) {
-            std::cout << c << std::endl;
-        }
+    auto Fight::getPlayer1CreatureInfo() -> void {
+        std::cout << currentPlayer1Pokemon->getName() << std::endl;
     }
 
-    auto Fight::getPlayer2CreatureInfo(std::vector<std::unique_ptr<Creature>> &player2Creatures) -> void {
-        auto creatureInfo = std::vector<std::string>(player2Creatures.size());
-        for(auto &creature: player2Creatures) {
-            creatureInfo.push_back(creature->getName());
-        }
-        for(const auto &c: creatureInfo) {
-            std::cout << c << std::endl;
-        }
+    auto Fight::getPlayer2CreatureInfo() -> void {
+        std::cout << currentPlayer2Pokemon->getName() << std::endl;
     }
 }

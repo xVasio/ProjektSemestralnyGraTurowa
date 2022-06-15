@@ -22,7 +22,7 @@ namespace vasio {
                                                                                specialAbility_(specialAbility) {}
 
 // attack move with doging
-    auto Creature::attack(Creature &other) -> bool {
+    auto Creature::attack(std::unique_ptr<Creature> &other) -> bool {
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_real_distribution<float> dis(0, 1);
@@ -32,21 +32,22 @@ namespace vasio {
         }
         return false;
     }
-    auto Creature::specialAction(Creature &other) -> void {
+
+    auto Creature::specialAction(std::unique_ptr<Creature> &other) -> void {
         switch (this->specialAbility_.TypeOfAbility_) {
             case AbilityType::Offensive:
                 switch (this->getType()) {
                     case CreatureType::Water:
-                        other.health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->health_ -= power_ * 1.2 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Earth:
-                        other.health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->health_ -= power_ * 1.2 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Air:
-                        other.health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->health_ -= power_ * 1.2 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Fire:
-                        other.health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->health_ -= power_ * 1.2 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Ice:
                         other->health_ -= power_ * 1.2 * Creature::getEfficiency(other);
@@ -129,12 +130,15 @@ namespace vasio {
                       std::endl;
         }
     }
+
     auto Creature::addExp(int exp) -> void {
         Exp_ += exp;
     }
+
     auto Creature::getExp() const -> int {
         return Exp_;
     }
+
     auto Creature::getName() const -> std::string {
         return Name_;
     }
@@ -207,6 +211,7 @@ namespace vasio {
                 assert(false);
         }
     }
+
     auto generateName(CreatureType type) -> std::string {
         switch (type) {
             case CreatureType::Water:
@@ -229,6 +234,7 @@ namespace vasio {
                 return "Steel Creature " + std::to_string(steelNamesCounter++);
         }
     }
+
     auto Creature::createRandomCreature() -> std::unique_ptr<Creature> {
         std::unique_ptr<Creature> creature;
         std::random_device rd;

@@ -79,8 +79,8 @@ namespace vasio {
          * @param creature
          * @return
          */
-        auto getEfficiency(const Creature &creature) const -> float {
-            return interactionTable[static_cast<int>(getType())][static_cast<int>(creature.getType())];
+        auto getEfficiency(const std::unique_ptr<Creature> &creature) const -> float {
+            return interactionTable[static_cast<int>(getType())][static_cast<int>(creature->getType())];
         }
 
         /**
@@ -142,13 +142,13 @@ namespace vasio {
          * @param other
          * @return
          */
-        auto attack(Creature &other) -> bool;
+        auto attack(std::unique_ptr<Creature>& other) -> bool;
 
         /**
          *
          * @param other
          */
-        auto specialAction(Creature &other) -> void;
+        auto specialAction(std::unique_ptr<Creature> &other) -> void;
 
         /**
          *
