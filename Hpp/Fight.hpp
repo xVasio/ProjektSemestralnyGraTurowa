@@ -81,7 +81,7 @@ namespace vasio {
 
         auto player2Turn() -> void;
 
-        auto startFight() -> void;
+        auto startFight() -> bool;
 
         bool isCreatureAlive(std::shared_ptr<Creature> creature);
     };

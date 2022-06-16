@@ -57,16 +57,16 @@ namespace vasio {
 
         while (counter != player1TeamSize) {
             std::cin >> choice;
-                unsigned int choiceInt = std::stoi(choice);
-                if (choice == "-h" || choice == "--help") {
-                    std::cout << "Manual: " << '\n';
-                } else if (choiceInt < creaturesInGame.size()) {
-                    player1Creatures.push_back(creaturesInGame[choiceInt]);
-                    std::cout << creaturesInGame[choiceInt]->Name_ << " added to your team!" << '\n';
-                    counter++;
-                }
+            unsigned int choiceInt = std::stoi(choice);
+            if (choice == "-h" || choice == "--help") {
+                std::cout << "Manual: " << '\n';
+            } else if (choiceInt < creaturesInGame.size()) {
+                player1Creatures.push_back(creaturesInGame[choiceInt]);
+                std::cout << creaturesInGame[choiceInt]->Name_ << " added to your team!" << '\n';
+                counter++;
             }
         }
+    }
 
     auto Game::generateEnemyTeam() -> void {
         std::random_device rd;
@@ -94,7 +94,7 @@ namespace vasio {
     }
 
     auto Game::resetHp(std::vector<std::shared_ptr<Creature>> &creaturesToReset) -> void {
-        for (auto &creature : creaturesToReset) {
+        for (auto &creature: creaturesToReset) {
             creature->currentHealth_ = creature->health_;
         }
     }
@@ -103,6 +103,7 @@ namespace vasio {
         resetHp(player1Creatures);
         resetHp(player2Creatures);
     }
+
 }
 
 

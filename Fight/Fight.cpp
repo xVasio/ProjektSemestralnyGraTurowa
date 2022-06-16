@@ -203,7 +203,7 @@ namespace vasio {
         }
     }
 
-    auto Fight::startFight() -> void {
+    auto Fight::startFight() -> bool {
         bool playerTeamStatus = checkIfPlayerTeamIsAlive();
         bool enemyTeamStatus = checkIfEnemyTeamIsAlive();
         player1Turn_ = true;
@@ -228,10 +228,12 @@ namespace vasio {
             SetConsoleTextAttribute(color, 2);
             std::cout << '\n' << "You won!" << '\n';
             SetConsoleTextAttribute(color, 7);
+            return true;
         } else {
             SetConsoleTextAttribute(color, 4);
             std::cout << '\n' << "You lost! Game over." << '\n';
             SetConsoleTextAttribute(color, 7);
+            return false;
         }
     }
 
@@ -296,7 +298,7 @@ namespace vasio {
     auto Fight::player2Turn() -> void {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(1,8);
+        std::uniform_int_distribution<> dis(1,7);
 
         SetConsoleTextAttribute(color, 5);
         std::cout << '\n' << "ENEMY TURN!" << "\n\n";
@@ -318,14 +320,12 @@ namespace vasio {
                 Fight::useSpecialAbility();
                 break;
             case 5:
-                Fight::useSpecialAbility();
-            case 6:
                 Fight::evolveCreature();
                 break;
-            case 7:
+            case 6:
                 Fight::enemySwitchCreature();
                 break;
-            case 8:
+            case 7:
                 Fight::enemySwitchCreature();
                 break;
         }
