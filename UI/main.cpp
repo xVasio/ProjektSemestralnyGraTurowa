@@ -51,13 +51,13 @@ auto main() -> int {
 
     Game game(creatures);
 //    game.chooseDifficulty();
-    game.letHumanPlayerChooseCreatures();
-    game.generateEnemyTeam();
-    game.showTeam(game.player1Creatures);
-    game.showTeam(game.player2Creatures);
-    game.createFight();
-    game.fights[0].startFight();
-
+//    game.letHumanPlayerChooseCreatures();
+//    game.generateEnemyTeam();
+//    game.showTeam(game.player1Creatures);
+//    game.showTeam(game.player2Creatures);
+//    game.createFight();
+//    game.fights[0].startFight();
+    Game::startGame(game);
 
     return 0;
 }

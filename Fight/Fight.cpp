@@ -72,8 +72,7 @@ namespace vasio {
 
         auto Fight::useSpecialAbility() -> void {
             auto &creatureUsingAbility = *(player1Turn_ ? currentPlayer1Pokemon : currentPlayer2Pokemon);
-            if (creatureUsingAbility.specialAbility_.numberOfUses_ !=
-                creatureUsingAbility.specialAbility_.maxNumberOfUses_) {
+            if (creatureUsingAbility.specialAbility_.numberOfUses_ !=creatureUsingAbility.specialAbility_.maxNumberOfUses_) {
                 std::cout << creatureUsingAbility.getName() << " uses "
                           << creatureUsingAbility.specialAbility_.getNameOfAbility() << '\n';
                 creatureUsingAbility.specialAbility_.applyAbility(*this);
@@ -295,7 +294,7 @@ namespace vasio {
     auto Fight::player2Turn() -> void {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(1,4);
+        std::uniform_int_distribution<> dis(1,8);
 
         SetConsoleTextAttribute(color, 5);
         std::cout << '\n' << "ENEMY TURN!" << "\n\n";
@@ -308,12 +307,23 @@ namespace vasio {
                 Fight::attack();
                 break;
             case 2:
-                Fight::useSpecialAbility();
+                Fight::attack();
                 break;
             case 3:
-                Fight::evolveCreature();
+                Fight::attack();
                 break;
             case 4:
+                Fight::useSpecialAbility();
+                break;
+            case 5:
+                Fight::useSpecialAbility();
+            case 6:
+                Fight::evolveCreature();
+                break;
+            case 7:
+                Fight::enemySwitchCreature();
+                break;
+            case 8:
                 Fight::enemySwitchCreature();
                 break;
         }

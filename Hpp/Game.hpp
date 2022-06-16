@@ -52,9 +52,14 @@ namespace vasio {
             fights.push_back(Fight(std::make_shared<Game>(*this), player1Creatures[0], player2Creatures[0]));
         }
 
-        static auto startGame() -> void {
+        static auto startGame(Game &game) -> void {
             // Game::letHumanPlayerChooseCreatures();
-
+            game.letHumanPlayerChooseCreatures();
+            game.generateEnemyTeam();
+            game.showTeam(game.player1Creatures);
+            game.showTeam(game.player2Creatures);
+            game.createFight();
+            game.fights[0].startFight();
             // while (!isOver) {
             //    Game::createFight();
             //    currentFight.startFight();
