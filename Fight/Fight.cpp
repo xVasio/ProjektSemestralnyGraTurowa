@@ -14,7 +14,6 @@ namespace vasio {
     ) : game_ptr(game_ptr), currentPlayer1Pokemon(currentPlayer1Creature),
         currentPlayer2Pokemon(currentPlayer2Creature) {}
 
-
     auto Fight::attack() -> void {
         if (player1Turn_) {
             std::cout << currentPlayer1Pokemon->getName() << " attacks " << currentPlayer2Pokemon->getName() << "\n\n";

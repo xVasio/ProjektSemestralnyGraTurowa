@@ -104,6 +104,8 @@ namespace vasio {
          */
         auto evolve() -> void;
 
+
+        auto makeEnemy() -> void;
         /**
          *
          * @param exp

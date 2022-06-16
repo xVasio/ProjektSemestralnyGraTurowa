@@ -71,11 +71,12 @@ namespace vasio {
         int counter = 0;
         while (counter != player2TeamSize) {
             auto randomCreature = std::rand() % creaturesInGame.size();
-            if (std::find(player1Creatures.begin(), player1Creatures.end(), creaturesInGame[randomCreature]) ==
-                player1Creatures.end()) {
+            if (std::find(player1Creatures.begin(), player1Creatures.end(), creaturesInGame[randomCreature]) ==player1Creatures.end()) {
+                creaturesInGame[randomCreature]->makeEnemy();
                 player2Creatures.push_back(creaturesInGame[randomCreature]);
                 counter++;
             }
+
         }
     }
 
