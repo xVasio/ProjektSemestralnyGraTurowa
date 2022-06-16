@@ -22,7 +22,6 @@ auto main() -> int {
         creatures.push_back(Creature::createRandomCreature());
     }
 
-
     for (int i = 0; i < 15; i++) {
         creatures2.push_back(Creature::createRandomCreature());
     }

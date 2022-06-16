@@ -1,6 +1,7 @@
 //
 // Created by theer on 14.06.2022.
 //
+#include <random>
 #include "Game.hpp"
 
 namespace vasio {
@@ -44,34 +45,39 @@ namespace vasio {
     }
 
     auto Game::letHumanPlayerChooseCreatures() -> void {
-            constexpr int player1TeamSize = 6;
-            int counter = 0;
-            std::string choice;
+        constexpr int player1TeamSize = 6;
+        int counter = 0;
+        std::string choice;
 
-            std::cout << "Choose your team!" << '\n';
-            std::cout << "Type -h or --help for additional instructions!" << '\n';
+        std::cout << "Choose your team!" << '\n';
+        std::cout << "Type -h or --help for additional instructions!" << '\n';
 
-            showTeam(creaturesInGame);
-            std::cout << "You can choose 6 creatures" << '\n';
+        showTeam(creaturesInGame);
+        std::cout << "You can choose 6 creatures" << '\n';
 
-            while (counter != player1TeamSize) {
-                std::cin >> choice;
-                auto choiceInt = std::stoi(choice);
+        while (counter != player1TeamSize) {
+            std::cin >> choice;
+                unsigned int choiceInt = std::stoi(choice);
                 if (choice == "-h" || choice == "--help") {
                     std::cout << "Manual: " << '\n';
-                } else if (choiceInt <= creaturesInGame.size()) {
+                } else if (choiceInt < creaturesInGame.size()) {
                     player1Creatures.push_back(creaturesInGame[choiceInt]);
                     std::cout << creaturesInGame[choiceInt]->Name_ << " added to your team!" << '\n';
+                    counter++;
                 }
-                counter++;
             }
         }
+
     auto Game::generateEnemyTeam() -> void {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(0, creaturesInGame.size() - 1);
         constexpr int player2TeamSize = 4;
         int counter = 0;
         while (counter != player2TeamSize) {
-            auto randomCreature = std::rand() % creaturesInGame.size();
-            if (std::find(player1Creatures.begin(), player1Creatures.end(), creaturesInGame[randomCreature]) ==player1Creatures.end()) {
+            auto randomCreature = dis(gen);
+            if (std::find(player1Creatures.begin(), player1Creatures.end(), creaturesInGame[randomCreature]) ==
+                player1Creatures.end()) {
                 creaturesInGame[randomCreature]->makeEnemy();
                 player2Creatures.push_back(creaturesInGame[randomCreature]);
                 counter++;
@@ -81,11 +87,11 @@ namespace vasio {
     }
 
     auto Game::showTeam(const std::vector<std::shared_ptr<Creature>> &teamCreatures) -> void {
-            std::cout << "Creatures:" << '\n';
-            for (int i = 0; i < teamCreatures.size(); i++) {
-                std::cout << i << ". " << *(teamCreatures[i]) << '\n';
-            }
+        std::cout << "Creatures:" << '\n';
+        for (int i = 0; i < teamCreatures.size(); i++) {
+            std::cout << i << ". " << *(teamCreatures[i]) << '\n';
         }
+    }
 }
 
 

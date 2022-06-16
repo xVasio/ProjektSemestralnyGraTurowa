@@ -160,8 +160,6 @@ namespace vasio {
         return Name_;
     }
 
-
-    // no prawie działa
     auto generateSpecialAbility(CreatureType creatureType) -> SpecialAbility {
         std::random_device rd;
         std::mt19937 gen(rd());
