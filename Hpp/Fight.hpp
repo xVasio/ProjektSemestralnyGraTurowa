@@ -56,6 +56,8 @@ namespace vasio {
 
         auto switchCreature() -> void;
 
+        auto Fight::enemySwitchCreature() -> void;
+
         auto getPlayer1CreatureInfo() -> void;
 
         auto getPlayerTeamInfo(const auto &playerChoices) -> void;
@@ -70,6 +72,10 @@ namespace vasio {
          *
          */
         auto changeTurn() -> void;
+
+        auto checkIfPlayerTeamIsAlive() -> bool;
+
+        auto checkIfEnemyTeamIsAlive() -> bool;
 
         auto player1Turn() -> void;
 

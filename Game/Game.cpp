@@ -56,10 +56,10 @@ namespace vasio {
 
             while (counter != player1TeamSize) {
                 std::cin >> choice;
+                auto choiceInt = std::stoi(choice);
                 if (choice == "-h" || choice == "--help") {
                     std::cout << "Manual: " << '\n';
-                } else  {
-                    auto choiceInt = std::stoi(choice);
+                } else if (choiceInt <= creaturesInGame.size()) {
                     player1Creatures.push_back(creaturesInGame[choiceInt]);
                     std::cout << creaturesInGame[choiceInt]->Name_ << " added to your team!" << '\n';
                 }

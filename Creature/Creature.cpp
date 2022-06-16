@@ -19,15 +19,16 @@ namespace vasio {
                                                                                currentHealth_(currentHealth),
                                                                                Exp_(exp),
                                                                                ExpNeededToEvolve_(expNeededToEvolve),
-                                                                               specialAbility_(specialAbility) {}
+                                                                     specialAbility_(specialAbility) {}
 
 // attack move with doging
     auto Creature::attack(std::shared_ptr<Creature> &other) -> int {
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_real_distribution<float> dis(0, 1);
-        if (dis(gen) < other->agility_) {
-            int damage = power_ * Creature::getEfficiency(other);
+        std::uniform_int_distribution<int> dis2(1, 5);
+        if (dis(gen) > other->agility_) {
+            int damage = (power_ + dis2(gen)) * Creature::getEfficiency(other);
             other->currentHealth_ -= damage;
             return damage;
         }
@@ -39,49 +40,60 @@ namespace vasio {
             case AbilityType::Offensive:
                 switch (this->getType()) {
                     case CreatureType::Water:
-                        other->health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->currentHealth_ -= power_ * 1.2 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Earth:
-                        other->health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->currentHealth_ -= power_ * 1.2 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Air:
-                        other->health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->currentHealth_ -= power_ * 1.2 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Fire:
-                        other->health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->currentHealth_ -= power_ * 1.2 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Ice:
-                        other->health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->currentHealth_ -= power_ * 1.2 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Steel:
-                        other->health_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->currentHealth_ -= power_ * 1.2 * Creature::getEfficiency(other);
                         break;
                 }
-
             case AbilityType::Defensive:
                 switch (this->getType()) {
                     case CreatureType::Water:
-                        this->currentHealth_ += 50 * Creature::getEfficiency(other);
+                        this->currentHealth_ += 50;
+                        if(this->currentHealth_ > this->health_)
+                            this->currentHealth_ = this->health_;
                         this->Exp_ += 100 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Earth:
-                        this->currentHealth_ += 50 * Creature::getEfficiency(other);
+                        this->currentHealth_ += 50;
+                        if(this->currentHealth_ > this->health_)
+                            this->currentHealth_ = this->health_;
                         this->Exp_ += 100 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Air:
-                        this->currentHealth_ += 50 * Creature::getEfficiency(other);
+                        this->currentHealth_ += 50;
+                        if(this->currentHealth_ > this->health_)
+                            this->currentHealth_ = this->health_;
                         this->Exp_ += 100 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Fire:
-                        this->currentHealth_ += 50 * Creature::getEfficiency(other);
+                        this->currentHealth_ += 50;
+                        if(this->currentHealth_ > this->health_)
+                            this->currentHealth_ = this->health_;
                         this->Exp_ += 100 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Ice:
-                        this->currentHealth_ += 50 * Creature::getEfficiency(other);
+                        this->currentHealth_ += 50;
+                        if(this->currentHealth_ > this->health_)
+                            this->currentHealth_ = this->health_;
                         this->Exp_ += 100 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Steel:
-                        this->currentHealth_ += 50 * Creature::getEfficiency(other);
+                        this->currentHealth_ += 50;
+                        if(this->currentHealth_ > this->health_)
+                            this->currentHealth_ = this->health_;
                         this->Exp_ += 100 * Creature::getEfficiency(other);
                         break;
                 }
@@ -272,7 +284,7 @@ namespace vasio {
         creature->Name_ = generateName(creature->getType());
         creature->health_ = std::uniform_int_distribution<>(80, 100)(gen);
         creature->currentHealth_ = creature->health_;
-        creature->power_ = std::uniform_int_distribution<>(1, 12)(gen);
+        creature->power_ = std::uniform_int_distribution<>(1, 25)(gen);
         creature->agility_ = std::uniform_real_distribution<float>(0.3, 0.7)(gen);
         creature->Exp_ = 0;
         creature->ExpNeededToEvolve_ = std::uniform_int_distribution<>(500, 1000)(gen);
@@ -281,6 +293,7 @@ namespace vasio {
 
     auto Creature::useSpecialAbility(Fight &fight) -> void {
         specialAbility_.applyAbility(fight);
+        specialAbility_.maxNumberOfUses_--;
     }
 
     auto Creature::getCurrentHealth() const -> int {
