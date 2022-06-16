@@ -51,7 +51,7 @@ namespace vasio {
         auto chooseDifficulty() -> void;
 
         auto createFight() -> void {
-            fights.push_back(Fight(player1Creatures[0], player2Creatures[0]));
+            fights.push_back(Fight(std::make_shared<Game>(*this), player1Creatures[0], player2Creatures[0]));
         }
 
         static auto startGame() -> void {

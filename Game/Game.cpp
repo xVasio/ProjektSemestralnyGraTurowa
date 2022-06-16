@@ -27,7 +27,7 @@ namespace vasio {
             std::cout << "3. Hard" << '\n';
             std::cout << "-h or -help for manual" << '\n';
 
-            std::cout << "Your choice: ";
+            std::cout << "Your choice: " << '\n';
             std::cin >> choice;
             if (choice == "-h" || choice == "-help") {
                 std::cout << "Manual" << '\n';

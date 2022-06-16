@@ -8,19 +8,23 @@
 
 
 namespace vasio {
-    Fight::Fight(std::shared_ptr<Creature> currentPlayer1Creature,
+    Fight::Fight(std::shared_ptr<Game> game_ptr,
+            std::shared_ptr<Creature> currentPlayer1Creature,
                  std::shared_ptr<Creature> currentPlayer2Creature
-    ) :  currentPlayer1Pokemon(currentPlayer1Creature),
-        currentPlayer2Pokemon(currentPlayer2Creature) {}
+    ) :  game_ptr(game_ptr), currentPlayer1Pokemon(currentPlayer1Creature),
+        currentPlayer2Pokemon(currentPlayer2Creature)  {}
+
 
 
     auto Fight::attack() -> void {
         if (player1Turn_) {
-            std:: cout << currentPlayer1Pokemon->getName() << " attacks " << currentPlayer2Pokemon->getName() << '\n';
+            std:: cout << currentPlayer1Pokemon->getName() << " attacks " << currentPlayer2Pokemon->getName() << "\n\n";
             auto damageGiven = currentPlayer1Pokemon->attack(currentPlayer2Pokemon);
             if(damageGiven > 0) {
-                std::cout << " Attack was successful" << '\n';
-                std::cout << " " << currentPlayer2Pokemon->getName() << " took " << damageGiven << " damage" << '\n';
+                std::cout << " Attack was successful!" << '\n';
+                std::cout << " " << currentPlayer2Pokemon->getName() << " took " << damageGiven << " damage" << "\n\n";
+                currentPlayer1Pokemon->getShortStats();
+                currentPlayer2Pokemon->getShortStats();
             } else {
                 std::cout << currentPlayer2Pokemon->getName() << " doged the attack!\n";
             }
@@ -30,6 +34,8 @@ namespace vasio {
             if(damageGiven > 0) {
                 std::cout << " Attack was successful" << '\n';
                 std::cout << " " << currentPlayer1Pokemon->getName() << " took " << damageGiven << " damage" << '\n';
+                currentPlayer2Pokemon->getShortStats();
+                currentPlayer1Pokemon->getShortStats();
             } else {
                 std::cout << currentPlayer1Pokemon->getName() << " doged the attack!" << '\n';
             }
@@ -56,7 +62,22 @@ namespace vasio {
     }
 
     auto Fight::switchCreature() -> void {
-
+        std::vector<std::shared_ptr<Creature>> creaturesToSwitchTo = game_ptr->player1Creatures;
+        game_ptr->showTeam(creaturesToSwitchTo);
+        std::cout << "Choose a creature to switch to: " << '\n';
+        std::cout << "Your current creature is: " << "\n\n";
+        currentPlayer1Pokemon->getShortStats();
+        int creatureToSwitchToIndex;
+        std::cin >> creatureToSwitchToIndex;
+        auto &creatureToSwitch = creaturesToSwitchTo[creatureToSwitchToIndex];
+        if (player1Turn_) {
+            std::cout << "You switch " << currentPlayer1Pokemon->getName() << " to " << creatureToSwitch->getName() << '\n';
+            currentPlayer1Pokemon = creatureToSwitch;
+        } else {
+            std::cout << "Enemy switches " << currentPlayer2Pokemon->getName() << " to " << creatureToSwitch->getName() << '\n';
+            currentPlayer2Pokemon = creatureToSwitch;
+        }
+        Fight::changeTurn();
     }
 
     auto Fight::getPlayer1CreatureInfo() -> void {
@@ -75,8 +96,9 @@ namespace vasio {
 
 
     auto Fight::startFight() -> void {
+
         player1Turn_ = true;
-        std::cout << "Fight to the death or die trying! << \n";
+        std::cout << '\n' << "Fight to the death or die trying!" << "\n\n";
         while (currentPlayer1Pokemon->getCurrentHealth() > 0 && currentPlayer2Pokemon->getCurrentHealth() > 0) {
             if (player1Turn_) {
                 Fight::player1Turn();
@@ -89,15 +111,23 @@ namespace vasio {
     auto Fight::player1Turn() -> void {
         std::string choice;
 
-        std::cout << "Your turn: " << '\n';
+        std::cout << "USER TURN! " << "\n\n";
+
+        std::cout << "Your current creature:  " << '\n';
+        currentPlayer1Pokemon->getShortStats();
+        std::cout << "Enemy creature: " << '\n';
+        currentPlayer2Pokemon->getShortStats();
+
+        std::cout << '\n' << "What would you like to do? " << "\n\n";
 
         std::cout << "1. Attack" << '\n';
         std::cout << "2. Use special ability" << '\n';
         std::cout << "3. Evolve" << '\n';
         std::cout << "4. Switch creature" << '\n';
+        std::cout << "5. Show Team" << '\n';
 
 
-        std::cout << "Your choice: ";
+        std::cout << "Your choice: " << '\n';
         std::cin >> choice;
         int intChoice = std::stoi(choice);
         switch(intChoice) {
@@ -113,6 +143,9 @@ namespace vasio {
             case 4:
                 Fight::switchCreature();
                 break;
+            case 5:
+                game_ptr->showTeam(game_ptr->player1Creatures);
+                break;
         }
 
 
@@ -121,6 +154,8 @@ namespace vasio {
 
 // bot
     auto Fight::player2Turn() -> void {
+        std::cout << '\n' << "ENEMY TURN!" << "\n\n";
+        Fight::changeTurn();
     }
 
 

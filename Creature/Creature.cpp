@@ -287,6 +287,12 @@ namespace vasio {
         return currentHealth_;
     }
 
+    auto Creature::getShortStats() const -> void {
+        std::cout << "Name || Current Health/Health | Power || Agility" << '\n';
+        std::cout << Name_ << " || " << currentHealth_ << " / " << health_ << " || " << power_ << " || " <<
+                  agility_ << " ||" << '\n';
+    }
+
 
 // enum to string
     auto enumCreatureTypeToString(CreatureType type) -> std::string {

@@ -23,6 +23,7 @@ namespace vasio {
         bool player1Turn_ = true;
 
     public:
+        std::shared_ptr<Game> game_ptr;
         std::shared_ptr<Creature> currentPlayer1Pokemon;
         std::shared_ptr<Creature> currentPlayer2Pokemon;
 
@@ -31,10 +32,7 @@ namespace vasio {
          * @param player1Creatures
          * @param player2Creatures
          */
-        Fight(
-                std::shared_ptr<Creature> currentPlayer1Creature,
-                std::shared_ptr<Creature> currentPlayer2Creature
-        );
+        Fight(std::shared_ptr<Game> game_ptr, std::shared_ptr<Creature> currentPlayer1Pokemon, std::shared_ptr<Creature> currentPlayer2Pokemon);
 
         /**
          *

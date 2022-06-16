@@ -117,6 +117,8 @@ namespace vasio {
 
         auto getCurrentHealth() const -> int;
 
+        auto getShortStats() const -> void;
+
         auto getExp() const -> int;
 
         /**
