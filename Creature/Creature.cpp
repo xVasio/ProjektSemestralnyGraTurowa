@@ -284,7 +284,7 @@ namespace vasio {
         creature->Name_ = generateName(creature->getType());
         creature->health_ = std::uniform_int_distribution<>(80, 100)(gen);
         creature->currentHealth_ = creature->health_;
-        creature->power_ = std::uniform_int_distribution<>(1, 25)(gen);
+        creature->power_ = std::uniform_int_distribution<>(1, 50)(gen); // zmienci na mniej
         creature->agility_ = std::uniform_real_distribution<float>(0.3, 0.7)(gen);
         creature->Exp_ = 0;
         creature->ExpNeededToEvolve_ = std::uniform_int_distribution<>(500, 1000)(gen);

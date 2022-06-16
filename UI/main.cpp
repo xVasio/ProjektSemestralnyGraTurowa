@@ -51,7 +51,7 @@ auto main() -> int {
 
 
     Game game(creatures);
-    game.chooseDifficulty();
+//    game.chooseDifficulty();
     game.letHumanPlayerChooseCreatures();
     game.generateEnemyTeam();
     game.showTeam(game.player1Creatures);

@@ -87,7 +87,7 @@ namespace vasio {
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> dis(0, game_ptr->player2Creatures.size() - 1);
 
-//        bool enemyTeamStatus = checkIfEnemyTeamIsAlive();
+        bool enemyTeamStatus = checkIfEnemyTeamIsAlive();
 
         std::vector<std::shared_ptr<Creature>> enemyCreaturesToSwitchTo = game_ptr->player2Creatures;
 
@@ -95,8 +95,10 @@ namespace vasio {
         auto &creatureToSwitch = enemyCreaturesToSwitchTo[creatureToSwitchToIndex];
         if (creatureToSwitch->currentHealth_ > 0) {
             currentPlayer2Pokemon = creatureToSwitch;
-        } else {
+        } else if (enemyTeamStatus) {
             enemySwitchCreature();
+        } else {
+            Fight::checkIfEnemyTeamIsAlive();
         }
         Fight::changeTurn();
     }
@@ -116,15 +118,23 @@ namespace vasio {
         }
     }
 
+    auto Fight::isCreatureAlive(std::shared_ptr<Creature> creature) -> bool {
+        if(creature->currentHealth_ <= 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     auto Fight::checkIfPlayerTeamIsAlive() -> bool {
         int sizeOfTeam = game_ptr->player1Creatures.size();
         int counter = 0;
-        for (const auto &creature: game_ptr->player1Creatures) {
-            if (creature->currentHealth_ <= 0) {
+        for (auto creature: game_ptr->player1Creatures) {
+            if(!isCreatureAlive(creature)) {
                 counter++;
+            } else
+                counter += 0;
             }
-            return 0;
-        }
         if (counter == sizeOfTeam) {
             return false;
         } else {
@@ -135,11 +145,12 @@ namespace vasio {
     auto Fight::checkIfEnemyTeamIsAlive() -> bool {
         int sizeOfTeam = game_ptr->player2Creatures.size();
         int counter = 0;
-        for (const auto &creature: game_ptr->player2Creatures) {
-            if (creature->currentHealth_ <= 0) {
+        for (auto creature: game_ptr->player2Creatures) {
+            if(!isCreatureAlive(creature)) {
                 counter++;
+            } else {
+                counter += 0;
             }
-            return 0;
         }
         if (counter == sizeOfTeam) {
             return false;
@@ -153,7 +164,7 @@ namespace vasio {
         bool enemyTeamStatus = checkIfEnemyTeamIsAlive();
         player1Turn_ = true;
         std::cout << '\n' << "Fight to the death or die trying!" << "\n\n";
-        while (!playerTeamStatus && !enemyTeamStatus) {
+        while (playerTeamStatus && enemyTeamStatus) {
             if (player1Turn_) {
                 playerTeamStatus = checkIfPlayerTeamIsAlive();
                 if (currentPlayer1Pokemon->currentHealth_ <= 0) {
@@ -169,11 +180,10 @@ namespace vasio {
                     Fight::player2Turn();
                 }
             }
-        }
-        if (playerTeamStatus) {
-            std::cout << "You lost!" << '\n';
+        } if (playerTeamStatus && !enemyTeamStatus) {
+            std::cout << '\n' << "You won!" << '\n';
         } else {
-            std::cout << "You won!" << '\n';
+            std::cout << '\n' << "You lost!" << '\n';
         }
     }
 
