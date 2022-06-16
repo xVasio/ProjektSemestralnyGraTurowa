@@ -44,6 +44,10 @@ namespace vasio {
 
         auto letHumanPlayerChooseCreatures() -> void;
 
+        auto resetHp(std::vector<std::shared_ptr<Creature>> &creaturesToReset) -> void;
+
+        auto resetHpOfBothTeams() -> void;
+
         auto generateEnemyTeam() -> void;
 
         auto chooseDifficulty() -> void;
@@ -53,21 +57,64 @@ namespace vasio {
         }
 
         static auto startGame(Game &game) -> void {
-            // Game::letHumanPlayerChooseCreatures();
+            game.chooseDifficulty();
             game.letHumanPlayerChooseCreatures();
             game.generateEnemyTeam();
             game.showTeam(game.player1Creatures);
             game.showTeam(game.player2Creatures);
-            game.createFight();
-            game.fights[0].startFight();
-            // while (!isOver) {
-            //    Game::createFight();
-            //    currentFight.startFight();
-            // }
+            switch (game.difficulty) {
+                case GameDifficulty::Easy:
+                    game.createFight();
+                    game.fights[0].startFight();
+                    game.resetHpOfBothTeams();
+                    game.createFight();
+                    game.fights[1].startFight();
+                    game.resetHpOfBothTeams();
+                    game.createFight();
+                    game.fights[2].startFight();
+                    game.resetHpOfBothTeams();
+                    game.createFight();
+                    game.fights[3].startFight();
+                    game.resetHpOfBothTeams();
+                    break;
+                case GameDifficulty::Medium:
+                    game.createFight();
+                    game.fights[0].startFight();
+                    game.resetHpOfBothTeams();
+                    game.createFight();
+                    game.fights[1].startFight();
+                    game.resetHpOfBothTeams();
+                    game.createFight();
+                    game.fights[2].startFight();
+                    game.resetHpOfBothTeams();
+                    game.createFight();
+                    game.fights[3].startFight();
+                    game.resetHpOfBothTeams();
+                    game.createFight();
+                    game.fights[4].startFight();
+                    game.resetHpOfBothTeams();
+                    break;
+                case GameDifficulty::Hard:
+                    game.createFight();
+                    game.fights[0].startFight();
+                    game.resetHpOfBothTeams();
+                    game.createFight();
+                    game.fights[1].startFight();
+                    game.resetHpOfBothTeams();
+                    game.createFight();
+                    game.fights[2].startFight();
+                    game.resetHpOfBothTeams();
+                    game.createFight();
+                    game.fights[3].startFight();
+                    game.resetHpOfBothTeams();
+                    game.createFight();
+                    game.fights[4].startFight();
+                    game.resetHpOfBothTeams();
+                    game.createFight();
+                    game.fights[5].startFight();
+                    game.resetHpOfBothTeams();
+                    break;
+            }
         }
-
-
     };
-
-
 }

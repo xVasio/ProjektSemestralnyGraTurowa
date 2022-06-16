@@ -92,6 +92,17 @@ namespace vasio {
             std::cout << i << ". " << *(teamCreatures[i]) << '\n';
         }
     }
+
+    auto Game::resetHp(std::vector<std::shared_ptr<Creature>> &creaturesToReset) -> void {
+        for (auto &creature : creaturesToReset) {
+            creature->currentHealth_ = creature->health_;
+        }
+    }
+
+    auto Game::resetHpOfBothTeams() -> void {
+        resetHp(player1Creatures);
+        resetHp(player2Creatures);
+    }
 }
 
 

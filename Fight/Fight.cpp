@@ -80,7 +80,7 @@ namespace vasio {
                 int max = creatureUsingAbility.specialAbility_.maxNumberOfUses_;
                 int uses = creatureUsingAbility.specialAbility_.numberOfUses_;
                 int usesLeft = max - uses;
-                std::cout << " " << usesLeft << "uses of this Special Ability left" << '\n';
+                std::cout << usesLeft << " uses of this Special Ability left" << '\n';
             } else {
                 std::cout << "No more uses left for this ability" << '\n';
             }
@@ -137,7 +137,9 @@ namespace vasio {
             std::cout << "Enemy switches " << currentPlayer2Pokemon->getName() << " to " << creatureToSwitch->getName() << '\n';
             currentPlayer2Pokemon = creatureToSwitch;
         } else if (enemyTeamStatus) {
+            SetConsoleTextAttribute(color, 4);
             std::cout << "Enemy is fainted, switching to a random creature" << '\n';
+            SetConsoleTextAttribute(color, 7);
             enemySwitchCreature();
         } else {
             Fight::checkIfEnemyTeamIsAlive();

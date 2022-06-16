@@ -64,43 +64,37 @@ namespace vasio {
                         this->currentHealth_ += 50;
                         if(this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
-                        this->Exp_ += 100 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Earth:
                         this->currentHealth_ += 50;
                         if(this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
-                        this->Exp_ += 100 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Air:
                         this->currentHealth_ += 50;
                         if(this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
-                        this->Exp_ += 100 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Fire:
                         this->currentHealth_ += 50;
                         if(this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
-                        this->Exp_ += 100 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Ice:
                         this->currentHealth_ += 50;
                         if(this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
-                        this->Exp_ += 100 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Steel:
                         this->currentHealth_ += 50;
                         if(this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
-                        this->Exp_ += 100 * Creature::getEfficiency(other);
                         break;
                 }
         }
     }
 
-// evolve function
+// evolve function maybe needs to be automated for AI
     auto Creature::evolve() -> void {
         if (Exp_ >= ExpNeededToEvolve_) {
             std::random_device rd;
