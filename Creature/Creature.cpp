@@ -168,54 +168,54 @@ namespace vasio {
             case CreatureType::Water:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Water Attack", AbilityType::Offensive, "Attack with water", 2};
+                        return SpecialAbility{"Water Attack", AbilityType::Offensive, "Attack with water", 2,0};
                     case 2:
-                        return SpecialAbility{"Water Defence", AbilityType::Defensive, "Defence with water", 2};
+                        return SpecialAbility{"Water Defence", AbilityType::Defensive, "Defence with water", 2,0};
                     default:
                         assert(false);
                 }
             case CreatureType::Fire:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Fire Attack", AbilityType::Offensive, "Attack with Fire", 2};
+                        return SpecialAbility{"Fire Attack", AbilityType::Offensive, "Attack with Fire", 2,0};
                     case 2:
-                        return SpecialAbility{"Fire Defence", AbilityType::Defensive, "Defence with Fire", 2};
+                        return SpecialAbility{"Fire Defence", AbilityType::Defensive, "Defence with Fire", 2,0};
                     default:
                         assert(false);
                 }
             case CreatureType::Earth:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Earth Attack", AbilityType::Offensive, "Attack with Earth", 2};
+                        return SpecialAbility{"Earth Attack", AbilityType::Offensive, "Attack with Earth", 2,0};
                     case 2:
-                        return SpecialAbility{"Earth Defence", AbilityType::Defensive, "Defence with Earth", 2};
+                        return SpecialAbility{"Earth Defence", AbilityType::Defensive, "Defence with Earth", 2,0};
                     default:
                         assert(false);
                 }
             case CreatureType::Air:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Air Attack", AbilityType::Offensive, "Attack with Air", 2};
+                        return SpecialAbility{"Air Attack", AbilityType::Offensive, "Attack with Air", 2,0};
                     case 2:
-                        return SpecialAbility{"Air Defence", AbilityType::Defensive, "Defence with Air", 2};
+                        return SpecialAbility{"Air Defence", AbilityType::Defensive, "Defence with Air", 2,0};
                     default:
                         assert(false);
                 }
             case CreatureType::Ice:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Ice Attack", AbilityType::Offensive, "Attack with Ice", 2};
+                        return SpecialAbility{"Ice Attack", AbilityType::Offensive, "Attack with Ice", 2,0};
                     case 2:
-                        return SpecialAbility{"Ice Defence", AbilityType::Defensive, "Defence with Ice", 2};
+                        return SpecialAbility{"Ice Defence", AbilityType::Defensive, "Defence with Ice", 2,0};
                     default:
                         assert(false);
                 }
             case CreatureType::Steel:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Steel Attack", AbilityType::Offensive, "Attack with Steel", 2};
+                        return SpecialAbility{"Steel Attack", AbilityType::Offensive, "Attack with Steel", 2,0};
                     case 2:
-                        return SpecialAbility{"Steel Defence", AbilityType::Defensive, "Defence with Steel", 2};
+                        return SpecialAbility{"Steel Defence", AbilityType::Defensive, "Defence with Steel", 2,0};
                     default:
                         assert(false);
                 }

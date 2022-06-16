@@ -45,9 +45,17 @@ namespace vasio {
 
     auto Fight::useSpecialAbility() -> void {
         auto &creatureUsingAbility = *(player1Turn_ ? currentPlayer1Pokemon : currentPlayer2Pokemon);
-        std::cout << creatureUsingAbility.getName() << " uses "
-                  << creatureUsingAbility.specialAbility_.getNameOfAbility() << '\n';
-        creatureUsingAbility.useSpecialAbility(*this);
+        if(creatureUsingAbility.specialAbility_.numberOfUses_ != creatureUsingAbility.specialAbility_.maxNumberOfUses_) {
+            std::cout << creatureUsingAbility.getName() << " uses " << creatureUsingAbility.specialAbility_.getNameOfAbility() << '\n';
+            creatureUsingAbility.specialAbility_.applyAbility(*this);
+            creatureUsingAbility.specialAbility_.numberOfUses_++;
+            int max = creatureUsingAbility.specialAbility_.maxNumberOfUses_;
+            int uses = creatureUsingAbility.specialAbility_.numberOfUses_;
+            int usesLeft = max - uses;
+            std::cout << " " << usesLeft << " uses of this Special Ability left" << '\n';
+        } else {
+            std::cout << "No more uses left for this ability" << '\n';
+        }
         Fight::changeTurn();
     }
 

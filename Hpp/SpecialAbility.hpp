@@ -26,6 +26,7 @@ namespace vasio {
         std::string NameOfAbility_;
         AbilityType TypeOfAbility_;
         std::string DescriptionOfAbility_;
+        unsigned int numberOfUses_;
         unsigned int maxNumberOfUses_;
         /**
          *
@@ -39,8 +40,8 @@ namespace vasio {
          * @param maxNumberOfUses
          */
         SpecialAbility(const std::string &nameOfAbility, AbilityType typeOfAbility,
-                       const std::string &descriptionOfAbility, unsigned int maxNumberOfUses
-        );
+                       const std::string &descriptionOfAbility, unsigned int maxNumberOfUses, unsigned int numberOfUses);
+
         /**
          *
          * @param fight
