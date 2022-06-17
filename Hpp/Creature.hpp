@@ -149,7 +149,7 @@ namespace vasio {
          * @param other
          * @return
          */
-        auto attack(std::shared_ptr<Creature>& other) const -> int;
+        auto attack(std::shared_ptr<Creature>& other) -> int;
 
         /**
          *

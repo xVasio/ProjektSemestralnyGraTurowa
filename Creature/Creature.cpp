@@ -22,7 +22,7 @@ namespace vasio {
                                                                      specialAbility_(specialAbility) {}
 
 // attack move with doging
-     auto Creature::attack(std::shared_ptr<Creature> &other) const -> int {
+    auto Creature::attack(std::shared_ptr<Creature> &other) -> int {
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_real_distribution<float> dis(0, 1);
