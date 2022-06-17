@@ -5,11 +5,9 @@
 #include <iostream>
 #include "Fight.hpp"
 #include "Game.hpp"
-#include <random>
 #include <chrono>
 #include <thread>
 #include <windows.h>
-
 
 
 namespace vasio {
@@ -35,57 +33,62 @@ namespace vasio {
                 SetConsoleTextAttribute(color, 4);
                 currentPlayer2Pokemon->getShortStats();
                 SetConsoleTextAttribute(color, 7);
-                    if (currentPlayer2Pokemon->currentHealth_ <= 0) {
-                        std::cout << currentPlayer2Pokemon->getName() << " fainted!\n\n";
-                        int expGot = currentPlayer2Pokemon->ExpNeededToEvolve_ / 4;
-                        std::cout << currentPlayer1Pokemon->getName() << " got " << expGot << " exp" << "\n\n";
-                        currentPlayer1Pokemon->addExp(expGot);
-                    }} else {
-                        std::cout << currentPlayer2Pokemon->getName() << " doged the attack!\n";
-                    }
-            } else {
-                std::cout << currentPlayer2Pokemon->getName() << " attacks " << currentPlayer1Pokemon->getName() << '\n';
-                auto damageGiven = currentPlayer2Pokemon->attack(currentPlayer1Pokemon);
-                if (damageGiven > 0) {
-                    SetConsoleTextAttribute(color, 4);
-                    std::cout << "Attack was successful" << '\n';
-                    SetConsoleTextAttribute(color, 7);
-                    std::cout << currentPlayer1Pokemon->getName() << " took " << damageGiven << " damage"
-                              << '\n';
-                    SetConsoleTextAttribute(color, 4);
-                    currentPlayer2Pokemon->getShortStats();
-                    SetConsoleTextAttribute(color, 2);
-                    currentPlayer1Pokemon->getShortStats();
-                    SetConsoleTextAttribute(color, 7);
-                    if (currentPlayer1Pokemon->currentHealth_ <= 0) {
-                        std::cout << currentPlayer1Pokemon->getName() << " fainted!\n\n";
-                        int expGot = currentPlayer1Pokemon->ExpNeededToEvolve_ / 5;
-                        std::cout << currentPlayer2Pokemon->getName() << " got " << expGot << " exp" << "\n\n";
-                        currentPlayer1Pokemon->addExp(expGot);
-                    }} else {
-                        std::cout << currentPlayer1Pokemon->getName() << " doged the attack!" << '\n';
-                    }
+                if (currentPlayer2Pokemon->currentHealth_ <= 0) {
+                    std::cout << currentPlayer2Pokemon->getName() << " fainted!\n\n";
+                    int expGot = currentPlayer2Pokemon->ExpNeededToEvolve_ / 4;
+                    std::cout << currentPlayer1Pokemon->getName() << " got " << expGot << " exp" << "\n\n";
+                    currentPlayer1Pokemon->addExp(expGot);
                 }
-                Fight::changeTurn();
-            }
-
-
-        auto Fight::useSpecialAbility() -> void {
-            auto &creatureUsingAbility = *(player1Turn_ ? currentPlayer1Pokemon : currentPlayer2Pokemon);
-            if (creatureUsingAbility.specialAbility_.numberOfUses_ !=creatureUsingAbility.specialAbility_.maxNumberOfUses_) {
-                std::cout << creatureUsingAbility.getName() << " uses "
-                          << creatureUsingAbility.specialAbility_.getNameOfAbility() << '\n';
-                creatureUsingAbility.specialAbility_.applyAbility(*this);
-                creatureUsingAbility.specialAbility_.numberOfUses_++;
-                int max = creatureUsingAbility.specialAbility_.maxNumberOfUses_;
-                int uses = creatureUsingAbility.specialAbility_.numberOfUses_;
-                int usesLeft = max - uses;
-                std::cout << usesLeft << " uses of this Special Ability left" << '\n';
             } else {
-                std::cout << "No more uses left for this ability" << '\n';
+                std::cout << currentPlayer2Pokemon->getName() << " doged the attack!\n";
             }
-            Fight::changeTurn();
+        } else {
+            std::cout << currentPlayer2Pokemon->getName() << " attacks " << currentPlayer1Pokemon->getName() << '\n';
+            auto damageGiven = currentPlayer2Pokemon->attack(currentPlayer1Pokemon);
+            if (damageGiven > 0) {
+                SetConsoleTextAttribute(color, 4);
+                std::cout << "Attack was successful" << '\n';
+                SetConsoleTextAttribute(color, 7);
+                std::cout << currentPlayer1Pokemon->getName() << " took " << damageGiven << " damage"
+                          << '\n';
+                SetConsoleTextAttribute(color, 4);
+                currentPlayer2Pokemon->getShortStats();
+                SetConsoleTextAttribute(color, 2);
+                currentPlayer1Pokemon->getShortStats();
+                SetConsoleTextAttribute(color, 7);
+                if (currentPlayer1Pokemon->currentHealth_ <= 0) {
+                    std::cout << currentPlayer1Pokemon->getName() << " fainted!\n\n";
+                    int expGot = currentPlayer1Pokemon->ExpNeededToEvolve_ / 5;
+                    std::cout << currentPlayer2Pokemon->getName() << " got " << expGot << " exp" << "\n\n";
+                    currentPlayer1Pokemon->addExp(expGot);
+                }
+            } else {
+                std::cout << currentPlayer1Pokemon->getName() << " doged the attack!" << '\n';
+            }
         }
+        Fight::changeTurn();
+    }
+
+
+    auto Fight::useSpecialAbility() -> void {
+        auto &creatureUsingAbility = *(player1Turn_ ? currentPlayer1Pokemon : currentPlayer2Pokemon);
+        if (creatureUsingAbility.specialAbility_.numberOfUses_ !=
+            creatureUsingAbility.specialAbility_.maxNumberOfUses_) {
+            std::cout << creatureUsingAbility.getName() << " uses "
+                      << creatureUsingAbility.specialAbility_.getNameOfAbility() << '\n';
+            creatureUsingAbility.specialAbility_.applyAbility(*this);
+            creatureUsingAbility.specialAbility_.numberOfUses_++;
+            int max = creatureUsingAbility.specialAbility_.maxNumberOfUses_;
+            int uses = creatureUsingAbility.specialAbility_.numberOfUses_;
+            int usesLeft = max - uses;
+            std::cout << usesLeft << " uses of this Special Ability left" << '\n';
+        } else {
+            std::cout << "No more uses left for this ability" << '\n';
+        }
+        Fight::changeTurn();
+    }
+
+
 
 
     auto Fight::evolveCreature() -> void {
@@ -113,11 +116,11 @@ namespace vasio {
             std::cout << "Invalid input, try again: " << '\n';
             std::cin >> creatureToSwitchToIndex;
         }
-            auto &creatureToSwitch = creaturesToSwitchTo[creatureToSwitchToIndex];
-            if (player1Turn_) {
-                std::cout << "You switch " << currentPlayer1Pokemon->getName() << " to " << creatureToSwitch->getName()
-                          << '\n';
-                currentPlayer1Pokemon = creatureToSwitch;
+        auto &creatureToSwitch = creaturesToSwitchTo[creatureToSwitchToIndex];
+        if (player1Turn_) {
+            std::cout << "You switch " << currentPlayer1Pokemon->getName() << " to " << creatureToSwitch->getName()
+                      << '\n';
+            currentPlayer1Pokemon = creatureToSwitch;
         }
         Fight::changeTurn();
     }
@@ -134,7 +137,8 @@ namespace vasio {
         int creatureToSwitchToIndex = dis(gen);
         auto &creatureToSwitch = enemyCreaturesToSwitchTo[creatureToSwitchToIndex];
         if (creatureToSwitch->currentHealth_ > 0) {
-            std::cout << "Enemy switches " << currentPlayer2Pokemon->getName() << " to " << creatureToSwitch->getName() << '\n';
+            std::cout << "Enemy switches " << currentPlayer2Pokemon->getName() << " to " << creatureToSwitch->getName()
+                      << '\n';
             currentPlayer2Pokemon = creatureToSwitch;
         } else if (enemyTeamStatus) {
             SetConsoleTextAttribute(color, 4);
@@ -163,7 +167,7 @@ namespace vasio {
     }
 
     auto Fight::isCreatureAlive(std::shared_ptr<Creature> creature) -> bool {
-        if(creature->currentHealth_ <= 0) {
+        if (creature->currentHealth_ <= 0) {
             return false;
         } else {
             return true;
@@ -174,11 +178,11 @@ namespace vasio {
         int sizeOfTeam = game_ptr->player1Creatures.size();
         int counter = 0;
         for (auto creature: game_ptr->player1Creatures) {
-            if(!isCreatureAlive(creature)) {
+            if (!isCreatureAlive(creature)) {
                 counter++;
             } else
                 counter += 0;
-            }
+        }
         if (counter == sizeOfTeam) {
             return false;
         } else {
@@ -190,7 +194,7 @@ namespace vasio {
         int sizeOfTeam = game_ptr->player2Creatures.size();
         int counter = 0;
         for (auto creature: game_ptr->player2Creatures) {
-            if(!isCreatureAlive(creature)) {
+            if (!isCreatureAlive(creature)) {
                 counter++;
             } else {
                 counter += 0;
@@ -203,7 +207,7 @@ namespace vasio {
         }
     }
 
-    auto Fight::startFight() -> bool {
+    auto Fight::startFight() -> void {
         bool playerTeamStatus = checkIfPlayerTeamIsAlive();
         bool enemyTeamStatus = checkIfEnemyTeamIsAlive();
         player1Turn_ = true;
@@ -224,16 +228,17 @@ namespace vasio {
                     Fight::player2Turn();
                 }
             }
-        } if (playerTeamStatus && !enemyTeamStatus) {
+        }
+        if (playerTeamStatus && !enemyTeamStatus) {
             SetConsoleTextAttribute(color, 2);
             std::cout << '\n' << "You won!" << '\n';
             SetConsoleTextAttribute(color, 7);
-            return true;
+            isWon = true;
         } else {
             SetConsoleTextAttribute(color, 4);
             std::cout << '\n' << "You lost! Game over." << '\n';
             SetConsoleTextAttribute(color, 7);
-            return false;
+            isWon = false;
         }
     }
 
@@ -298,7 +303,7 @@ namespace vasio {
     auto Fight::player2Turn() -> void {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(1,7);
+        std::uniform_int_distribution<> dis(1, 7);
 
         SetConsoleTextAttribute(color, 5);
         std::cout << '\n' << "ENEMY TURN!" << "\n\n";
@@ -330,4 +335,5 @@ namespace vasio {
                 break;
         }
     }
+
 }

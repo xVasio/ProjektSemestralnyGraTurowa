@@ -7,6 +7,8 @@
 #include <utility>
 #include "Fight.hpp"
 #include <iostream>
+#include <windows.h>
+
 
 
 /// Dificulty of the game
@@ -34,7 +36,7 @@ namespace vasio {
         std::vector<std::shared_ptr<Creature>> player2Creatures;
         GameDifficulty difficulty;
 
-        Game(std::vector<std::shared_ptr<Creature>> creaturesInGame) : creaturesInGame(std::move(creaturesInGame)) {
+        Game(std::vector<std::shared_ptr<Creature>> creaturesInGame) : creaturesInGame(creaturesInGame) {
             fights = {}, player1Creatures = {}, player2Creatures = {}, difficulty = GameDifficulty::Undefined;
         }
 
@@ -48,9 +50,11 @@ namespace vasio {
 
         auto resetHpOfBothTeams() -> void;
 
+
         auto generateEnemyTeam() -> void;
 
         auto chooseDifficulty() -> void;
+
         // per referencja zrobic eluwa
         auto createFight() -> void {
             fights.push_back(Fight(std::make_shared<Game>(*this), player1Creatures[0], player2Creatures[0]));
@@ -59,23 +63,17 @@ namespace vasio {
         static auto startGame(Game &game) -> void {
             game.chooseDifficulty();
             game.letHumanPlayerChooseCreatures();
-            game.generateEnemyTeam();
             game.showTeam(game.player1Creatures);
+            game.generateEnemyTeam();
             game.showTeam(game.player2Creatures);
             switch (game.difficulty) {
                 case GameDifficulty::Easy:
+                    for (int i = 0; i < 5; ++i) {
                         game.createFight();
-                        game.fights[0].startFight();
+                        game.fights[i].startFight();
                         game.resetHpOfBothTeams();
-                        game.createFight();
-                        game.fights[1].startFight();
-                        game.resetHpOfBothTeams();
-                        game.createFight();
-                        game.fights[2].startFight();
-                        game.resetHpOfBothTeams();
-                        game.createFight();
-                        game.fights[3].startFight();
-                        game.resetHpOfBothTeams();
+                        i++;
+                    }
                     break;
                 case GameDifficulty::Medium:
                     game.createFight();
@@ -84,15 +82,6 @@ namespace vasio {
                     game.createFight();
                     game.fights[1].startFight();
                     game.resetHpOfBothTeams();
-                    game.createFight();
-                    game.fights[2].startFight();
-                    game.resetHpOfBothTeams();
-                    game.createFight();
-                    game.fights[3].startFight();
-                    game.resetHpOfBothTeams();
-                    game.createFight();
-                    game.fights[4].startFight();
-                    game.resetHpOfBothTeams();
                     break;
                 case GameDifficulty::Hard:
                     game.createFight();
@@ -100,18 +89,6 @@ namespace vasio {
                     game.resetHpOfBothTeams();
                     game.createFight();
                     game.fights[1].startFight();
-                    game.resetHpOfBothTeams();
-                    game.createFight();
-                    game.fights[2].startFight();
-                    game.resetHpOfBothTeams();
-                    game.createFight();
-                    game.fights[3].startFight();
-                    game.resetHpOfBothTeams();
-                    game.createFight();
-                    game.fights[4].startFight();
-                    game.resetHpOfBothTeams();
-                    game.createFight();
-                    game.fights[5].startFight();
                     game.resetHpOfBothTeams();
                     break;
             }

@@ -20,12 +20,12 @@ namespace vasio {
      */
 
     class Fight {
-        bool player1Turn_ = true;
-
     public:
+        bool player1Turn_ = true;
         std::shared_ptr<Game> game_ptr;
         std::shared_ptr<Creature> currentPlayer1Pokemon;
         std::shared_ptr<Creature> currentPlayer2Pokemon;
+        bool isWon;
 
         /**
          *
@@ -47,6 +47,7 @@ namespace vasio {
          */
         auto useSpecialAbility() -> void;
 
+        auto enemyUseSpecialAbility() -> void;
         /**
          *
          * @param player1Creatures
@@ -81,7 +82,7 @@ namespace vasio {
 
         auto player2Turn() -> void;
 
-        auto startFight() -> bool;
+        auto startFight() -> void;
 
         bool isCreatureAlive(std::shared_ptr<Creature> creature);
     };

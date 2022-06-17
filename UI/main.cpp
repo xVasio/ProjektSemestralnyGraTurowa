@@ -10,9 +10,7 @@ auto main() -> int {
     using Creature = vasio::Creature;
     using Game = vasio::Game;
 
-    std::cout << "========================================" << '\n';
-    std::cout << "Welcome to turn-based pokemon-like game!" << '\n';
-    std::cout << "========================================" << '\n';
+
 
     std::vector<std::shared_ptr<Creature>> creatures;
     std::vector<std::shared_ptr<Creature>> creatures2;

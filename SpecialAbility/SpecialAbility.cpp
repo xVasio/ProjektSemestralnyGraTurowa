@@ -24,9 +24,13 @@ namespace vasio {
         maxNumberOfUses_(maxNumberOfUses), numberOfUses_(numberOfUses) {}
 
     auto SpecialAbility::applyAbility(Fight &fight) -> void {
-        fight.currentPlayer1Pokemon->specialAction(
-                fight.currentPlayer2Pokemon);
+        if(fight.player1Turn_) {
+            fight.currentPlayer1Pokemon->specialAction(fight.currentPlayer2Pokemon);
+        } else {
+            fight.currentPlayer2Pokemon->specialAction(fight.currentPlayer1Pokemon);
+        }
     }
+
 
     auto SpecialAbility::getNameOfAbility() const -> std::string {
         return NameOfAbility_;

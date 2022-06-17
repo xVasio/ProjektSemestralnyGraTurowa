@@ -47,23 +47,30 @@ namespace vasio {
     auto Game::letHumanPlayerChooseCreatures() -> void {
         constexpr int player1TeamSize = 6;
         int counter = 0;
+        int spaceLeft;
         std::string choice;
 
         std::cout << "Choose your team!" << '\n';
         std::cout << "Type -h or --help for additional instructions!" << '\n';
 
         showTeam(creaturesInGame);
-        std::cout << "You can choose 6 creatures" << '\n';
-
         while (counter != player1TeamSize) {
+            spaceLeft = player1TeamSize - counter;
+            std::cout << "You can choose " << spaceLeft << " creatures" << '\n';
             std::cin >> choice;
-            unsigned int choiceInt = std::stoi(choice);
+
             if (choice == "-h" || choice == "--help") {
                 std::cout << "Manual: " << '\n';
-            } else if (choiceInt < creaturesInGame.size()) {
-                player1Creatures.push_back(creaturesInGame[choiceInt]);
-                std::cout << creaturesInGame[choiceInt]->Name_ << " added to your team!" << '\n';
-                counter++;
+
+            } else {
+                unsigned int choiceInt = std::stoi(choice);
+                if(choiceInt < creaturesInGame.size()) {
+                    player1Creatures.push_back(creaturesInGame[choiceInt]);
+                    std::cout << creaturesInGame[choiceInt]->Name_ << " added to your team!" << '\n';
+                    counter++;
+                } else {
+                    std::cout << "Invalid choice" << '\n';
+                }
             }
         }
     }
@@ -78,7 +85,7 @@ namespace vasio {
             auto randomCreature = dis(gen);
             if (std::find(player1Creatures.begin(), player1Creatures.end(), creaturesInGame[randomCreature]) ==
                 player1Creatures.end()) {
-                creaturesInGame[randomCreature]->makeEnemy();
+                creaturesInGame[randomCreature]->Name_ = "Enemy " + creaturesInGame[randomCreature]->getName();
                 player2Creatures.push_back(creaturesInGame[randomCreature]);
                 counter++;
             }
@@ -105,5 +112,6 @@ namespace vasio {
     }
 
 }
+
 
 
