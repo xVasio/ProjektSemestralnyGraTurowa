@@ -128,10 +128,58 @@ namespace vasio {
 
     auto Game::saveGame() -> void {
         std::ofstream file;
-        file.open("save.txt");
+        file.open("./save.txt");
 
         for (auto &creature: player1Creatures) {
             file << *creature << '\n';
+        }
+    }
+
+    auto Game::controlPanel() -> void {
+        std::string choice;
+        do {
+            std::cout << "U won the fight! Do you want to start the next one or save and exit?"
+                      << '\n';
+            std::cout << "1. Start next fight" << '\n';
+            std::cout << "2. Save and exit" << '\n';
+            std::cout << "Your choice: " << '\n';
+            std::cin >> choice;
+        } while (choice != "1" && choice != "2" && choice != "3");
+        auto choiceInt = std::stoi(choice);
+        switch (choiceInt) {
+            case 1:
+                break;
+            case 2:
+                std::cout << "Saving... and... Exiting..." << '\n';
+                saveGame();
+                std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                exit(0);
+    }
+}
+
+    auto Game::welcome() -> void {
+        std::string choice;
+        do {
+            std::cout << "Welcome to the game! " << '\n';
+
+            std::cout << "1. Start game!" << '\n';
+            std::cout << "2. Exit" << '\n';
+            std::cout << "-h or --help for game instruction " << '\n';
+            std::cout << "Your choice: " << '\n';
+            std::cin >> choice;
+        } while (choice != "1" && choice != "2" && choice != "3");
+        if (choice == "-h" || choice == "--help") {
+            std::cout << "Manual: " << '\n';
+        } else {
+            auto choiceInt = std::stoi(choice);
+            switch (choiceInt) {
+                case 1:
+                    break;
+                case 2:
+                    std::cout << "Exiting..." << '\n';
+                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                    exit(0);
+            }
         }
     }
 }

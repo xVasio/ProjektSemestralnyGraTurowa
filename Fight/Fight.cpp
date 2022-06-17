@@ -175,21 +175,6 @@ namespace vasio {
         Fight::changeTurn();
     }
 
-
-    auto Fight::getPlayer1CreatureInfo() -> void {
-        std::cout << currentPlayer1Pokemon->getName() << std::endl;
-    }
-
-    auto Fight::getPlayer2CreatureInfo() -> void {
-        std::cout << currentPlayer2Pokemon->getName() << std::endl;
-    }
-
-    auto Fight::getPlayerTeamInfo(const auto &playerCreatureChoices) -> void {
-        for (const auto &creature: playerCreatureChoices) {
-            std::cout << creature << '\n';
-        }
-    }
-
     auto Fight::isCreatureAlive(std::shared_ptr<Creature> creature) -> bool {
         if (creature->currentHealth_ <= 0) {
             return false;

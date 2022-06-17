@@ -52,6 +52,10 @@ namespace vasio {
 
         auto saveGame() -> void;
 
+        auto welcome() -> void;
+
+        auto controlPanel() -> void;
+
         auto generateEnemyTeam(int TeamSize) -> void;
 
         auto chooseDifficulty() -> void;
@@ -61,6 +65,7 @@ namespace vasio {
         }
 
         static auto gameControl(Game &game) -> void {
+            game.welcome();
             game.chooseDifficulty();
             game.letHumanPlayerChooseCreatures();
             game.showTeam(game.player1Creatures);
@@ -70,26 +75,9 @@ namespace vasio {
                 case GameDifficulty::Easy:
                     game.createFight();
                     game.fights[0].startFight();
-                    for (int i = 0; i < 5; i++) {
+                    for (int i = 0; i < 2; i++) {
                         if (game.fights[i].isWon) {
-                            std::string choice;
-                            do {
-                                std::cout << "U won the fight! Do you want to start the next one or save and exit?"
-                                          << '\n';
-                                std::cout << "1. Start next fight" << '\n';
-                                std::cout << "2. Save and exit" << '\n';
-                                std::cout << "Your choice: " << '\n';
-                                std::cin >> choice;
-                            } while (choice != "1" && choice != "2" && choice != "3");
-                            auto choiceInt = std::stoi(choice);
-                            switch (choiceInt) {
-                                case 1:
-                                    break;
-                                case 2:
-                                    std::cout << "Exiting... Saving unavailable" << '\n';
-                                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
-                                    exit(0);
-                            }
+                            game.controlPanel();
                             game.resetHpOfBothTeams();
                             game.generateEnemyTeam(4);
                             game.createFight();
@@ -124,7 +112,8 @@ namespace vasio {
                                 case 1:
                                     break;
                                 case 2:
-                                    std::cout << "Exiting... Saving unavailable" << '\n';
+                                    std::cout << "Saving... and... Exiting..." << '\n';
+                                    game.saveGame();
                                     std::this_thread::sleep_for(std::chrono::milliseconds(200));
                                     exit(0);
                             }
@@ -162,8 +151,9 @@ namespace vasio {
                                 case 1:
                                     break;
                                 case 2:
-                                    std::cout << "Exiting... Saving unavailable" << '\n';
-                                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                                    std::cout << "Saving... and... Exiting..." << '\n';
+                                    game.saveGame();
+                                    std::this_thread::sleep_for(std::chrono::milliseconds(500));
                                     exit(0);
                             }
                             game.resetHpOfBothTeams();
