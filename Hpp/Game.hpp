@@ -8,7 +8,8 @@
 #include "Fight.hpp"
 #include <iostream>
 #include <windows.h>
-
+#include <chrono>
+#include <thread>
 
 
 /// Dificulty of the game
@@ -50,7 +51,7 @@ namespace vasio {
 
         auto resetHpOfBothTeams() -> void;
 
-        static auto createFight(Game &game) -> void;
+//        static auto createFight(Game &game) -> void;
 
         auto controlPanel(Game &game) -> void;
 
@@ -75,7 +76,7 @@ namespace vasio {
                 case GameDifficulty::Easy:
                     game.createFight();
                     game.fights[0].startFight();
-                    for (int i = 0; i < 2; i++) {
+                    for (int i = 0; i < 1; i++) {
                         if (game.fights[i].isWon) {
                             std::string choice;
                             do {
@@ -88,14 +89,14 @@ namespace vasio {
                             auto choiceInt = std::stoi(choice);
                             switch (choiceInt) {
                                 case 1:
-                                    continue;
+                                    break;
                                 case 2:
                                     std::cout << "Exiting... Saving unavailable" << '\n';
                                     std::this_thread::sleep_for(std::chrono::milliseconds(200));
                                     exit(0);
                             }
                             game.resetHpOfBothTeams();
-                            game.generateEnemyTeam(4+i);
+                            game.generateEnemyTeam(4);
                             game.createFight();
                             game.fights[i + 1].startFight();
                         } else {
@@ -106,9 +107,8 @@ namespace vasio {
                             exit(0);
 
                         }
-
+                        std::cout << "You won the game! GG!" << '\n';
                     }
-                    std::cout << "You won the game! GG!" << '\n';
                     break;
                 case GameDifficulty::Medium:
                     game.createFight();

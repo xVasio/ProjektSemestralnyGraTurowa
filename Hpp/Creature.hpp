@@ -40,6 +40,7 @@ namespace vasio {
         int Exp_{};
         int ExpNeededToEvolve_{};
         bool isEvolved_{};
+        bool isEnemy_{};
         int timesEvolved_{};
         SpecialAbility specialAbility_;
         constexpr inline static float interactionTable[6][6] = {
