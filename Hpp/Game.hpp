@@ -51,7 +51,7 @@ namespace vasio {
         auto generateEnemyTeam() -> void;
 
         auto chooseDifficulty() -> void;
-
+        // per referencja zrobic eluwa
         auto createFight() -> void {
             fights.push_back(Fight(std::make_shared<Game>(*this), player1Creatures[0], player2Creatures[0]));
         }
@@ -64,18 +64,18 @@ namespace vasio {
             game.showTeam(game.player2Creatures);
             switch (game.difficulty) {
                 case GameDifficulty::Easy:
-                    game.createFight();
-                    game.fights[0].startFight();
-                    game.resetHpOfBothTeams();
-                    game.createFight();
-                    game.fights[1].startFight();
-                    game.resetHpOfBothTeams();
-                    game.createFight();
-                    game.fights[2].startFight();
-                    game.resetHpOfBothTeams();
-                    game.createFight();
-                    game.fights[3].startFight();
-                    game.resetHpOfBothTeams();
+                        game.createFight();
+                        game.fights[0].startFight();
+                        game.resetHpOfBothTeams();
+                        game.createFight();
+                        game.fights[1].startFight();
+                        game.resetHpOfBothTeams();
+                        game.createFight();
+                        game.fights[2].startFight();
+                        game.resetHpOfBothTeams();
+                        game.createFight();
+                        game.fights[3].startFight();
+                        game.resetHpOfBothTeams();
                     break;
                 case GameDifficulty::Medium:
                     game.createFight();

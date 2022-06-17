@@ -37,7 +37,7 @@ namespace vasio {
                 SetConsoleTextAttribute(color, 7);
                     if (currentPlayer2Pokemon->currentHealth_ <= 0) {
                         std::cout << currentPlayer2Pokemon->getName() << " fainted!\n\n";
-                        int expGot = currentPlayer2Pokemon->ExpNeededToEvolve_ / 5;
+                        int expGot = currentPlayer2Pokemon->ExpNeededToEvolve_ / 4;
                         std::cout << currentPlayer1Pokemon->getName() << " got " << expGot << " exp" << "\n\n";
                         currentPlayer1Pokemon->addExp(expGot);
                     }} else {
