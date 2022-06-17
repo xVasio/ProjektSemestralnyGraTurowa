@@ -44,14 +44,13 @@ namespace vasio {
 
         auto showTeam(const std::vector<std::shared_ptr<Creature>> &teamCreatures) -> void;
 
-
         auto letHumanPlayerChooseCreatures() -> void;
 
         auto resetHpAndSAUses(std::vector<std::shared_ptr<Creature>> &creaturesToReset) -> void;
 
         auto resetHpOfBothTeams() -> void;
 
-//        static auto createFight(Game &game) -> void;
+        auto createCreatures(int size) -> void;
 
         auto controlPanel(Game &game) -> void;
 
@@ -63,7 +62,7 @@ namespace vasio {
 
         // per referencja zrobic eluwa
         auto createFight() -> void {
-            fights.push_back(Fight(std::make_shared<Game>(*this), player1Creatures[0], player2Creatures[0]));
+            fights.emplace_back(std::make_shared<Game>(*this), player1Creatures[0], player2Creatures[0]);
         }
 
         static auto gameControl(Game &game) -> void {
@@ -76,11 +75,12 @@ namespace vasio {
                 case GameDifficulty::Easy:
                     game.createFight();
                     game.fights[0].startFight();
-                    for (int i = 0; i < 1; i++) {
+                    for (int i = 0; i < 4; i++) {
                         if (game.fights[i].isWon) {
                             std::string choice;
                             do {
-                                std::cout << "U won the fight! Do you want to start the next one or save and exit?" << '\n';
+                                std::cout << "U won the fight! Do you want to start the next one or save and exit?"
+                                          << '\n';
                                 std::cout << "1. Start next fight" << '\n';
                                 std::cout << "2. Save and exit" << '\n';
                                 std::cout << "Your choice: " << '\n';
@@ -113,21 +113,81 @@ namespace vasio {
                 case GameDifficulty::Medium:
                     game.createFight();
                     game.fights[0].startFight();
-                    game.resetHpOfBothTeams();
-                    game.createFight();
-                    game.fights[1].startFight();
-                    game.resetHpOfBothTeams();
+                    for (int i = 0; i < 5; i++) {
+                        if (game.fights[i].isWon) {
+                            std::string choice;
+                            do {
+                                std::cout << "U won the fight! Do you want to start the next one or save and exit?"
+                                          << '\n';
+                                std::cout << "1. Start next fight" << '\n';
+                                std::cout << "2. Save and exit" << '\n';
+                                std::cout << "Your choice: " << '\n';
+                                std::cin >> choice;
+                            } while (choice != "1" && choice != "2" && choice != "3");
+                            auto choiceInt = std::stoi(choice);
+                            switch (choiceInt) {
+                                case 1:
+                                    break;
+                                case 2:
+                                    std::cout << "Exiting... Saving unavailable" << '\n';
+                                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                                    exit(0);
+                            }
+                            game.resetHpOfBothTeams();
+                            game.generateEnemyTeam(5);
+                            game.createFight();
+                            game.fights[i + 1].startFight();
+                        } else {
+                            std::cout << "You lost! Start again!" << '\n';
+                            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+                            std::cout << "Exiting..." << '\n';
+                            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                            exit(0);
+
+                        }
+                        std::cout << "You won the game! GG!" << '\n';
+                    }
                     break;
                 case GameDifficulty::Hard:
                     game.createFight();
                     game.fights[0].startFight();
-                    game.resetHpOfBothTeams();
-                    game.createFight();
-                    game.fights[1].startFight();
-                    game.resetHpOfBothTeams();
+                    for (int i = 0; i < 6; i++) {
+                        if (game.fights[i].isWon) {
+                            std::string choice;
+                            do {
+                                std::cout << "U won the fight! Do you want to start the next one or save and exit?"
+                                          << '\n';
+                                std::cout << "1. Start next fight" << '\n';
+                                std::cout << "2. Save and exit" << '\n';
+                                std::cout << "Your choice: " << '\n';
+                                std::cin >> choice;
+                            } while (choice != "1" && choice != "2" && choice != "3");
+                            auto choiceInt = std::stoi(choice);
+                            switch (choiceInt) {
+                                case 1:
+                                    break;
+                                case 2:
+                                    std::cout << "Exiting... Saving unavailable" << '\n';
+                                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                                    exit(0);
+                            }
+                            game.resetHpOfBothTeams();
+                            game.generateEnemyTeam(6);
+                            game.createFight();
+                            game.fights[i + 1].startFight();
+                        } else {
+                            std::cout << "You lost! Start again!" << '\n';
+                            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+                            std::cout << "Exiting..." << '\n';
+                            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                            exit(0);
+
+                        }
+                        std::cout << "You won the game! GG!" << '\n';
+                    }
                     break;
             }
-            }
-        };
-    }
+        }
+    };
+}
 

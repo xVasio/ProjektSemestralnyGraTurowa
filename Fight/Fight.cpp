@@ -83,12 +83,19 @@ namespace vasio {
             creatureUsingAbility.specialAbility_.maxNumberOfUses_) {
             std::cout << creatureUsingAbility.getName() << " uses "
                       << creatureUsingAbility.specialAbility_.getNameOfAbility() << '\n';
+
             creatureUsingAbility.specialAbility_.applyAbility(*this);
+            if(currentPlayer2Pokemon->currentHealth_ <= 0) {
+                std::cout << currentPlayer2Pokemon->getName() << " fainted!\n\n";
+                int expGot = currentPlayer2Pokemon->ExpNeededToEvolve_ / 4;
+                std::cout << currentPlayer1Pokemon->getName() << " got " << expGot << " exp" << "\n\n";
+                currentPlayer1Pokemon->addExp(expGot);
+            }
             creatureUsingAbility.specialAbility_.numberOfUses_++;
             int max = creatureUsingAbility.specialAbility_.maxNumberOfUses_;
             int uses = creatureUsingAbility.specialAbility_.numberOfUses_;
             int usesLeft = max - uses;
-            std::cout << usesLeft << " uses of this Special Ability left" << '\n';
+            std::cout << usesLeft << " uses of this Special Ability left" << "\n\n";
         } else {
             std::cout << "No more uses left for this ability" << '\n';
         }

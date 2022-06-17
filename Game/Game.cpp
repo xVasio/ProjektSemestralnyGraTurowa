@@ -91,8 +91,8 @@ namespace vasio {
             auto randomCreature = dis(gen);
             if (std::find(player1Creatures.begin(), player1Creatures.end(), creaturesInGame[randomCreature]) ==
                 player1Creatures.end() && std::find(player2Creatures.begin(), player2Creatures.end(),
-                                                     creaturesInGame[randomCreature]) == player2Creatures.end()) {
-                if(!creaturesInGame[randomCreature]->isEnemy_) {
+                                                    creaturesInGame[randomCreature]) == player2Creatures.end()) {
+                if (!creaturesInGame[randomCreature]->isEnemy_) {
                     creaturesInGame[randomCreature]->Name_ = "Enemy " + creaturesInGame[randomCreature]->getName();
                     player2Creatures.push_back(creaturesInGame[randomCreature]);
                     creaturesInGame[randomCreature]->isEnemy_ = true;
@@ -189,10 +189,16 @@ namespace vasio {
     }
 
     auto Game::isOver(std::vector<Fight> &fights) -> bool {
-        for(auto &fight: fights) {
-            if(fight.isWon) {
-               return true;
+        for (auto &fight: fights) {
+            if (fight.isWon) {
+                return true;
             }
+        }
+    }
+
+    auto Game::createCreatures(int size) -> void {
+        for (int i = 0; i < size; i++) {
+            creaturesInGame.push_back(Creature::createRandomCreature());
         }
     }
 }
