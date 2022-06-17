@@ -50,17 +50,12 @@ namespace vasio {
 
         auto resetHpOfBothTeams() -> void;
 
-        auto createCreatures(int size) -> void;
-
-        auto controlPanel(Game &game) -> void;
-
-        auto static isOver(std::vector<Fight> &fights) -> bool;
+        auto saveGame() -> void;
 
         auto generateEnemyTeam(int TeamSize) -> void;
 
         auto chooseDifficulty() -> void;
 
-        // per referencja zrobic eluwa
         auto createFight() -> void {
             fights.emplace_back(std::make_shared<Game>(*this), player1Creatures[0], player2Creatures[0]);
         }
@@ -75,7 +70,7 @@ namespace vasio {
                 case GameDifficulty::Easy:
                     game.createFight();
                     game.fights[0].startFight();
-                    for (int i = 0; i < 4; i++) {
+                    for (int i = 0; i < 5; i++) {
                         if (game.fights[i].isWon) {
                             std::string choice;
                             do {
@@ -113,7 +108,7 @@ namespace vasio {
                 case GameDifficulty::Medium:
                     game.createFight();
                     game.fights[0].startFight();
-                    for (int i = 0; i < 5; i++) {
+                    for (int i = 0; i < 6; i++) {
                         if (game.fights[i].isWon) {
                             std::string choice;
                             do {
@@ -151,7 +146,7 @@ namespace vasio {
                 case GameDifficulty::Hard:
                     game.createFight();
                     game.fights[0].startFight();
-                    for (int i = 0; i < 6; i++) {
+                    for (int i = 0; i < 7; i++) {
                         if (game.fights[i].isWon) {
                             std::string choice;
                             do {
