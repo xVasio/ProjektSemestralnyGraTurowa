@@ -67,9 +67,14 @@ namespace vasio {
             } else {
                 unsigned int choiceInt = std::stoi(choice);
                 if (choiceInt < creaturesInGame.size()) {
-                    player1Creatures.push_back(creaturesInGame[choiceInt]);
-                    std::cout << creaturesInGame[choiceInt]->Name_ << " added to your team!" << '\n';
-                    counter++;
+                    if (std::find(player1Creatures.begin(), player1Creatures.end(), creaturesInGame[choiceInt]) ==
+                        player1Creatures.end()) {
+                        std::cout << creaturesInGame[choiceInt]->Name_ << " added to your team!" << '\n';
+                        player1Creatures.push_back(creaturesInGame[choiceInt]);
+                        counter++;
+                    } else {
+                        std::cout << "This creature is already in your team! Choose another!" << '\n';
+                    }
                 } else {
                     std::cout << "Invalid choice" << '\n';
                 }
@@ -77,11 +82,11 @@ namespace vasio {
         }
     }
 
-    auto Game::generateEnemyTeam() -> void {
+    auto Game::generateEnemyTeam(int teamSize) -> void {
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> dis(0, creaturesInGame.size() - 1);
-        constexpr int player2TeamSize = 4;
+        int player2TeamSize = teamSize;
         int counter = 0;
         while (counter != player2TeamSize) {
             auto randomCreature = dis(gen);
@@ -102,32 +107,57 @@ namespace vasio {
         }
     }
 
-    auto Game::resetHp(std::vector<std::shared_ptr<Creature>> &creaturesToReset) -> void {
+    auto Game::resetHpAndSAUses(std::vector<std::shared_ptr<Creature>> &creaturesToReset) -> void {
         for (auto &creature: creaturesToReset) {
             creature->currentHealth_ = creature->health_;
+            creature->specialAbility_.numberOfUses_ = 0;
         }
     }
 
     auto Game::resetHpOfBothTeams() -> void {
-        resetHp(player1Creatures);
-        resetHp(player2Creatures);
+        resetHpAndSAUses(player1Creatures);
+        resetHpAndSAUses(player2Creatures);
     }
 
-    auto Game::createFightsIfPreviousIsWon(Game &game) -> void {
+    auto Game::createFight(Game &game) -> void {
         switch (game.difficulty) {
             case GameDifficulty::Easy:
                 game.createFight();
-                game.fights[0].startFight();
-                for (int i = 0; i < 1; i++) {
-                    if (game.fights[i].isWon) {
-                        game.controlPanel();
-                        game.resetHpOfBothTeams();
-                        game.createFight();
-                        game.fights[i + 1].startFight();
-                    } else {
-                        std::cout << "You lost! Start again!" << '\n';
-                    }
+                    game.fights[0].startFight();
+                    for (int i = 0; i < 1; i++) {
+                        if (game.fights[i].isWon) {
+                            std::string choice;
+                            do {
+                                std::cout << "U won the fight! Do you want to start the next one or save and exit?" << '\n';
+                                std::cout << "1. Start next fight" << '\n';
+                                std::cout << "2. Save and exit" << '\n';
+                                std::cout << "Your choice: " << '\n';
+                                std::cin >> choice;
+                            } while (choice != "1" && choice != "2" && choice != "3");
+                            auto choiceInt = std::stoi(choice);
+                            switch (choiceInt) {
+                                case 1:
+                                    game.resetHpOfBothTeams();
+                                    game.generateEnemyTeam(4+i);
+                                    game.createFight();
+                                    game.fights[i + 1].startFight();
+                                case 2:
+                                    std::cout << "Exiting... Saving unavailable" << '\n';
+                                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                                    exit(0);
+                            }
+
+                        } else {
+                            std::cout << "You lost! Start again!" << '\n';
+                            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+                            std::cout << "Exiting..." << '\n';
+                            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                            exit(0);
+
+                        }
+
                 }
+                std::cout << "You won the game! GG!" << '\n';
                 break;
             case GameDifficulty::Medium:
                 game.createFight();
@@ -148,24 +178,16 @@ namespace vasio {
         }
     }
 
-    auto Game::controlPanel() -> void {
-        std::string choice;
-        do {
-            std::cout << "U won the fight! Do you want to start the next one or save and exit?" << '\n';
-            std::cout << "1. Start next fight" << '\n';
-            std::cout << "2. Save and exit" << '\n';
-            std::cout << "Your choice: " << '\n';
-            std::cin >> choice;
-        } while (choice != "1" && choice != "2" && choice != "3");
-        auto choiceInt = std::stoi(choice);
-        switch (choiceInt) {
-            case 1:
-                resetHpOfBothTeams();
-                createFightsIfPreviousIsWon(*this);
-            case 2:
-                std::cout << "Exiting... Saving un unavailable" << '\n';
-                std::this_thread::sleep_for(std::chrono::milliseconds(200));
-                exit(0);
+    auto Game::controlPanel(Game &game) -> void {
+
+
+    }
+
+    auto Game::isOver(std::vector<Fight> &fights) -> bool {
+        for(auto &fight: fights) {
+            if(fight.isWon) {
+               return true;
+            }
         }
     }
 }

@@ -55,7 +55,7 @@ auto main() -> int {
 //    game.showTeam(game.player2Creatures);
 //    game.createFight();
 //    game.fights[0].startFight();
-    Game::startGame(game);
+    Game::gameControl(game);
 
     return 0;
 }

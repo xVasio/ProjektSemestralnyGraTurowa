@@ -33,7 +33,7 @@ namespace vasio {
     class Creature {
     public:
         std::string Name_{};
-        int power_{};
+        double power_{};
         float agility_{};
         int health_{};
         int currentHealth_{};
@@ -141,7 +141,7 @@ namespace vasio {
          * @param expNeededToEvolve
          * @param specialAbility
          */
-        Creature(const std::string &name, int power, float agility, int health, int currentHealth, int exp,
+        Creature(const std::string &name, double power, float agility, int health, int currentHealth, int exp,
                  int expNeededToEvolve, SpecialAbility specialAbility);
 
         /**

@@ -1,27 +1,25 @@
-//
-// Created by theer on 24.05.2022.
-//
 #include "../Hpp/Creature.hpp"
 #include "../Hpp/Fight.hpp"
 #include <string>
 #include <random>
 #include <cassert>
 #include <iostream>
+#include <utility>
 
 
 namespace vasio {
     // constructor
 
-    Creature::Creature(const std::string &name, int power, float agility, int health, int currentHealth, int exp,
+    Creature::Creature(const std::string &name, double power, float agility, int health, int currentHealth, int exp,
                        int expNeededToEvolve, SpecialAbility specialAbility) : Name_(name), power_(power),
                                                                                agility_(agility),
                                                                                health_(health),
                                                                                currentHealth_(currentHealth),
                                                                                Exp_(exp),
                                                                                ExpNeededToEvolve_(expNeededToEvolve),
-                                                                     specialAbility_(specialAbility) {}
+                                                                     specialAbility_(std::move(specialAbility)) {}
 
-// attack move with doging
+// attack move with dodging
     auto Creature::attack(std::shared_ptr<Creature> &other) -> int {
         std::random_device rd;
         std::mt19937 gen(rd());
@@ -36,57 +34,60 @@ namespace vasio {
     }
 
     auto Creature::specialAction(std::shared_ptr<Creature> &other) -> void {
+        std::random_device rd;
+        std::mt19937 gen(rd());
         switch (this->specialAbility_.TypeOfAbility_) {
             case AbilityType::Offensive:
                 switch (this->getType()) {
                     case CreatureType::Water:
-                        other->currentHealth_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->currentHealth_ -= power_ * 1.5 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Earth:
-                        other->currentHealth_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->currentHealth_ -= power_ * 1.1 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Air:
-                        other->currentHealth_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->currentHealth_ -= power_ * 1.4 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Fire:
-                        other->currentHealth_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->currentHealth_ -= power_ * 1.3 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Ice:
-                        other->currentHealth_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->currentHealth_ -= power_ * 1.6 * Creature::getEfficiency(other);
                         break;
                     case CreatureType::Steel:
-                        other->currentHealth_ -= power_ * 1.2 * Creature::getEfficiency(other);
+                        other->currentHealth_ -= power_ * 1.7 * Creature::getEfficiency(other);
                         break;
                 }
             case AbilityType::Defensive:
                 switch (this->getType()) {
                     case CreatureType::Water:
-                        this->currentHealth_ += 50;
+                        this->currentHealth_ += std::uniform_int_distribution<int>(25, 100)(gen);
                         if(this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
                         break;
                     case CreatureType::Earth:
-                        this->currentHealth_ += 50;
+                        this->currentHealth_ += std::uniform_int_distribution<int>(25, 100)(gen);
                         if(this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
+
                         break;
                     case CreatureType::Air:
-                        this->currentHealth_ += 50;
+                        this->currentHealth_ += std::uniform_int_distribution<int>(25, 100)(gen);
                         if(this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
                         break;
                     case CreatureType::Fire:
-                        this->currentHealth_ += 50;
+                        this->currentHealth_ += std::uniform_int_distribution<int>(25, 100)(gen);
                         if(this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
                         break;
                     case CreatureType::Ice:
-                        this->currentHealth_ += 50;
+                        this->currentHealth_ += std::uniform_int_distribution<int>(25, 100)(gen);
                         if(this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
                         break;
                     case CreatureType::Steel:
-                        this->currentHealth_ += 50;
+                        this->currentHealth_ += std::uniform_int_distribution<int>(25, 100)(gen);
                         if(this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
                         break;
@@ -106,7 +107,7 @@ namespace vasio {
                 Name_ = "Evolved " + Name_;
                 isEvolved_ = true;
             } else {
-                Name_ = "Evolved (" + temp + ')' + Name_;
+                Name_ = "Evolved (" + std::to_string(temp) + ")" + Name_;
             }
             Exp_ = 0;
             ExpNeededToEvolve_ = std::uniform_int_distribution<>(1000, 2225)(gen);
@@ -136,7 +137,7 @@ namespace vasio {
                         i++;
                         break;
                     default:
-                        std::cerr << "Wrong atribute number" << '\n';
+                        std::cerr << "Wrong attribute number" << '\n';
                         continue;
                 }
             }
@@ -317,12 +318,12 @@ namespace vasio {
                 assert(false);
         }
         creature->Name_ = generateName(creature->getType());
-        creature->health_ = std::uniform_int_distribution<>(80, 100)(gen);
+        creature->health_ = std::uniform_int_distribution<>(80, 125)(gen);
         creature->currentHealth_ = creature->health_;
-        creature->power_ = std::uniform_int_distribution<>(1, 50)(gen); // zmienci na mniej
-        creature->agility_ = std::uniform_real_distribution<float>(0.3, 0.7)(gen);
+        creature->power_ = std::uniform_int_distribution<>(20, 50)(gen);
+        creature->agility_ = std::uniform_real_distribution<float>(0.1, 0.75)(gen);
         creature->Exp_ = 0;
-        creature->ExpNeededToEvolve_ = std::uniform_int_distribution<>(500, 1000)(gen);
+        creature->ExpNeededToEvolve_ = std::uniform_int_distribution<>(400, 700)(gen);
         return creature;
     }
 
