@@ -39,7 +39,8 @@ namespace vasio {
         int currentHealth_{};
         int Exp_{};
         int ExpNeededToEvolve_{};
-//      bool isSpecialAbilityActive;
+        bool isEvolved_{};
+        int timesEvolved_{};
         SpecialAbility specialAbility_;
         constexpr inline static float interactionTable[6][6] = {
                 {0.5, 1.5, 1,   1.5, 1,   1},
@@ -104,8 +105,9 @@ namespace vasio {
          */
         auto evolve() -> void;
 
+        auto enemyEvolve() -> void;
 
-        auto makeEnemy() -> void;
+
         /**
          *
          * @param exp
@@ -147,7 +149,7 @@ namespace vasio {
          * @param other
          * @return
          */
-        auto attack(std::shared_ptr<Creature>& other) -> int;
+        auto attack(std::shared_ptr<Creature>& other) const -> int;
 
         /**
          *

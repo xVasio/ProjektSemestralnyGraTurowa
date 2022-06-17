@@ -2,6 +2,8 @@
 // Created by theer on 14.06.2022.
 //
 #include <random>
+#include <chrono>
+#include <thread>
 #include "Game.hpp"
 
 namespace vasio {
@@ -64,7 +66,7 @@ namespace vasio {
 
             } else {
                 unsigned int choiceInt = std::stoi(choice);
-                if(choiceInt < creaturesInGame.size()) {
+                if (choiceInt < creaturesInGame.size()) {
                     player1Creatures.push_back(creaturesInGame[choiceInt]);
                     std::cout << creaturesInGame[choiceInt]->Name_ << " added to your team!" << '\n';
                     counter++;
@@ -111,7 +113,59 @@ namespace vasio {
         resetHp(player2Creatures);
     }
 
+    auto Game::createFightsIfPreviousIsWon(Game &game) -> void {
+        switch (game.difficulty) {
+            case GameDifficulty::Easy:
+                game.createFight();
+                game.fights[0].startFight();
+                for (int i = 0; i < 1; i++) {
+                    if (game.fights[i].isWon) {
+                        game.controlPanel();
+                        game.resetHpOfBothTeams();
+                        game.createFight();
+                        game.fights[i + 1].startFight();
+                    } else {
+                        std::cout << "You lost! Start again!" << '\n';
+                    }
+                }
+                break;
+            case GameDifficulty::Medium:
+                game.createFight();
+                game.fights[0].startFight();
+                game.resetHpOfBothTeams();
+                game.createFight();
+                game.fights[1].startFight();
+                game.resetHpOfBothTeams();
+                break;
+            case GameDifficulty::Hard:
+                game.createFight();
+                game.fights[0].startFight();
+                game.resetHpOfBothTeams();
+                game.createFight();
+                game.fights[1].startFight();
+                game.resetHpOfBothTeams();
+                break;
+        }
+    }
+
+    auto Game::controlPanel() -> void {
+        std::string choice;
+        do {
+            std::cout << "U won the fight! Do you want to start the next one or save and exit?" << '\n';
+            std::cout << "1. Start next fight" << '\n';
+            std::cout << "2. Save and exit" << '\n';
+            std::cout << "Your choice: " << '\n';
+            std::cin >> choice;
+        } while (choice != "1" && choice != "2" && choice != "3");
+        auto choiceInt = std::stoi(choice);
+        switch (choiceInt) {
+            case 1:
+                resetHpOfBothTeams();
+                createFightsIfPreviousIsWon(*this);
+            case 2:
+                std::cout << "Exiting... Saving un unavailable" << '\n';
+                std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                exit(0);
+        }
+    }
 }
-
-
-

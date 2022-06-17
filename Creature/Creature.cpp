@@ -22,7 +22,7 @@ namespace vasio {
                                                                      specialAbility_(specialAbility) {}
 
 // attack move with doging
-    auto Creature::attack(std::shared_ptr<Creature> &other) -> int {
+     auto Creature::attack(std::shared_ptr<Creature> &other) const -> int {
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_real_distribution<float> dis(0, 1);
@@ -97,10 +97,17 @@ namespace vasio {
 // evolve function maybe needs to be automated for AI
     auto Creature::evolve() -> void {
         if (Exp_ >= ExpNeededToEvolve_) {
+            timesEvolved_++;
+            int temp = timesEvolved_;
             std::random_device rd;
             std::mt19937 gen(rd());
-            std::uniform_int_distribution<> dis(-5, 20);
-            Name_ = "Evolved " + Name_;
+
+            if (!isEvolved_) {
+                Name_ = "Evolved " + Name_;
+                isEvolved_ = true;
+            } else {
+                Name_ = "Evolved (" + temp + ')' + Name_;
+            }
             Exp_ = 0;
             ExpNeededToEvolve_ = std::uniform_int_distribution<>(1000, 2225)(gen);
             int i = 1;
@@ -116,7 +123,7 @@ namespace vasio {
 
                 switch (choice) {
                     case 1:
-                        power_ += dis(gen);
+                        power_ += std::uniform_int_distribution<int>(1, 15)(gen);
                         i++;
                         break;
                     case 2:
@@ -124,7 +131,8 @@ namespace vasio {
                         i++;
                         break;
                     case 3:
-                        health_ += dis(gen);
+                        health_ += std::uniform_int_distribution<int>(50, 100)(gen);
+                        currentHealth_ = health_;
                         i++;
                         break;
                     default:
@@ -137,10 +145,39 @@ namespace vasio {
                       std::endl;
         }
     }
-
-    auto Creature::makeEnemy() -> void {
-        Name_ = "Enemy " + Name_;
+    auto Creature::enemyEvolve() -> void {
+        if (Exp_ >= ExpNeededToEvolve_) {
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<> dis(-5, 20);
+            std::uniform_int_distribution<> dis2(1, 3);
+            Name_ = "Evolved " + Name_;
+            Exp_ = 0;
+            ExpNeededToEvolve_ = std::uniform_int_distribution<>(1000, 2225)(gen);
+            int i = 1;
+            while (i <= 2) {
+                switch (dis2(gen)) {
+                    case 1:
+                        power_ += dis(gen);
+                        i++;
+                        break;
+                    case 2:
+                        agility_ += std::uniform_real_distribution<float>(-0.1, 0.2)(gen);
+                        i++;
+                        break;
+                    case 3:
+                        health_ += dis(gen);
+                        currentHealth_ = health_;
+                        i++;
+                        break;
+                }
+            }
+        } else {
+            std::cout << "You need more exp to evolve" <<
+                      std::endl;
         }
+    }
+
 
     auto Creature::addExp(int exp) -> void {
         Exp_ += exp;
@@ -299,9 +336,9 @@ namespace vasio {
     }
 
     auto Creature::getShortStats() const -> void {
-        std::cout << "Name || Current Health/Health | Power || Agility" << '\n';
+        std::cout << "Name || CHP/HP | Power || Agility || SA Type" << '\n';
         std::cout << Name_ << " || " << currentHealth_ << " / " << health_ << " || " << power_ << " || " <<
-                  agility_ << " ||" << '\n';
+                  agility_ << " || " << specialAbility_.NameOfAbility_<< '\n';
     }
 
 

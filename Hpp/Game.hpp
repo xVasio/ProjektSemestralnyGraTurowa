@@ -50,6 +50,9 @@ namespace vasio {
 
         auto resetHpOfBothTeams() -> void;
 
+        static auto createFightsIfPreviousIsWon(Game &game) -> void;
+
+        auto controlPanel() -> void;
 
         auto generateEnemyTeam() -> void;
 
@@ -66,32 +69,8 @@ namespace vasio {
             game.showTeam(game.player1Creatures);
             game.generateEnemyTeam();
             game.showTeam(game.player2Creatures);
-            switch (game.difficulty) {
-                case GameDifficulty::Easy:
-                    for (int i = 0; i < 5; ++i) {
-                        game.createFight();
-                        game.fights[i].startFight();
-                        game.resetHpOfBothTeams();
-                        i++;
-                    }
-                    break;
-                case GameDifficulty::Medium:
-                    game.createFight();
-                    game.fights[0].startFight();
-                    game.resetHpOfBothTeams();
-                    game.createFight();
-                    game.fights[1].startFight();
-                    game.resetHpOfBothTeams();
-                    break;
-                case GameDifficulty::Hard:
-                    game.createFight();
-                    game.fights[0].startFight();
-                    game.resetHpOfBothTeams();
-                    game.createFight();
-                    game.fights[1].startFight();
-                    game.resetHpOfBothTeams();
-                    break;
+            createFightsIfPreviousIsWon(game);
             }
-        }
-    };
-}
+        };
+    }
+
