@@ -24,7 +24,7 @@ namespace vasio {
     auto Creature::attack(std::shared_ptr<Creature> &other) const -> int {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_real_distribution<float> dis(0, 1.5);
+        std::uniform_real_distribution<float> dis(0, 1.7);
         std::uniform_int_distribution<int> dis2(1, 5);
         if (dis(gen) > other->agility_) {
             int damage = (power_ + dis2(gen)) * Creature::getEfficiency(other);
@@ -280,6 +280,7 @@ namespace vasio {
             default:
                 assert(false);
         }
+        return {};
     }
 
     /**

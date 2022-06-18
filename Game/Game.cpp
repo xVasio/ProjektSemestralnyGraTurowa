@@ -196,7 +196,7 @@ namespace vasio {
         game.chooseDifficulty();
         SetConsoleTextAttribute(color2, 10);
         game.letHumanPlayerChooseCreatures();
-        SetConsoleTextAttribute(color2, 4);
+        SetConsoleTextAttribute(color2, 2);
         vasio::Game::showTeam(game.player1Creatures);
         SetConsoleTextAttribute(color2, 7);
         switch (game.difficulty) {
