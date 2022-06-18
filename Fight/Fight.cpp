@@ -286,7 +286,7 @@ namespace vasio {
                 }
             }
         }
-        if (playerTeamStatus && !enemyTeamStatus) {
+        if (playerTeamStatus) {
             SetConsoleTextAttribute(color, 2);
             std::cout << '\n' << "You won!" << '\n';
             SetConsoleTextAttribute(color, 7);
@@ -430,30 +430,49 @@ namespace vasio {
 
         switch (dis(gen)) {
             case 1:
+                SetConsoleTextAttribute(color, 4);
+                std::cout << "Enemy attacks!" << "\n\n";
+                SetConsoleTextAttribute(color, 7);
                 Fight::attack();
                 break;
             case 2:
+                SetConsoleTextAttribute(color, 4);
+                std::cout << "Enemy attacks!" << "\n\n";
+                SetConsoleTextAttribute(color, 7);
                 Fight::attack();
                 break;
             case 3:
+                SetConsoleTextAttribute(color, 4);
+                std::cout << "Enemy attacks!" << "\n\n";
+                SetConsoleTextAttribute(color, 7);
                 Fight::attack();
                 break;
             case 4:
-                Fight::useSpecialAbility();
+                SetConsoleTextAttribute(color, 4);
+                std::cout << "Enemy attacks!" << "\n\n";
+                SetConsoleTextAttribute(color, 7);
+                Fight::attack();
                 break;
             case 5:
-                Fight::evolveCreature();
+                SetConsoleTextAttribute(color, 4);
+                std::cout << "Enemy Special Ability!" << "\n\n";
+                SetConsoleTextAttribute(color, 7);
+                Fight::useSpecialAbility();
                 break;
             case 6:
-                Fight::enemySwitchCreature();
+                SetConsoleTextAttribute(color, 4);
+                std::cout << "Evolve!" << '\n';
+                SetConsoleTextAttribute(color, 7);
+                Fight::evolveCreature();
                 break;
             case 7:
+                SetConsoleTextAttribute(color, 4);
+                std::cout << "Enemy changes creature" << "\n\n";
+                SetConsoleTextAttribute(color, 7);
                 Fight::enemySwitchCreature();
                 break;
             default:
                 assert(false);
         }
     }
-
-
 }

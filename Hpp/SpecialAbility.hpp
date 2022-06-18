@@ -70,8 +70,5 @@ namespace vasio {
          * Function that displays all special ability attributes
          */
         auto showSpecialAbility() const -> void;
-
-
     };
-
 }

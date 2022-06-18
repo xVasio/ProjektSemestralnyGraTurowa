@@ -48,7 +48,5 @@ namespace vasio {
         std::cout << "Number of uses: " << numberOfUses_ << std::endl;
         std::cout << "Max number of uses: " << maxNumberOfUses_ << std::endl;
     }
-
-
 }
 

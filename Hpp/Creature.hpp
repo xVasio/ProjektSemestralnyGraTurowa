@@ -108,7 +108,7 @@ namespace vasio {
 
 
         /**
-         * Funciton adding experience to the creature
+         * Function adding experience to the creature
          * @param exp the amount of exp to add to the creature
          */
         auto addExp(int exp) -> void;
