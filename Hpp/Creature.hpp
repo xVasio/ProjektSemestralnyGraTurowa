@@ -20,7 +20,7 @@ namespace vasio {
 
     /**
      * @param type
-     * @return the string representation of the creature type
+     * @return the string representation of enum CreatureType
      */
     auto enumCreatureTypeToString(CreatureType type) -> std::string;
 
@@ -51,16 +51,16 @@ namespace vasio {
         };
 
         /**
-         *
-         * @return the string representation of the creature type
+         * Virtual function for polymorphism returning the type of creature
+         * @return object of enum class CreatureType
          */
         virtual auto getType() const -> CreatureType = 0;
 
         /**
-         *
+         * Friend function for printing the creature to an output stream
          * @param os
          * @param creature;
-         * @return the stream os with the creature information
+         * @return the ostream os with the creature information
          */
         friend std::ostream &operator<<(std::ostream &os, const Creature &creature) {
             os << "NAME: " << creature.Name_ << "|PWR: " << creature.power_ << "|AGL: " << std::setprecision(2)
@@ -72,6 +72,7 @@ namespace vasio {
         }
 
         /**
+         * Function to get the interaction value between two creatures
          *
          * @param creature
          * @return float value representing the damage multiplier (0.5 - 2)
@@ -81,8 +82,8 @@ namespace vasio {
         }
 
         /**
-         *
-         * @return an object of class Creature with random values generated for its attributes
+         * Creates a random creature with random attributes
+         * @return an object of class Creature
          */
         auto static createRandomCreature() -> std::shared_ptr<Creature>;
 
@@ -105,16 +106,13 @@ namespace vasio {
 
 
         /**
-         *
-         * @param exp
-         *
-         * funciton adding experience to the creature
+         * Funciton adding experience to the creature
+         * @param exp the amount of exp to add to the creature
          */
         auto addExp(int exp) -> void;
 
         /**
-         *
-         * function displaying the creature information in shorter form than os stream
+         * Function displaying the creature information in shorter form than os stream
          */
         auto getShortStats() const -> void;
 
@@ -139,14 +137,14 @@ namespace vasio {
                  int expNeededToEvolve, SpecialAbility specialAbility);
 
         /**
-         *
+         * Function implementing attack mechanism
          * @param other means the another creature object that is being attacked
          * @return damage given by the creature to the other creature
          */
         auto attack(std::shared_ptr<Creature> &other) const -> int;
 
         /**
-         *
+         * Function implementing special ability effect mechanism
          * @param other
          * function implementing the use of special ability of the creature
          */
@@ -163,8 +161,8 @@ namespace vasio {
         using Creature::Creature;
 
         /**
-         *
-         * @return
+         * Overriding virtual function getType() for this derived class
+         * @return object of enum class CreatureType Water
          */
         auto getType() const -> CreatureType override {
             return CreatureType::Water;
@@ -176,8 +174,8 @@ namespace vasio {
         using Creature::Creature;
 
         /**
-         *
-         * @return
+         * Overriding virtual function getType() for this derived class
+         * @return object of enum class CreatureType Earth
          */
         auto getType() const -> CreatureType override {
             return CreatureType::Earth;
@@ -189,8 +187,8 @@ namespace vasio {
         using Creature::Creature;
 
         /**
-         *
-         * @return
+         * Overriding virtual function getType() for this derived class
+         * @return object of enum class CreatureType Air
          */
         auto getType() const -> CreatureType override {
             return CreatureType::Air;
@@ -202,8 +200,8 @@ namespace vasio {
         using Creature::Creature;
 
         /**
-         *
-         * @return
+         * Overriding virtual function getType() for this derived class
+         * @return object of enum class CreatureType Fire
          */
         auto getType() const -> CreatureType override {
             return CreatureType::Fire;
@@ -215,8 +213,8 @@ namespace vasio {
         using Creature::Creature;
 
         /**
-         *
-         * @return
+         * Overriding virtual function getType() for this derived class
+         * @return object of enum class CreatureType Ice
          */
         auto getType() const -> CreatureType override {
             return CreatureType::Ice;
@@ -228,8 +226,8 @@ namespace vasio {
         using Creature::Creature;
 
         /**
-         *
-         * @return
+         * Overriding virtual function getType() for this derived class
+         * @return object of enum class CreatureType Steel
          */
         auto getType() const -> CreatureType override {
             return CreatureType::Steel;

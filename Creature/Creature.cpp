@@ -23,7 +23,7 @@ namespace vasio {
     auto Creature::attack(std::shared_ptr<Creature> &other) const -> int {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_real_distribution<float> dis(0, 1);
+        std::uniform_real_distribution<float> dis(0, 1.5);
         std::uniform_int_distribution<int> dis2(1, 5);
         if (dis(gen) > other->agility_) {
             int damage = (power_ + dis2(gen)) * Creature::getEfficiency(other);
@@ -153,11 +153,11 @@ namespace vasio {
         if (Exp_ >= ExpNeededToEvolve_) {
             std::random_device rd;
             std::mt19937 gen(rd());
-            std::uniform_int_distribution<> dis(-5, 20);
+            std::uniform_int_distribution<> dis(-1, 20);
             std::uniform_int_distribution<> dis2(1, 3);
             Name_ = "Evolved " + Name_;
             Exp_ = 0;
-            ExpNeededToEvolve_ = std::uniform_int_distribution<>(1000, 2225)(gen);
+            ExpNeededToEvolve_ = std::uniform_int_distribution<>(600, 1000)(gen);
             int i = 1;
             while (i <= 2) {
                 switch (dis2(gen)) {
@@ -318,9 +318,9 @@ namespace vasio {
                 assert(false);
         }
         creature->Name_ = generateName(creature->getType());
-        creature->health_ = std::uniform_int_distribution<>(80, 125)(gen);
+        creature->health_ = std::uniform_int_distribution<>(100, 225)(gen);
         creature->currentHealth_ = creature->health_;
-        creature->power_ = std::uniform_int_distribution<>(20, 50)(gen);
+        creature->power_ = std::uniform_int_distribution<>(20, 35)(gen);
         creature->agility_ = std::uniform_real_distribution<float>(0.4, 0.75)(gen);
         creature->Exp_ = 0;
         creature->ExpNeededToEvolve_ = std::uniform_int_distribution<>(400, 700)(gen);

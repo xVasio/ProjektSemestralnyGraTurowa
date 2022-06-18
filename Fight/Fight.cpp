@@ -26,6 +26,7 @@ namespace vasio {
                 std::cout << "Attack was successful!" << '\n';
                 SetConsoleTextAttribute(color, 7);
                 std::cout << currentPlayer2Pokemon->getName() << " took " << damageGiven << " damage" << "\n\n";
+                std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                 SetConsoleTextAttribute(color, 2);
                 currentPlayer1Pokemon->getShortStats();
                 SetConsoleTextAttribute(color, 4);
@@ -54,6 +55,7 @@ namespace vasio {
                 std::cout << "Attack was successful" << '\n';
                 SetConsoleTextAttribute(color, 7);
                 std::cout << currentPlayer1Pokemon->getName() << " took " << damageGiven << " damage" << "\n\n";
+                std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                 SetConsoleTextAttribute(color, 4);
                 currentPlayer2Pokemon->getShortStats();
                 SetConsoleTextAttribute(color, 2);
@@ -136,10 +138,13 @@ namespace vasio {
             std::cin >> creatureToSwitchToIndex;
         }
         auto &creatureToSwitch = creaturesToSwitchTo[creatureToSwitchToIndex];
-        if (player1Turn_) {
+        if (player1Turn_ && creatureToSwitch != currentPlayer1Pokemon) {
             std::cout << "You switch " << currentPlayer1Pokemon->getName() << " to " << creatureToSwitch->getName()
                       << '\n';
             currentPlayer1Pokemon = creatureToSwitch;
+        } else {
+            std::cout << "You can't switch to the same creature" << '\n';
+            Fight::switchCreature();
         }
         Fight::changeTurn();
     }
@@ -252,7 +257,7 @@ namespace vasio {
             isWon = true;
         } else {
             SetConsoleTextAttribute(color, 4);
-            std::cout << '\n' << "You lost! Game over." << '\n';
+            std::cout << '\n' << "You lost the fight! Game over." << '\n';
             SetConsoleTextAttribute(color, 7);
             isWon = false;
         }
