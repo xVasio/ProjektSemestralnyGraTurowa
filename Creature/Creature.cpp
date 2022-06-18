@@ -60,6 +60,7 @@ namespace vasio {
                     default:
                         break;
                 }
+                break;
             case AbilityType::Defensive:
                 switch (this->getType()) {
                     case CreatureType::Water:

@@ -63,12 +63,11 @@ namespace vasio {
          * @return the stream os with the creature information
          */
         friend std::ostream &operator<<(std::ostream &os, const Creature &creature) {
-            os << "NAME: " << creature.Name_ << "| PWR: " << creature.power_ << "| AGL: " << std::setprecision(2)
+            os << "NAME: " << creature.Name_ << "|PWR: " << creature.power_ << "|AGL: " << std::setprecision(2)
                << creature.agility_
-               << " HP: " << creature.health_ << "| CHP: " << creature.currentHealth_ << "| EXP: " << creature.Exp_
-               << "| EXPN: "
-               << creature.ExpNeededToEvolve_ << " TYPE: " << enumCreatureTypeToString(creature.getType()) << "| AB NAME: "
-               << creature.specialAbility_.NameOfAbility_ << "| AB TYPE: " << abilityTypeToString(creature.specialAbility_.TypeOfAbility_);
+               << "|CHP/HP " << creature.currentHealth_ << "/" << creature.health_ << "|EXP: " << creature.Exp_
+               << "|EXPN: " << creature.ExpNeededToEvolve_ << " TYPE: " << enumCreatureTypeToString(creature.getType()) << "|AB NAME: "
+               << creature.specialAbility_.NameOfAbility_ << "|AB TYPE: " << creature.specialAbility_.getTypeOfAbility();
             return os;
         }
 

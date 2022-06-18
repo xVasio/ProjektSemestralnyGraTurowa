@@ -6,7 +6,7 @@ namespace vasio {
     auto Game::chooseDifficulty() -> void {
         std::string choice;
         Game::difficulty = GameDifficulty::Undefined;
-        do {
+        while (choice != "1" && choice != "2" && choice != "3") {
             std::cout << "Choose difficulty: " << '\n';
             std::cout << "1. Easy" << '\n';
             std::cout << "2. Medium" << '\n';
@@ -26,7 +26,7 @@ namespace vasio {
             } else {
                 std::cout << "Invalid choice" << '\n';
             }
-        } while (choice != "1" && choice != "2" && choice != "3");
+        }
     }
 
     auto Game::letHumanPlayerChooseCreatures() -> void {
@@ -69,7 +69,7 @@ namespace vasio {
         player2Creatures.clear();
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(0, creaturesInGame.size() - 1);
+        std::uniform_int_distribution<unsigned int> dis(0, creaturesInGame.size() - 1);
         int player2TeamSize = teamSize;
         int counter = 0;
         while (counter != player2TeamSize) {
@@ -121,14 +121,14 @@ namespace vasio {
 
     auto Game::controlPanel() -> void {
         std::string choice;
-        do {
-            std::cout << "U won the fight! Do you want to start the next one or save and exit?"
+        std::cout << "U won the fight! Do you want to start the next one or save and exit?"
                       << '\n';
+        while (choice != "1" && choice != "2" && choice != "3") {
             std::cout << "1. Start next fight" << '\n';
             std::cout << "2. Save and exit" << '\n';
             std::cout << "Your choice: " << '\n';
             std::cin >> choice;
-        } while (choice != "1" && choice != "2" && choice != "3");
+        }
         auto choiceInt = std::stoi(choice);
         switch (choiceInt) {
             case 1:
@@ -145,7 +145,7 @@ namespace vasio {
 
     auto Game::welcome() -> void {
         std::string choice;
-        do {
+        while (choice != "1" && choice != "2" && choice != "3") {
             std::cout << "Welcome to the game! " << '\n';
 
             std::cout << "1. Start game!" << '\n';
@@ -156,7 +156,7 @@ namespace vasio {
             if (choice == "-h" || choice == "--help") {
                 std::cout << "Manual: " << '\n';
             }
-        } while (choice != "1" && choice != "2" && choice != "3");
+        }
         auto choiceInt = std::stoi(choice);
         switch (choiceInt) {
             case 1:
@@ -165,6 +165,8 @@ namespace vasio {
                 std::cout << "Exiting..." << '\n';
                 std::this_thread::sleep_for(std::chrono::milliseconds(200));
                 exit(0);
+            default:
+                assert(false);
         }
     }
 }

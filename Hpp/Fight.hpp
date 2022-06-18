@@ -54,7 +54,7 @@ namespace vasio {
 
         auto switchCreature() -> void;
 
-        auto showPlayerSpecialAbility() -> void;
+        auto showPlayerSpecialAbility() const -> void;
 
         auto enemySwitchCreature() -> void;
 
@@ -63,9 +63,9 @@ namespace vasio {
          */
         auto changeTurn() -> void;
 
-        auto checkIfPlayerTeamIsAlive() -> bool;
+        auto checkIfPlayerTeamIsAlive() const -> bool;
 
-        auto checkIfEnemyTeamIsAlive() -> bool;
+        auto checkIfEnemyTeamIsAlive() const -> bool;
 
         auto player1Turn() -> void;
 
@@ -75,6 +75,5 @@ namespace vasio {
 
         static auto isCreatureAlive(const std::shared_ptr<Creature> &creature) -> bool;
 
-        void showSpecialAbility();
     };
 }

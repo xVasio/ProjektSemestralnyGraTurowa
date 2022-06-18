@@ -121,7 +121,9 @@ namespace vasio {
 
     auto Fight::switchCreature() -> void {
         std::vector<std::shared_ptr<Creature>> creaturesToSwitchTo = game_ptr->player1Creatures;
+        SetConsoleTextAttribute(color, 2);
         game_ptr->showTeam(creaturesToSwitchTo);
+        SetConsoleTextAttribute(color, 7);
         std::cout << "Choose a creature to switch to: " << '\n';
         std::cout << "Your current creature is: " << "\n";
         SetConsoleTextAttribute(color, 2);
@@ -173,7 +175,7 @@ namespace vasio {
         Fight::changeTurn();
     }
 
-    auto Fight::showPlayerSpecialAbility() -> void {
+    auto Fight::showPlayerSpecialAbility() const -> void {
         currentPlayer1Pokemon->specialAbility_.showSpecialAbility();
     }
 
@@ -185,7 +187,7 @@ namespace vasio {
         }
     }
 
-    auto Fight::checkIfPlayerTeamIsAlive() -> bool {
+    auto Fight::checkIfPlayerTeamIsAlive() const -> bool {
         unsigned sizeOfTeam = game_ptr->player1Creatures.size();
         int counter = 0;
         for (auto &creature: game_ptr->player1Creatures) {
@@ -201,7 +203,7 @@ namespace vasio {
         }
     }
 
-    auto Fight::checkIfEnemyTeamIsAlive() -> bool {
+    auto Fight::checkIfEnemyTeamIsAlive() const -> bool {
         unsigned int sizeOfTeam = game_ptr->player2Creatures.size();
         int counter = 0;
         for (auto &creature: game_ptr->player2Creatures) {
