@@ -2,21 +2,24 @@
 #include <fstream>
 #include "Game.hpp"
 
+HANDLE color2 = GetStdHandle(STD_OUTPUT_HANDLE);
+
 namespace vasio {
     auto Game::chooseDifficulty() -> void {
         std::string choice;
         Game::difficulty = GameDifficulty::Undefined;
+        SetConsoleTextAttribute(color2, 14);
         while (choice != "1" && choice != "2" && choice != "3") {
             std::cout << "Choose difficulty: " << '\n';
             std::cout << "1. Easy" << '\n';
             std::cout << "2. Medium" << '\n';
             std::cout << "3. Hard" << '\n';
-            std::cout << "-h or -help for manual" << '\n';
+            std::cout << "-h or --help for manual" << '\n';
 
             std::cout << "Your choice: " << '\n';
             std::cin >> choice;
-            if (choice == "-h" || choice == "-help") {
-                std::cout << "Difficulty level affects " << '\n';
+            if (choice == "-h" || choice == "--help") {
+                std::cout << "Difficulty level affects number of rounds and number of enemies. For (Easy) it is 4 rounds, 4 enemies each. For (Medium) it is 5 rounds, 5 enemies each and for (Hard) it is 6 rounds, 6 enemies each " << '\n';
             } else if (choice == "1") {
                 difficulty = GameDifficulty::Easy;
             } else if (choice == "2") {
@@ -26,6 +29,7 @@ namespace vasio {
             } else {
                 std::cout << "Invalid choice" << '\n';
             }
+            SetConsoleTextAttribute(color2, 7);
         }
     }
 
@@ -45,8 +49,9 @@ namespace vasio {
             std::cin >> choice;
 
             if (choice == "-h" || choice == "--help") {
-                std::cout << "Manual: " << '\n';
-
+                SetConsoleTextAttribute(color2, 14);
+                std::cout << "You won't be able to switch creatures to new ones after this prompt. You can't have to same creatures so choose wisely" << '\n';
+                SetConsoleTextAttribute(color2, 7);
             } else {
                 unsigned int choiceInt = std::stoi(choice);
                 if (choiceInt < creaturesInGame.size()) {
@@ -121,6 +126,7 @@ namespace vasio {
 
     auto Game::controlPanel() -> void {
         std::string choice;
+        SetConsoleTextAttribute(color2, 9);
         std::cout << "U won the fight! Do you want to start the next one or save and exit?"
                       << '\n';
         while (choice != "1" && choice != "2" && choice != "3") {
@@ -129,6 +135,7 @@ namespace vasio {
             std::cout << "Your choice: " << '\n';
             std::cin >> choice;
         }
+        SetConsoleTextAttribute(color2, 7);
         auto choiceInt = std::stoi(choice);
         switch (choiceInt) {
             case 1:
@@ -145,7 +152,8 @@ namespace vasio {
 
     auto Game::welcome() -> void {
         std::string choice;
-        while (choice != "1" && choice != "2" && choice != "3") {
+        SetConsoleTextAttribute(color2, 14);
+        while (choice != "1" && choice != "2") {
             std::cout << "Welcome to the game! " << '\n';
 
             std::cout << "1. Start game!" << '\n';
@@ -154,19 +162,159 @@ namespace vasio {
             std::cout << "Your choice: " << '\n';
             std::cin >> choice;
             if (choice == "-h" || choice == "--help") {
-                std::cout << "Manual: " << '\n';
+                std::cout << "THIS IS BASIC INSTRUCTION FOR THE WHOLE GAME" << '\n';
+                std::cout << "Each option is given from the keyboard. Command -h or --help is available in some places to display more detailed instructions." << '\n';
             }
         }
+        SetConsoleTextAttribute(color2, 7);
         auto choiceInt = std::stoi(choice);
         switch (choiceInt) {
             case 1:
                 break;
             case 2:
+                SetConsoleTextAttribute(color2, 12);
                 std::cout << "Exiting..." << '\n';
                 std::this_thread::sleep_for(std::chrono::milliseconds(200));
                 exit(0);
             default:
                 assert(false);
+        }
+    }
+
+    auto Game::createFight() -> void {
+        fights.emplace_back(std::make_shared<Game>(*this), player1Creatures[0], player2Creatures[0]);
+    }
+
+    auto Game::gameControl(Game &game) -> void {
+        vasio::Game::welcome();
+        game.chooseDifficulty();
+        game.letHumanPlayerChooseCreatures();
+        vasio::Game::showTeam(game.player1Creatures);
+        game.generateEnemyTeam(4);
+        vasio::Game::showTeam(game.player2Creatures);
+        switch (game.difficulty) {
+            case GameDifficulty::Easy:
+                game.createFight();
+                std::cout << '\n' << "Your next adversary is Enemy 1" << '\n';
+                game.fights[0].startFight();
+                for (int i = 0; i < 4; i++) {
+                    if (game.fights[i].isWon) {
+                        game.controlPanel();
+                        game.resetHpOfBothTeams();
+                        game.generateEnemyTeam(4);
+                        game.createFight();
+                        std::cout << "Your next adversary is Enemy " << i + 2 << '\n';
+                        game.fights[i + 1].startFight();
+                    } else {
+                        SetConsoleTextAttribute(color2, 4);
+                        std::cout << "GAME OVER" << '\n';
+                        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+                        SetConsoleTextAttribute(color2, 7);
+                        std::cout << "Exiting..." << '\n';
+                        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                        exit(0);
+                    }
+                }
+                SetConsoleTextAttribute(color2, 14);
+                std::cout << "You won the game! GG!" << '\n';
+                SetConsoleTextAttribute(color2, 7);
+                break;
+            case GameDifficulty::Medium:
+                game.createFight();
+                std::cout << '\n' << "Your next adversary is Enemy 1" << '\n';
+                game.fights[0].startFight();
+                for (int i = 0; i < 5; i++) {
+                    if (game.fights[i].isWon) {
+                        std::string choice;
+                        do {
+                            std::cout << "U won the fight! Do you want to start the next one or save and exit?"
+                                      << '\n';
+                            std::cout << "1. Start next fight" << '\n';
+                            std::cout << "2. Save and exit" << '\n';
+                            std::cout << "Your choice: " << '\n';
+                            std::cin >> choice;
+                        } while (choice != "1" && choice != "2" && choice != "3");
+                        auto choiceInt = std::stoi(choice);
+                        switch (choiceInt) {
+                            case 1:
+                                break;
+                            case 2:
+                                std::cout << "Saving... and... Exiting..." << '\n';
+                                game.saveGame();
+                                std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                                exit(0);
+                            default:
+                                std::cout << "Invalid choice!" << '\n';
+                                break;
+                        }
+                        game.resetHpOfBothTeams();
+                        game.generateEnemyTeam(5);
+                        game.createFight();
+                        game.fights[i + 1].startFight();
+                    } else {
+                        SetConsoleTextAttribute(color2, 4);
+                        std::cout << "GAME OVER" << '\n';
+                        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+                        SetConsoleTextAttribute(color2, 7);
+                        std::cout << "Exiting..." << '\n';
+                        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                        exit(0);
+
+                    }
+                }
+                SetConsoleTextAttribute(color2, 14);
+                std::cout << "You won the game! GG!" << '\n';
+                SetConsoleTextAttribute(color2, 7);
+                break;
+            case GameDifficulty::Hard:
+                game.createFight();
+                std::cout << '\n' << "Your next adversary is Enemy 1" << '\n';
+                game.fights[0].startFight();
+                for (int i = 0; i < 6; i++) {
+                    if (game.fights[i].isWon) {
+                        std::string choice;
+                        do {
+                            std::cout << "U won the fight! Do you want to start the next one or save and exit?"
+                                      << '\n';
+                            std::cout << "1. Start next fight" << '\n';
+                            std::cout << "2. Save and exit" << '\n';
+                            std::cout << "Your choice: " << '\n';
+                            std::cin >> choice;
+                        } while (choice != "1" && choice != "2" && choice != "3");
+                        auto choiceInt = std::stoi(choice);
+                        switch (choiceInt) {
+                            case 1:
+                                break;
+                            case 2:
+                                std::cout << "Saving... and... Exiting..." << '\n';
+                                game.saveGame();
+                                std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                                exit(0);
+                            default:
+                                std::cout << "Invalid choice!" << '\n';
+                                break;
+                        }
+                        game.resetHpOfBothTeams();
+                        game.generateEnemyTeam(6);
+                        game.createFight();
+                        game.fights[i + 1].startFight();
+                    } else {
+                        SetConsoleTextAttribute(color2, 4);
+                        std::cout << "GAME OVER" << '\n';
+                        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+                        SetConsoleTextAttribute(color2, 7);
+                        std::cout << "Exiting..." << '\n';
+                        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                        exit(0);
+
+                    }
+                }
+                SetConsoleTextAttribute(color2, 14);
+                std::cout << "You won the game! GG!" << '\n';
+                SetConsoleTextAttribute(color2, 7);
+            case GameDifficulty::Undefined:
+                assert(false);
+                break;
         }
     }
 }

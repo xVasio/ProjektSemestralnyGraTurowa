@@ -16,7 +16,6 @@ namespace vasio {
                  std::shared_ptr<Creature> currentPlayer2Creature
     ) : game_ptr(std::move(game_ptr)), currentPlayer1Pokemon(std::move(currentPlayer1Creature)),
         currentPlayer2Pokemon(std::move(currentPlayer2Creature)) {}
-
     auto Fight::attack() -> void {
         if (player1Turn_) {
             std::cout << currentPlayer1Pokemon->getName() << " attacks " << currentPlayer2Pokemon->getName() << "\n\n";
@@ -24,15 +23,32 @@ namespace vasio {
             if (damageGiven > 0) {
                 SetConsoleTextAttribute(color, 2);
                 std::cout << "Attack was successful!" << '\n';
-                SetConsoleTextAttribute(color, 7);
+                if(currentPlayer1Pokemon->getEfficiency(currentPlayer2Pokemon) == 1) {
+                    SetConsoleTextAttribute(color, 2);
+                    std::cout << "It's effective!" << '\n';
+                } else if(currentPlayer1Pokemon->getEfficiency(currentPlayer2Pokemon) == 0.5) {
+                    SetConsoleTextAttribute(color, 4);
+                    std::cout << "It's not very effective..." << '\n';
+                } else if (currentPlayer1Pokemon->getEfficiency(currentPlayer2Pokemon) == 1.5) {
+                    SetConsoleTextAttribute(color, 10);
+                    std::cout << "It's super effective!" << '\n';
+                } else if (currentPlayer1Pokemon->getEfficiency(currentPlayer2Pokemon) == 2) {
+                    SetConsoleTextAttribute(color, 13);
+                    std::cout << "It's mega effective!" << '\n';
+                }
+                SetConsoleTextAttribute(color, 5);
                 std::cout << currentPlayer2Pokemon->getName() << " took " << damageGiven << " damage" << "\n\n";
                 std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+                SetConsoleTextAttribute(color, 7);
+                std::cout << "-----------------------------------------------------\n";
                 SetConsoleTextAttribute(color, 2);
                 currentPlayer1Pokemon->getShortStats();
                 SetConsoleTextAttribute(color, 4);
                 currentPlayer2Pokemon->getShortStats();
                 SetConsoleTextAttribute(color, 7);
+                std::cout << "-----------------------------------------------------\n";
                 if (currentPlayer2Pokemon->currentHealth_ <= 0) {
+                    currentPlayer2Pokemon->currentHealth_ = 0;
                     SetConsoleTextAttribute(color, 4);
                     std::cout << '\n' << currentPlayer2Pokemon->getName() << " fainted!\n\n";
                     SetConsoleTextAttribute(color, 7);
@@ -53,15 +69,27 @@ namespace vasio {
             if (damageGiven > 0) {
                 SetConsoleTextAttribute(color, 4);
                 std::cout << "Attack was successful" << '\n';
-                SetConsoleTextAttribute(color, 7);
+                if(currentPlayer2Pokemon->getEfficiency(currentPlayer1Pokemon) == 1) {
+                    SetConsoleTextAttribute(color, 2);
+                    std::cout << "It's effective!" << '\n';
+                } else if(currentPlayer2Pokemon->getEfficiency(currentPlayer1Pokemon) == 0.5) {
+                    SetConsoleTextAttribute(color, 4);
+                    std::cout << "It's not very effective..." << '\n';
+                } else if (currentPlayer2Pokemon->getEfficiency(currentPlayer1Pokemon) == 1.5) {
+                    SetConsoleTextAttribute(color, 10);
+                    std::cout << "It's super effective!" << '\n';
+                } else if (currentPlayer2Pokemon->getEfficiency(currentPlayer1Pokemon) == 2) {
+                    SetConsoleTextAttribute(color, 13);
+                    std::cout << "It's mega effective!" << '\n';
+                }
+                SetConsoleTextAttribute(color, 5);
                 std::cout << currentPlayer1Pokemon->getName() << " took " << damageGiven << " damage" << "\n\n";
                 std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                 SetConsoleTextAttribute(color, 4);
-                currentPlayer2Pokemon->getShortStats();
-                SetConsoleTextAttribute(color, 2);
-                currentPlayer1Pokemon->getShortStats();
                 SetConsoleTextAttribute(color, 7);
+
                 if (currentPlayer1Pokemon->currentHealth_ <= 0) {
+                    currentPlayer1Pokemon->currentHealth_ = 0;
                     std::cout << currentPlayer1Pokemon->getName() << " fainted!\n\n";
                     int expGot = currentPlayer1Pokemon->ExpNeededToEvolve_ / 5;
                     std::cout << currentPlayer2Pokemon->getName() << " got " << expGot << " exp" << "\n\n";
@@ -86,10 +114,17 @@ namespace vasio {
 
             creatureUsingAbility.specialAbility_.applyAbility(*this);
             if (currentPlayer2Pokemon->currentHealth_ <= 0) {
+                currentPlayer2Pokemon->currentHealth_ = 0;
                 std::cout << currentPlayer2Pokemon->getName() << " fainted!\n\n";
                 int expGot = currentPlayer2Pokemon->ExpNeededToEvolve_ / 4;
                 std::cout << currentPlayer1Pokemon->getName() << " got " << expGot << " exp" << "\n\n";
                 currentPlayer1Pokemon->addExp(expGot);
+            } else if (currentPlayer1Pokemon->currentHealth_ <= 0) {
+                currentPlayer1Pokemon->currentHealth_ = 0;
+                std::cout << currentPlayer1Pokemon->getName() << " fainted!\n\n";
+                int expGot = currentPlayer1Pokemon->ExpNeededToEvolve_ / 4;
+                std::cout << currentPlayer2Pokemon->getName() << " got " << expGot << " exp" << "\n\n";
+                currentPlayer2Pokemon->addExp(expGot);
             }
             creatureUsingAbility.specialAbility_.numberOfUses_++;
             unsigned int max = creatureUsingAbility.specialAbility_.maxNumberOfUses_;
@@ -270,32 +305,55 @@ namespace vasio {
         std::cout << '\n' << "USER TURN! " << "\n\n";
         SetConsoleTextAttribute(color, 7);
 
+
         SetConsoleTextAttribute(color, 2);
-        std::cout << '\n' << "Your current creature:  " << '\n';
+        std::cout << "----------------------------------------------------" << '\n';
+        std::cout << "Your current creature:  " << '\n';
         currentPlayer1Pokemon->getShortStats();
+        std::cout << "----------------------------------------------------" << '\n';
         SetConsoleTextAttribute(color, 4);
+        std::cout << "----------------------------------------------------" << '\n';
         std::cout << "Enemy creature: " << '\n';
         currentPlayer2Pokemon->getShortStats();
+        std::cout << "----------------------------------------------------" << '\n';
         SetConsoleTextAttribute(color, 7);
 
-        std::cout << '\n' << "What would you like to do? " << "\n\n";
+        std::cout << '\n' <<  "What would you like to do? " << "\n\n";
 
-        SetConsoleTextAttribute(color, 1);
-        std::cout << "1. Attack" << '\n';
-        std::cout << "2. Use special ability" << '\n';
-        std::cout << "3. Evolve" << '\n';
-        std::cout << "4. Switch Creature" << '\n';
-        SetConsoleTextAttribute(color, 2);
-        std::cout << "5. Show Team" << '\n';
-        SetConsoleTextAttribute(color, 4);
-        std::cout << "6. Show Enemy Team" << '\n';
-        SetConsoleTextAttribute(color, 1);
-        std::cout << "7. Show Special Ability" << '\n';
-        SetConsoleTextAttribute(color, 7);
-
-
-        std::cout << "Your choice: " << '\n';
-        std::cin >> choice;
+        while (choice != "1" && choice != "2" && choice != "3" && choice != "4" && choice != "5" && choice != "6" &&
+               choice != "7") {
+            SetConsoleTextAttribute(color, 1);
+            std::cout << "1. Attack" << '\n';
+            std::cout << "2. Use special ability" << '\n';
+            std::cout << "3. Evolve" << '\n';
+            std::cout << "4. Switch Creature" << '\n';
+            SetConsoleTextAttribute(color, 2);
+            std::cout << "5. Show Team" << '\n';
+            SetConsoleTextAttribute(color, 4);
+            std::cout << "6. Show Enemy Team" << '\n';
+            SetConsoleTextAttribute(color, 1);
+            std::cout << "7. Show Special Ability" << '\n';
+            SetConsoleTextAttribute(color,14);
+            std::cout << "-h or --help for game instructions" << '\n';
+            SetConsoleTextAttribute(color,7);
+            std::cout << "Your choice: " << '\n';
+            std::cin >> choice;
+            if (choice == "-h" || choice == "--help") {
+                std::cout
+                        << "(Attack) damage given to enemy depends on creatures power and type. Some creatures are more or less vulnerable to others. Every creature can dodge attack, chance of it is defined as agility"
+                        << '\n';
+                std::cout
+                        << "(Use special ability) you can access special ability information by typing 7. Special ability can be offensive or defensive. Everything is included in Show Special Ability funcion."
+                        << '\n';
+                std::cout
+                        << "(Evolve) Creature can be evolved, which grants buffs to given attributes (You can choose two from Power, Health or Agility). Creature needs defined EXP number (Given as EXPN)"
+                        << '\n';
+                std::cout
+                        << "(Switch Creature) gives you possibility to change current creature to some other from your team"
+                        << '\n';
+                std::cout << "The rest of the options are self explanatory" << '\n';
+            }
+        }
         int intChoice = std::stoi(choice);
         switch (intChoice) {
             case 1:
@@ -341,8 +399,6 @@ namespace vasio {
             default:
                 assert(false);
         }
-
-
     }
 
 
