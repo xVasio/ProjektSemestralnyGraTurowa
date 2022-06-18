@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 #include "Creature.hpp"
 #include "Game.hpp"

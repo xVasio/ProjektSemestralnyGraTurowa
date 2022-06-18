@@ -1,12 +1,9 @@
-//
-// Created by theer on 07.06.2022.
-//
-
 #include <cassert>
-#include "../Hpp/SpecialAbility.hpp"
-#include "../Hpp/Fight.hpp"
-
+#include "SpecialAbility.hpp"
+#include "/Fight.hpp"
+#include <iostream>
 namespace vasio {
+
     auto enumAbilityTypeToString(AbilityType type) -> std::string {
         switch (type) {
             case AbilityType::Offensive:
@@ -35,5 +32,21 @@ namespace vasio {
     auto SpecialAbility::getNameOfAbility() const -> std::string {
         return NameOfAbility_;
     }
+
+    auto SpecialAbility::getTypeOfAbility() const -> std::string {
+        return enumAbilityTypeToString(TypeOfAbility_);
+    }
+
+
+    auto SpecialAbility::showSpecialAbility() const -> void {
+        std::cout << "Name of ability: " << NameOfAbility_ << std::endl;
+        std::cout << "Type of ability: " << enumAbilityTypeToString(TypeOfAbility_) << std::endl;
+        std::cout << "Description of ability: " << DescriptionOfAbility_ << std::endl;
+        std::cout << "Number of uses: " << numberOfUses_ << std::endl;
+        std::cout << "Max number of uses: " << maxNumberOfUses_ << std::endl;
+    }
+
+
+
 }
 

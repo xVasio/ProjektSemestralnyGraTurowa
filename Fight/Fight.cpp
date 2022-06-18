@@ -1,12 +1,10 @@
-//
-// Created by theer on 04.06.2022.
-//
 #include <random>
 #include <iostream>
 #include "Fight.hpp"
 #include "Game.hpp"
 #include <chrono>
 #include <thread>
+#include <utility>
 #include <windows.h>
 
 
@@ -16,8 +14,8 @@ namespace vasio {
     Fight::Fight(std::shared_ptr<Game> game_ptr,
                  std::shared_ptr<Creature> currentPlayer1Creature,
                  std::shared_ptr<Creature> currentPlayer2Creature
-    ) : game_ptr(game_ptr), currentPlayer1Pokemon(currentPlayer1Creature),
-        currentPlayer2Pokemon(currentPlayer2Creature) {}
+    ) : game_ptr(std::move(game_ptr)), currentPlayer1Pokemon(std::move(currentPlayer1Creature)),
+        currentPlayer2Pokemon(std::move(currentPlayer2Creature)) {}
 
     auto Fight::attack() -> void {
         if (player1Turn_) {
@@ -44,7 +42,7 @@ namespace vasio {
                     SetConsoleTextAttribute(color, 7);
                 }
             } else {
-                std::cout << currentPlayer2Pokemon->getName() << " doged the attack!\n";
+                std::cout << currentPlayer2Pokemon->getName() << " dodged the attack!\n";
 
                 std::this_thread::sleep_for(std::chrono::milliseconds(500));
             }
@@ -68,7 +66,7 @@ namespace vasio {
                     currentPlayer1Pokemon->addExp(expGot);
                 }
             } else {
-                std::cout << currentPlayer1Pokemon->getName() << " doged the attack!" << '\n';
+                std::cout << currentPlayer1Pokemon->getName() << " dodged the attack!" << '\n';
 
                 std::this_thread::sleep_for(std::chrono::milliseconds(500));
             }
@@ -85,16 +83,16 @@ namespace vasio {
                       << creatureUsingAbility.specialAbility_.getNameOfAbility() << '\n';
 
             creatureUsingAbility.specialAbility_.applyAbility(*this);
-            if(currentPlayer2Pokemon->currentHealth_ <= 0) {
+            if (currentPlayer2Pokemon->currentHealth_ <= 0) {
                 std::cout << currentPlayer2Pokemon->getName() << " fainted!\n\n";
                 int expGot = currentPlayer2Pokemon->ExpNeededToEvolve_ / 4;
                 std::cout << currentPlayer1Pokemon->getName() << " got " << expGot << " exp" << "\n\n";
                 currentPlayer1Pokemon->addExp(expGot);
             }
             creatureUsingAbility.specialAbility_.numberOfUses_++;
-            int max = creatureUsingAbility.specialAbility_.maxNumberOfUses_;
-            int uses = creatureUsingAbility.specialAbility_.numberOfUses_;
-            int usesLeft = max - uses;
+            unsigned int max = creatureUsingAbility.specialAbility_.maxNumberOfUses_;
+            unsigned int uses = creatureUsingAbility.specialAbility_.numberOfUses_;
+            unsigned int usesLeft = max - uses;
             std::cout << usesLeft << " uses of this Special Ability left" << "\n\n";
         } else {
             std::cout << "No more uses left for this ability" << '\n';
@@ -147,7 +145,7 @@ namespace vasio {
     auto Fight::enemySwitchCreature() -> void {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(0, game_ptr->player2Creatures.size() - 1);
+        std::uniform_int_distribution<unsigned int> dis(0, game_ptr->player2Creatures.size() - 1);
 
         bool enemyTeamStatus = checkIfEnemyTeamIsAlive();
 
@@ -164,7 +162,7 @@ namespace vasio {
             SetConsoleTextAttribute(color, 4);
             std::cout << "Enemy is fainted, switching to a random creature" << '\n';
             SetConsoleTextAttribute(color, 7);
-            while(!isCreatureAlive(creatureToSwitch)) {
+            while (!isCreatureAlive(creatureToSwitch)) {
                 int creatureToSwitchIndex = dis(gen);
                 creatureToSwitch = enemyCreaturesToSwitchTo[creatureToSwitchIndex];
             }
@@ -175,7 +173,11 @@ namespace vasio {
         Fight::changeTurn();
     }
 
-    auto Fight::isCreatureAlive(std::shared_ptr<Creature> creature) -> bool {
+    auto Fight::showPlayerSpecialAbility() -> void {
+        currentPlayer1Pokemon->specialAbility_.showSpecialAbility();
+    }
+
+    auto Fight::isCreatureAlive(const std::shared_ptr<Creature> &creature) -> bool {
         if (creature->currentHealth_ <= 0) {
             return false;
         } else {
@@ -184,9 +186,9 @@ namespace vasio {
     }
 
     auto Fight::checkIfPlayerTeamIsAlive() -> bool {
-        int sizeOfTeam = game_ptr->player1Creatures.size();
+        unsigned sizeOfTeam = game_ptr->player1Creatures.size();
         int counter = 0;
-        for (auto creature: game_ptr->player1Creatures) {
+        for (auto &creature: game_ptr->player1Creatures) {
             if (!isCreatureAlive(creature)) {
                 counter++;
             } else
@@ -200,9 +202,9 @@ namespace vasio {
     }
 
     auto Fight::checkIfEnemyTeamIsAlive() -> bool {
-        int sizeOfTeam = game_ptr->player2Creatures.size();
+        unsigned int sizeOfTeam = game_ptr->player2Creatures.size();
         int counter = 0;
-        for (auto creature: game_ptr->player2Creatures) {
+        for (auto &creature: game_ptr->player2Creatures) {
             if (!isCreatureAlive(creature)) {
                 counter++;
             } else {
@@ -271,12 +273,18 @@ namespace vasio {
 
         std::cout << '\n' << "What would you like to do? " << "\n\n";
 
+        SetConsoleTextAttribute(color, 1);
         std::cout << "1. Attack" << '\n';
         std::cout << "2. Use special ability" << '\n';
         std::cout << "3. Evolve" << '\n';
-        std::cout << "4. Switch creature" << '\n';
+        std::cout << "4. Switch Creature" << '\n';
+        SetConsoleTextAttribute(color, 2);
         std::cout << "5. Show Team" << '\n';
-        std::cout << "6. Show enemy team" << '\n';
+        SetConsoleTextAttribute(color, 4);
+        std::cout << "6. Show Enemy Team" << '\n';
+        SetConsoleTextAttribute(color, 1);
+        std::cout << "7. Show Special Ability" << '\n';
+        SetConsoleTextAttribute(color, 7);
 
 
         std::cout << "Your choice: " << '\n';
@@ -317,13 +325,20 @@ namespace vasio {
                 game_ptr->showTeam(game_ptr->player2Creatures);
                 SetConsoleTextAttribute(color, 7);
                 break;
+            case 7:
+                SetConsoleTextAttribute(color, 2);
+                std::cout << "Special Ability" << '\n';
+                SetConsoleTextAttribute(color, 7);
+                Fight::showPlayerSpecialAbility();
+                break;
+            default:
+                assert(false);
         }
 
 
     }
 
 
-// bot
     auto Fight::player2Turn() -> void {
 
         std::random_device rd;
@@ -362,7 +377,10 @@ namespace vasio {
             case 7:
                 Fight::enemySwitchCreature();
                 break;
+            default:
+                assert(false);
         }
     }
+
 
 }

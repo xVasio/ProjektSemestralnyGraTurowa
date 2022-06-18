@@ -1,3 +1,4 @@
+#pragma clang diagnostic push
 #include "../Hpp/Creature.hpp"
 #include "../Hpp/Fight.hpp"
 #include <string>
@@ -8,8 +9,6 @@
 
 
 namespace vasio {
-    // constructor
-
     Creature::Creature(const std::string &name, double power, float agility, int health, int currentHealth, int exp,
                        int expNeededToEvolve, SpecialAbility specialAbility) : Name_(name), power_(power),
                                                                                agility_(agility),
@@ -17,10 +16,11 @@ namespace vasio {
                                                                                currentHealth_(currentHealth),
                                                                                Exp_(exp),
                                                                                ExpNeededToEvolve_(expNeededToEvolve),
-                                                                     specialAbility_(std::move(specialAbility)) {}
+                                                                               specialAbility_(
+                                                                                       std::move(specialAbility)) {}
 
-// attack move with dodging
-    auto Creature::attack(std::shared_ptr<Creature> &other) -> int {
+
+    auto Creature::attack(std::shared_ptr<Creature> &other) const -> int {
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_real_distribution<float> dis(0, 1);
@@ -57,45 +57,46 @@ namespace vasio {
                     case CreatureType::Steel:
                         other->currentHealth_ -= power_ * 1.7 * Creature::getEfficiency(other);
                         break;
+                    default:
+                        break;
                 }
             case AbilityType::Defensive:
                 switch (this->getType()) {
                     case CreatureType::Water:
-                        this->currentHealth_ += std::uniform_int_distribution<int>(25, 100)(gen);
-                        if(this->currentHealth_ > this->health_)
+                        this->currentHealth_ += std::uniform_int_distribution<int>(25, 97)(gen);
+                        if (this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
                         break;
                     case CreatureType::Earth:
-                        this->currentHealth_ += std::uniform_int_distribution<int>(25, 100)(gen);
-                        if(this->currentHealth_ > this->health_)
+                        this->currentHealth_ += std::uniform_int_distribution<int>(25, 67)(gen);
+                        if (this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
 
                         break;
                     case CreatureType::Air:
-                        this->currentHealth_ += std::uniform_int_distribution<int>(25, 100)(gen);
-                        if(this->currentHealth_ > this->health_)
+                        this->currentHealth_ += std::uniform_int_distribution<int>(15, 80)(gen);
+                        if (this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
                         break;
                     case CreatureType::Fire:
-                        this->currentHealth_ += std::uniform_int_distribution<int>(25, 100)(gen);
-                        if(this->currentHealth_ > this->health_)
+                        this->currentHealth_ += std::uniform_int_distribution<int>(35, 120)(gen);
+                        if (this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
                         break;
                     case CreatureType::Ice:
-                        this->currentHealth_ += std::uniform_int_distribution<int>(25, 100)(gen);
-                        if(this->currentHealth_ > this->health_)
+                        this->currentHealth_ += std::uniform_int_distribution<int>(45, 90)(gen);
+                        if (this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
                         break;
                     case CreatureType::Steel:
-                        this->currentHealth_ += std::uniform_int_distribution<int>(25, 100)(gen);
-                        if(this->currentHealth_ > this->health_)
+                        this->currentHealth_ += std::uniform_int_distribution<int>(35, 110)(gen);
+                        if (this->currentHealth_ > this->health_)
                             this->currentHealth_ = this->health_;
                         break;
                 }
         }
     }
 
-// evolve function maybe needs to be automated for AI
     auto Creature::evolve() -> void {
         if (Exp_ >= ExpNeededToEvolve_) {
             timesEvolved_++;
@@ -146,6 +147,7 @@ namespace vasio {
                       std::endl;
         }
     }
+
     auto Creature::enemyEvolve() -> void {
         if (Exp_ >= ExpNeededToEvolve_) {
             std::random_device rd;
@@ -174,18 +176,13 @@ namespace vasio {
                 }
             }
         } else {
-            std::cout << "You need more exp to evolve" <<
-                      std::endl;
+            std::cout << "Enemy needs more exp to evolve" << '\n';
         }
     }
 
 
     auto Creature::addExp(int exp) -> void {
         Exp_ += exp;
-    }
-
-    auto Creature::getExp() const -> int {
-        return Exp_;
     }
 
     auto Creature::getName() const -> std::string {
@@ -204,54 +201,56 @@ namespace vasio {
             case CreatureType::Water:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Water Attack", AbilityType::Offensive, "Attack with water", maxUses, 0};
+                        return SpecialAbility{"Water Tornado", AbilityType::Offensive, "Creates water tornado dealing devastating damage", maxUses, 0};
                     case 2:
-                        return SpecialAbility{"Water Defence", AbilityType::Defensive, "Defence with water", maxUses, 0};
+                        return SpecialAbility{"Water Shield", AbilityType::Defensive, "Negates effect of previous enemy attack by healing the creature", maxUses,0};
                     default:
                         assert(false);
                 }
             case CreatureType::Fire:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Fire Attack", AbilityType::Offensive, "Attack with Fire",maxUses, 0};
+                        return SpecialAbility{"Fire Breath", AbilityType::Offensive, "Creates a deadly stream of fire burning your enemy", maxUses, 0};
                     case 2:
-                        return SpecialAbility{"Fire Defence", AbilityType::Defensive, "Defence with Fire",maxUses, 0};
+                        return SpecialAbility{"Fire Fenix", AbilityType::Defensive, "Summons a fenix that restores your hp", maxUses, 0};
                     default:
                         assert(false);
                 }
             case CreatureType::Earth:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Earth Attack", AbilityType::Offensive, "Attack with Earth", maxUses,0};
+                        return SpecialAbility{"Earthquake", AbilityType::Offensive, "Earth shakes furiously damaging everything in its area", maxUses, 0};
                     case 2:
-                        return SpecialAbility{"Earth Defence", AbilityType::Defensive, "Defence with Earth", maxUses,0};
+                        return SpecialAbility{"Mud Golem", AbilityType::Defensive, "Mud golem is created to repair any damage suffered by creature", maxUses,
+                                              0};
                     default:
                         assert(false);
                 }
             case CreatureType::Air:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Air Attack", AbilityType::Offensive, "Attack with Air", maxUses,0};
+                        return SpecialAbility{"Airstrike", AbilityType::Offensive, "Air is filled with thunders damaging your enemy", maxUses, 0};
                     case 2:
-                        return SpecialAbility{"Air Defence", AbilityType::Defensive, "Defence with Air", maxUses,0};
+                        return SpecialAbility{"Healing wind", AbilityType::Defensive, "Magic wind health your creatures wounds", maxUses, 0};
                     default:
                         assert(false);
                 }
             case CreatureType::Ice:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Ice Attack", AbilityType::Offensive, "Attack with Ice", maxUses,0};
+                        return SpecialAbility{"Ice storm", AbilityType::Offensive, "Creates a wall of ice shards going straight into your enemy", maxUses, 0};
                     case 2:
-                        return SpecialAbility{"Ice Defence", AbilityType::Defensive, "Defence with Ice", maxUses,0};
+                        return SpecialAbility{"Ice patch", AbilityType::Defensive, "Patches your wound with solid ice", maxUses, 0};
                     default:
                         assert(false);
                 }
             case CreatureType::Steel:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Steel Attack", AbilityType::Offensive, "Attack with Steel", maxUses,0};
+                        return SpecialAbility{"Steel sword", AbilityType::Offensive, "Deadly attack with magical steel sword cutting open your enemy", maxUses, 0};
                     case 2:
-                        return SpecialAbility{"Steel Defence", AbilityType::Defensive, "Defence with Steel", maxUses,0};
+                        return SpecialAbility{"Additional armour", AbilityType::Defensive, "Your creatures wounds are filled with steel armour that stops the bleeding", maxUses,
+                                              0};
                     default:
                         assert(false);
                 }
@@ -321,29 +320,20 @@ namespace vasio {
         creature->health_ = std::uniform_int_distribution<>(80, 125)(gen);
         creature->currentHealth_ = creature->health_;
         creature->power_ = std::uniform_int_distribution<>(20, 50)(gen);
-        creature->agility_ = std::uniform_real_distribution<float>(0.1, 0.75)(gen);
+        creature->agility_ = std::uniform_real_distribution<float>(0.4, 0.75)(gen);
         creature->Exp_ = 0;
         creature->ExpNeededToEvolve_ = std::uniform_int_distribution<>(400, 700)(gen);
         return creature;
     }
 
-    auto Creature::useSpecialAbility(Fight &fight) -> void {
-        specialAbility_.applyAbility(fight);
-        specialAbility_.maxNumberOfUses_--;
-    }
-
-    auto Creature::getCurrentHealth() const -> int {
-        return currentHealth_;
-    }
-
     auto Creature::getShortStats() const -> void {
-        std::cout << "Name || CHP/HP | Power || Agility || SA Type" << '\n';
+        std::cout << "Name || CHP/HP | Power || Agility || SA Name & Type" << '\n';
         std::cout << Name_ << " || " << currentHealth_ << " / " << health_ << " || " << power_ << " || " <<
-                  agility_ << " || " << specialAbility_.NameOfAbility_<< '\n';
+                  agility_ << " || " << specialAbility_.NameOfAbility_ << " || " << specialAbility_.getTypeOfAbility() << '\n';
     }
 
 
-// enum to string
+
     auto enumCreatureTypeToString(CreatureType type) -> std::string {
         switch (type) {
             case CreatureType::Water:

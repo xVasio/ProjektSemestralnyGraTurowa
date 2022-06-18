@@ -1,7 +1,3 @@
-//
-// Created by theer on 07.06.2022.
-//
-
 #pragma once
 
 #include <string>
@@ -16,6 +12,8 @@ namespace vasio {
     enum class AbilityType {
         Offensive, Defensive
     };
+
+    auto abilityTypeToString(AbilityType type) -> std::string;
 
     class Fight;
     /**
@@ -49,6 +47,10 @@ namespace vasio {
         auto applyAbility(Fight &fight) -> void;
 
         auto getNameOfAbility() const -> std::string;
+
+        auto getTypeOfAbility() const -> std::string;
+
+        auto showSpecialAbility() const -> void;
 
     };
 

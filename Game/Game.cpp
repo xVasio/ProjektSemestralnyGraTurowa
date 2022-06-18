@@ -1,24 +1,8 @@
-//
-// Created by theer on 14.06.2022.
-//
 #include <random>
 #include <fstream>
 #include "Game.hpp"
 
 namespace vasio {
-    auto enumGameDifficultyToString(vasio::GameDifficulty difficulty) -> std::string {
-        switch (difficulty) {
-            case GameDifficulty::Undefined:
-                return "Undefined";
-            case GameDifficulty::Easy:
-                return "Easy";
-            case GameDifficulty::Medium:
-                return "Medium";
-            case GameDifficulty::Hard:
-                return "Hard";
-        }
-    }
-
     auto Game::chooseDifficulty() -> void {
         std::string choice;
         Game::difficulty = GameDifficulty::Undefined;
@@ -32,7 +16,7 @@ namespace vasio {
             std::cout << "Your choice: " << '\n';
             std::cin >> choice;
             if (choice == "-h" || choice == "-help") {
-                std::cout << "Manual" << '\n';
+                std::cout << "Difficulty level affects " << '\n';
             } else if (choice == "1") {
                 difficulty = GameDifficulty::Easy;
             } else if (choice == "2") {
@@ -154,8 +138,10 @@ namespace vasio {
                 saveGame();
                 std::this_thread::sleep_for(std::chrono::milliseconds(200));
                 exit(0);
+            default:
+                assert(false);
+        }
     }
-}
 
     auto Game::welcome() -> void {
         std::string choice;
@@ -167,19 +153,18 @@ namespace vasio {
             std::cout << "-h or --help for game instruction " << '\n';
             std::cout << "Your choice: " << '\n';
             std::cin >> choice;
-        } while (choice != "1" && choice != "2" && choice != "3");
-        if (choice == "-h" || choice == "--help") {
-            std::cout << "Manual: " << '\n';
-        } else {
-            auto choiceInt = std::stoi(choice);
-            switch (choiceInt) {
-                case 1:
-                    break;
-                case 2:
-                    std::cout << "Exiting..." << '\n';
-                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
-                    exit(0);
+            if (choice == "-h" || choice == "--help") {
+                std::cout << "Manual: " << '\n';
             }
+        } while (choice != "1" && choice != "2" && choice != "3");
+        auto choiceInt = std::stoi(choice);
+        switch (choiceInt) {
+            case 1:
+                break;
+            case 2:
+                std::cout << "Exiting..." << '\n';
+                std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                exit(0);
         }
     }
 }

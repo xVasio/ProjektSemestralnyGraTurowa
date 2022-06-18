@@ -1,6 +1,3 @@
-//
-// Created by theer on 04.06.2022.
-//
 #pragma once
 
 #include "Creature.hpp"
@@ -47,7 +44,7 @@ namespace vasio {
          */
         auto useSpecialAbility() -> void;
 
-        auto enemyUseSpecialAbility() -> void;
+
         /**
          *
          * @param player1Creatures
@@ -57,17 +54,9 @@ namespace vasio {
 
         auto switchCreature() -> void;
 
-        auto Fight::enemySwitchCreature() -> void;
+        auto showPlayerSpecialAbility() -> void;
 
-        auto getPlayer1CreatureInfo() -> void;
-
-        auto getPlayerTeamInfo(const auto &playerChoices) -> void;
-
-        /**
-         *
-         * @param player2Creatures
-         */
-        auto getPlayer2CreatureInfo() -> void;
+        auto enemySwitchCreature() -> void;
 
         /**
          *
@@ -84,6 +73,8 @@ namespace vasio {
 
         auto startFight() -> void;
 
-        bool isCreatureAlive(std::shared_ptr<Creature> creature);
+        static auto isCreatureAlive(const std::shared_ptr<Creature> &creature) -> bool;
+
+        void showSpecialAbility();
     };
 }

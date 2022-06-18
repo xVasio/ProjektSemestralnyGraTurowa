@@ -1,6 +1,3 @@
-//
-// Created by theer on 24.05.2022.
-//
 #pragma once
 
 #include <string>
@@ -13,7 +10,7 @@
 
 namespace vasio {
     /**
-     *
+     * Enum for the different types of creatures
      */
     enum class CreatureType {
         Water, Earth, Air, Fire, Ice, Steel
@@ -23,12 +20,13 @@ namespace vasio {
 
     /**
      * @param type
-     * @return
+     * @return the string representation of the creature type
      */
     auto enumCreatureTypeToString(CreatureType type) -> std::string;
 
     /**
      *
+     * Class representing basic creature and its attributes
      */
     class Creature {
     public:
@@ -54,7 +52,7 @@ namespace vasio {
 
         /**
          *
-         * @return
+         * @return the string representation of the creature type
          */
         virtual auto getType() const -> CreatureType = 0;
 
@@ -62,22 +60,22 @@ namespace vasio {
          *
          * @param os
          * @param creature;
-         * @return
+         * @return the stream os with the creature information
          */
         friend std::ostream &operator<<(std::ostream &os, const Creature &creature) {
-            os << "NAME: " << creature.Name_ << " PWR: " << creature.power_ << " AGL: " << std::setprecision(2)
+            os << "NAME: " << creature.Name_ << "| PWR: " << creature.power_ << "| AGL: " << std::setprecision(2)
                << creature.agility_
-               << " HP: " << creature.health_ << " CHP: " << creature.currentHealth_ << " EXP: " << creature.Exp_
-               << " EXPN: "
-               << creature.ExpNeededToEvolve_ << " TYPE: " << enumCreatureTypeToString(creature.getType()) << " AB NAME: "
-               << creature.specialAbility_.NameOfAbility_;
+               << " HP: " << creature.health_ << "| CHP: " << creature.currentHealth_ << "| EXP: " << creature.Exp_
+               << "| EXPN: "
+               << creature.ExpNeededToEvolve_ << " TYPE: " << enumCreatureTypeToString(creature.getType()) << "| AB NAME: "
+               << creature.specialAbility_.NameOfAbility_ << "| AB TYPE: " << abilityTypeToString(creature.specialAbility_.TypeOfAbility_);
             return os;
         }
 
         /**
          *
          * @param creature
-         * @return
+         * @return float value representing the damage multiplier (0.5 - 2)
          */
         auto getEfficiency(const std::shared_ptr<Creature> &creature) const -> float {
             return interactionTable[static_cast<int>(getType())][static_cast<int>(creature->getType())];
@@ -85,49 +83,44 @@ namespace vasio {
 
         /**
          *
-         * @return
+         * @return an object of class Creature with random values generated for its attributes
          */
         auto static createRandomCreature() -> std::shared_ptr<Creature>;
 
         /**
          *
-         * @param fight
-         */
-        auto useSpecialAbility(Fight &fight) -> void;
-
-        /**
-         *
-         * @return
+         * @return the name of the creature
          */
         auto getName() const -> std::string;
 
         /**
-         *
+         * function implementing evolution of the creature
          */
         auto evolve() -> void;
 
+        /**
+         *
+         * function implementing evolution of the creature for AI
+         */
         auto enemyEvolve() -> void;
 
 
         /**
          *
          * @param exp
+         *
+         * funciton adding experience to the creature
          */
         auto addExp(int exp) -> void;
 
         /**
          *
-         * @return
+         * function displaying the creature information in shorter form than os stream
          */
-
-        auto getCurrentHealth() const -> int;
-
         auto getShortStats() const -> void;
 
-        auto getExp() const -> int;
-
         /**
-         *
+         * Default constructor
          */
         Creature() = default;
 
@@ -137,29 +130,31 @@ namespace vasio {
          * @param power
          * @param agility
          * @param health
-         * @param currentHealth
          * @param exp
          * @param expNeededToEvolve
-         * @param specialAbility
+         * @param SpecialAbility
+         *
+         * Constructor with parameters
          */
         Creature(const std::string &name, double power, float agility, int health, int currentHealth, int exp,
                  int expNeededToEvolve, SpecialAbility specialAbility);
 
         /**
          *
-         * @param other
-         * @return
+         * @param other means the another creature object that is being attacked
+         * @return damage given by the creature to the other creature
          */
-        auto attack(std::shared_ptr<Creature>& other) -> int;
+        auto attack(std::shared_ptr<Creature> &other) const -> int;
 
         /**
          *
          * @param other
+         * function implementing the use of special ability of the creature
          */
         auto specialAction(std::shared_ptr<Creature> &other) -> void;
 
         /**
-         *
+         * Destructor
          */
         virtual ~Creature() = default;
     };

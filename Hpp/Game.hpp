@@ -1,7 +1,5 @@
-//
-// Created by theer on 14.06.2022.
-//
-
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "google-explicit-constructor"
 #pragma once
 
 #include <utility>
@@ -10,11 +8,8 @@
 #include <windows.h>
 #include <chrono>
 #include <thread>
+#include <cassert>
 
-
-/// Dificulty of the game
-/// Start, load, exit
-/// Generate creatures and let the player choose 6
 namespace vasio {
     using Fight = vasio::Fight;
     using Creature = vasio::Creature;
@@ -26,8 +21,6 @@ namespace vasio {
         Hard
     };
 
-    auto enumGameDifficultyToString(GameDifficulty difficulty) -> std::string;
-
     class Game {
 
     public:
@@ -37,22 +30,22 @@ namespace vasio {
         std::vector<std::shared_ptr<Creature>> player2Creatures;
         GameDifficulty difficulty;
 
-        Game(std::vector<std::shared_ptr<Creature>> creaturesInGame) : creaturesInGame(creaturesInGame) {
+        Game(std::vector<std::shared_ptr<Creature>> creaturesInGame) : creaturesInGame(std::move(creaturesInGame)) {
             fights = {}, player1Creatures = {}, player2Creatures = {}, difficulty = GameDifficulty::Undefined;
         }
 
 
-        auto showTeam(const std::vector<std::shared_ptr<Creature>> &teamCreatures) -> void;
+        auto static showTeam(const std::vector<std::shared_ptr<Creature>> &teamCreatures) -> void;
 
         auto letHumanPlayerChooseCreatures() -> void;
 
-        auto resetHpAndSAUses(std::vector<std::shared_ptr<Creature>> &creaturesToReset) -> void;
+        static auto resetHpAndSAUses(std::vector<std::shared_ptr<Creature>> &creaturesToReset) -> void;
 
         auto resetHpOfBothTeams() -> void;
 
         auto saveGame() -> void;
 
-        auto welcome() -> void;
+        auto static welcome() -> void;
 
         auto controlPanel() -> void;
 
@@ -65,15 +58,16 @@ namespace vasio {
         }
 
         static auto gameControl(Game &game) -> void {
-            game.welcome();
+            vasio::Game::welcome();
             game.chooseDifficulty();
             game.letHumanPlayerChooseCreatures();
-            game.showTeam(game.player1Creatures);
+            vasio::Game::showTeam(game.player1Creatures);
             game.generateEnemyTeam(4);
-            game.showTeam(game.player2Creatures);
+            vasio::Game::showTeam(game.player2Creatures);
             switch (game.difficulty) {
                 case GameDifficulty::Easy:
                     game.createFight();
+                    std::cout << '\n' << "Your next adversary is Enemy 1" << '\n';
                     game.fights[0].startFight();
                     for (int i = 0; i < 2; i++) {
                         if (game.fights[i].isWon) {
@@ -81,6 +75,7 @@ namespace vasio {
                             game.resetHpOfBothTeams();
                             game.generateEnemyTeam(4);
                             game.createFight();
+                            std::cout << "Your next adversary is Enemy " << i + 2 << '\n';
                             game.fights[i + 1].startFight();
                         } else {
                             std::cout << "You lost! Start again!" << '\n';
@@ -95,6 +90,7 @@ namespace vasio {
                     break;
                 case GameDifficulty::Medium:
                     game.createFight();
+                    std::cout << '\n' << "Your next adversary is Enemy 1" << '\n';
                     game.fights[0].startFight();
                     for (int i = 0; i < 6; i++) {
                         if (game.fights[i].isWon) {
@@ -116,6 +112,9 @@ namespace vasio {
                                     game.saveGame();
                                     std::this_thread::sleep_for(std::chrono::milliseconds(200));
                                     exit(0);
+                                default:
+                                    std::cout << "Invalid choice!" << '\n';
+                                    break;
                             }
                             game.resetHpOfBothTeams();
                             game.generateEnemyTeam(5);
@@ -134,6 +133,7 @@ namespace vasio {
                     break;
                 case GameDifficulty::Hard:
                     game.createFight();
+                    std::cout << '\n' << "Your next adversary is Enemy 1" << '\n';
                     game.fights[0].startFight();
                     for (int i = 0; i < 7; i++) {
                         if (game.fights[i].isWon) {
@@ -155,6 +155,9 @@ namespace vasio {
                                     game.saveGame();
                                     std::this_thread::sleep_for(std::chrono::milliseconds(500));
                                     exit(0);
+                                default:
+                                    std::cout << "Invalid choice!" << '\n';
+                                    break;
                             }
                             game.resetHpOfBothTeams();
                             game.generateEnemyTeam(6);
@@ -171,8 +174,10 @@ namespace vasio {
                         std::cout << "You won the game! GG!" << '\n';
                     }
                     break;
+                case GameDifficulty::Undefined:
+                    assert(false);
+                    break;
             }
         }
     };
 }
-
