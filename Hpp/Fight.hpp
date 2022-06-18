@@ -28,7 +28,8 @@ namespace vasio {
          * @param player1Creatures - vector of creatures of player 1
          * @param player2Creatures - vector of creatures of player 2 (AI)
          */
-        Fight(std::shared_ptr<Game> game_ptr, std::shared_ptr<Creature> currentPlayer1Pokemon, std::shared_ptr<Creature> currentPlayer2Pokemon);
+        Fight(std::shared_ptr<Game> game_ptr, std::shared_ptr<Creature> currentPlayer1Pokemon,
+              std::shared_ptr<Creature> currentPlayer2Pokemon);
 
         /**
          * Function that implements attack move during fight

@@ -16,6 +16,7 @@ namespace vasio {
                  std::shared_ptr<Creature> currentPlayer2Creature
     ) : game_ptr(std::move(game_ptr)), currentPlayer1Pokemon(std::move(currentPlayer1Creature)),
         currentPlayer2Pokemon(std::move(currentPlayer2Creature)) {}
+
     auto Fight::attack() -> void {
         if (player1Turn_) {
             std::cout << currentPlayer1Pokemon->getName() << " attacks " << currentPlayer2Pokemon->getName() << "\n\n";
@@ -23,10 +24,10 @@ namespace vasio {
             if (damageGiven > 0) {
                 SetConsoleTextAttribute(color, 2);
                 std::cout << "Attack was successful!" << '\n';
-                if(currentPlayer1Pokemon->getEfficiency(currentPlayer2Pokemon) == 1) {
+                if (currentPlayer1Pokemon->getEfficiency(currentPlayer2Pokemon) == 1) {
                     SetConsoleTextAttribute(color, 2);
                     std::cout << "It's effective!" << '\n';
-                } else if(currentPlayer1Pokemon->getEfficiency(currentPlayer2Pokemon) == 0.5) {
+                } else if (currentPlayer1Pokemon->getEfficiency(currentPlayer2Pokemon) == 0.5) {
                     SetConsoleTextAttribute(color, 4);
                     std::cout << "It's not very effective..." << '\n';
                 } else if (currentPlayer1Pokemon->getEfficiency(currentPlayer2Pokemon) == 1.5) {
@@ -69,10 +70,10 @@ namespace vasio {
             if (damageGiven > 0) {
                 SetConsoleTextAttribute(color, 4);
                 std::cout << "Attack was successful" << '\n';
-                if(currentPlayer2Pokemon->getEfficiency(currentPlayer1Pokemon) == 1) {
+                if (currentPlayer2Pokemon->getEfficiency(currentPlayer1Pokemon) == 1) {
                     SetConsoleTextAttribute(color, 2);
                     std::cout << "It's effective!" << '\n';
-                } else if(currentPlayer2Pokemon->getEfficiency(currentPlayer1Pokemon) == 0.5) {
+                } else if (currentPlayer2Pokemon->getEfficiency(currentPlayer1Pokemon) == 0.5) {
                     SetConsoleTextAttribute(color, 4);
                     std::cout << "It's not very effective..." << '\n';
                 } else if (currentPlayer2Pokemon->getEfficiency(currentPlayer1Pokemon) == 1.5) {
@@ -318,7 +319,7 @@ namespace vasio {
         std::cout << "----------------------------------------------------" << '\n';
         SetConsoleTextAttribute(color, 7);
 
-        std::cout << '\n' <<  "What would you like to do? " << "\n\n";
+        std::cout << '\n' << "What would you like to do? " << "\n\n";
 
         while (choice != "1" && choice != "2" && choice != "3" && choice != "4" && choice != "5" && choice != "6" &&
                choice != "7") {
@@ -333,25 +334,34 @@ namespace vasio {
             std::cout << "6. Show Enemy Team" << '\n';
             SetConsoleTextAttribute(color, 1);
             std::cout << "7. Show Special Ability" << '\n';
-            SetConsoleTextAttribute(color,14);
+            SetConsoleTextAttribute(color, 14);
             std::cout << "-h or --help for game instructions" << '\n';
-            SetConsoleTextAttribute(color,7);
+            SetConsoleTextAttribute(color, 7);
             std::cout << "Your choice: " << '\n';
             std::cin >> choice;
             if (choice == "-h" || choice == "--help") {
+                SetConsoleTextAttribute(color, 9);
                 std::cout
-                        << "(Attack) damage given to enemy depends on creatures power and type. Some creatures are more or less vulnerable to others. Every creature can dodge attack, chance of it is defined as agility"
+                        << "(Attack) damage given to enemy depends on creatures power and type. " << '\n';
+                std::cout
+                        << "Some creatures are more or less vulnerable to others. Creature can dodge attack, chance of it is defined as agility"
                         << '\n';
                 std::cout
-                        << "(Use special ability) you can access special ability information by typing 7. Special ability can be offensive or defensive. Everything is included in Show Special Ability funcion."
+                        << "(Use special ability) you can access special ability information by typing 7. " << '\n';
+                std::cout
+                        << "Special ability can be offensive or defensive. Everything is included in Show Special Ability funcion."
                         << '\n';
                 std::cout
-                        << "(Evolve) Creature can be evolved, which grants buffs to given attributes (You can choose two from Power, Health or Agility). Creature needs defined EXP number (Given as EXPN)"
+                        << "(Evolve) Creature can be evolved, which grants buffs to picked attributes . "
+                        << '\n';
+                std::cout
+                        << "Creature needs defined EXP number (Given as EXPN)"
                         << '\n';
                 std::cout
                         << "(Switch Creature) gives you possibility to change current creature to some other from your team"
                         << '\n';
-                std::cout << "The rest of the options are self explanatory" << '\n';
+                std::cout << "Other options are self explanatory" << "\n\n";
+                SetConsoleTextAttribute(color, 7);
             }
         }
         int intChoice = std::stoi(choice);

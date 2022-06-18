@@ -44,7 +44,7 @@ namespace vasio {
         constexpr inline static float interactionTable[6][6] = {
                 {0.5, 1.5, 1,   1.5, 1,   1},
                 {1,   1,   0.5, 1.5, 1.5, 1.5},
-                {1,   1,   1, 1,   2,   0.5},
+                {1,   1,   1,   1,   2,   0.5},
                 {0.5, 0.5, 1,   1,   1,   1.5},
                 {0.5, 1.5, 1,   0.5, 1,   1},
                 {1.5, 1,   1.5, 0.5, 1,   0.5}
@@ -66,8 +66,10 @@ namespace vasio {
             os << "NAME: " << creature.Name_ << "|PWR: " << creature.power_ << "|AGL: " << std::setprecision(2)
                << creature.agility_
                << "|CHP/HP " << creature.currentHealth_ << "/" << creature.health_ << "|EXP: " << creature.Exp_
-               << "|EXPN: " << creature.ExpNeededToEvolve_ << " TYPE: " << enumCreatureTypeToString(creature.getType()) << "|AB NAME: "
-               << creature.specialAbility_.NameOfAbility_ << "|AB TYPE: " << creature.specialAbility_.getTypeOfAbility();
+               << "|EXPN: " << creature.ExpNeededToEvolve_ << " TYPE: " << enumCreatureTypeToString(creature.getType())
+               << "|AB NAME: "
+               << creature.specialAbility_.NameOfAbility_ << '\n' << "|AB TYPE: "
+               << creature.specialAbility_.getTypeOfAbility();
             return os;
         }
 

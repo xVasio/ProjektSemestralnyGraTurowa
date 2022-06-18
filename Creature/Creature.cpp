@@ -1,4 +1,5 @@
 #pragma clang diagnostic push
+
 #include "../Hpp/Creature.hpp"
 #include "../Hpp/Fight.hpp"
 #include <string>
@@ -190,6 +191,11 @@ namespace vasio {
         return Name_;
     }
 
+    /**
+     * Function that generates Special Ability for each creature depending on its type and random Special Ability Type
+     * @param creatureType the type of creature
+     * @return object of the SpecialAbility class
+     */
     auto generateSpecialAbility(CreatureType creatureType) -> SpecialAbility {
         std::random_device rd;
         std::mt19937 gen(rd());
@@ -202,27 +208,34 @@ namespace vasio {
             case CreatureType::Water:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Water Tornado", AbilityType::Offensive, "Creates water tornado dealing devastating damage", maxUses, 0};
+                        return SpecialAbility{"Water Tornado", AbilityType::Offensive,
+                                              "Creates water tornado dealing devastating damage", maxUses, 0};
                     case 2:
-                        return SpecialAbility{"Water Shield", AbilityType::Defensive, "Negates effect of previous enemy attack by healing the creature", maxUses,0};
+                        return SpecialAbility{"Water Shield", AbilityType::Defensive,
+                                              "Negates effect of previous enemy attack by healing the creature",
+                                              maxUses, 0};
                     default:
                         assert(false);
                 }
             case CreatureType::Fire:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Fire Breath", AbilityType::Offensive, "Creates a deadly stream of fire burning your enemy", maxUses, 0};
+                        return SpecialAbility{"Fire Breath", AbilityType::Offensive,
+                                              "Creates a deadly stream of fire burning your enemy", maxUses, 0};
                     case 2:
-                        return SpecialAbility{"Fire Fenix", AbilityType::Defensive, "Summons a fenix that restores your hp", maxUses, 0};
+                        return SpecialAbility{"Fire Fenix", AbilityType::Defensive,
+                                              "Summons a fenix that restores your hp", maxUses, 0};
                     default:
                         assert(false);
                 }
             case CreatureType::Earth:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Earthquake", AbilityType::Offensive, "Earth shakes furiously damaging everything in its area", maxUses, 0};
+                        return SpecialAbility{"Earthquake", AbilityType::Offensive,
+                                              "Earth shakes furiously damaging everything in its area", maxUses, 0};
                     case 2:
-                        return SpecialAbility{"Mud Golem", AbilityType::Defensive, "Mud golem is created to repair any damage suffered by creature", maxUses,
+                        return SpecialAbility{"Mud Golem", AbilityType::Defensive,
+                                              "Mud golem is created to repair any damage suffered by creature", maxUses,
                                               0};
                     default:
                         assert(false);
@@ -230,27 +243,36 @@ namespace vasio {
             case CreatureType::Air:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Airstrike", AbilityType::Offensive, "Air is filled with thunders damaging your enemy", maxUses, 0};
+                        return SpecialAbility{"Airstrike", AbilityType::Offensive,
+                                              "Air is filled with thunders damaging your enemy", maxUses, 0};
                     case 2:
-                        return SpecialAbility{"Healing wind", AbilityType::Defensive, "Magic wind health your creatures wounds", maxUses, 0};
+                        return SpecialAbility{"Healing wind", AbilityType::Defensive,
+                                              "Magic wind heals your creatures wounds", maxUses, 0};
                     default:
                         assert(false);
                 }
             case CreatureType::Ice:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Ice storm", AbilityType::Offensive, "Creates a wall of ice shards going straight into your enemy", maxUses, 0};
+                        return SpecialAbility{"Ice storm", AbilityType::Offensive,
+                                              "Creates a wall of ice shards going straight into your enemy", maxUses,
+                                              0};
                     case 2:
-                        return SpecialAbility{"Ice patch", AbilityType::Defensive, "Patches your wound with solid ice", maxUses, 0};
+                        return SpecialAbility{"Ice patch", AbilityType::Defensive, "Patches your wound with solid ice",
+                                              maxUses, 0};
                     default:
                         assert(false);
                 }
             case CreatureType::Steel:
                 switch (random) {
                     case 1:
-                        return SpecialAbility{"Steel sword", AbilityType::Offensive, "Deadly attack with magical steel sword cutting open your enemy", maxUses, 0};
+                        return SpecialAbility{"Steel sword", AbilityType::Offensive,
+                                              "Deadly attack with magical steel sword cutting open your enemy", maxUses,
+                                              0};
                     case 2:
-                        return SpecialAbility{"Additional armour", AbilityType::Defensive, "Your creatures wounds are filled with steel armour that stops the bleeding", maxUses,
+                        return SpecialAbility{"Additional armour", AbilityType::Defensive,
+                                              "Your creatures wounds are filled with steel armour that stops the bleeding",
+                                              maxUses,
                                               0};
                     default:
                         assert(false);
@@ -260,6 +282,11 @@ namespace vasio {
         }
     }
 
+    /**
+     * Generates a random creature name
+     * @param type The type of creature
+     * @return The name of the creature
+     */
     auto generateName(CreatureType type) -> std::string {
         switch (type) {
             case CreatureType::Water:
@@ -330,9 +357,9 @@ namespace vasio {
     auto Creature::getShortStats() const -> void {
         std::cout << "Name || CHP/HP | Power || Agility || SA Name & Type" << '\n';
         std::cout << Name_ << " || " << currentHealth_ << " / " << health_ << " || " << power_ << " || " <<
-                  agility_ << " || " << specialAbility_.NameOfAbility_ << " || " << specialAbility_.getTypeOfAbility() << '\n';
+                  agility_ << " || " << specialAbility_.NameOfAbility_ << " || " << specialAbility_.getTypeOfAbility()
+                  << '\n';
     }
-
 
 
     auto enumCreatureTypeToString(CreatureType type) -> std::string {
