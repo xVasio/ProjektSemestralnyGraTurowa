@@ -9,5 +9,6 @@ auto main() -> int {
     }
     vasio::Game game(creatures);
     vasio::Game::gameControl(game);
+    //
     return 0;
 }

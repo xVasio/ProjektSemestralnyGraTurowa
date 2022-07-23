@@ -38,7 +38,7 @@ namespace vasio {
                     std::cout << "It's mega effective!" << '\n';
                 }
                 SetConsoleTextAttribute(color, 5);
-                std::cout << currentPlayer2Pokemon->getName() << " took " << damageGiven << " damage" << "\n\n";
+                std::cout << currentPlayer2Pokemon->getName() << " took " << damageGiven << " damage " << "\n\n";
                 std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                 SetConsoleTextAttribute(color, 7);
                 std::cout << "-----------------------------------------------------\n";

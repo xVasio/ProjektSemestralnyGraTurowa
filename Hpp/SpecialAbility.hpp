@@ -22,6 +22,7 @@ namespace vasio {
 
     /**
      * Class representing Special ability and its attributes
+     *
      */
     class SpecialAbility {
     public:

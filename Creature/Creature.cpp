@@ -221,7 +221,7 @@ namespace vasio {
                 switch (random) {
                     case 1:
                         return SpecialAbility{"Fire Breath", AbilityType::Offensive,
-                                              "Creates a deadly stream of fire burning your enemy", maxUses, 0};
+                                              "Creates a deadly stream of firestorm burning your enemy", maxUses, 0};
                     case 2:
                         return SpecialAbility{"Fire Fenix", AbilityType::Defensive,
                                               "Summons a fenix that restores your hp", maxUses, 0};

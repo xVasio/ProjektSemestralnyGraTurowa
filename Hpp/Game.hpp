@@ -16,6 +16,7 @@ namespace vasio {
 
     /**
      * enum class representing difficulty of game
+     *
      */
     enum class GameDifficulty {
         Undefined,

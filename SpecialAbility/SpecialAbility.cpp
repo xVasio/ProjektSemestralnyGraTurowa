@@ -1,6 +1,6 @@
 #include <cassert>
 #include "SpecialAbility.hpp"
-#include "/Fight.hpp"
+#include "Fight.hpp"
 #include <iostream>
 
 namespace vasio {

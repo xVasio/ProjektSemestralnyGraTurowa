@@ -27,6 +27,7 @@ namespace vasio {
     /**
      *
      * Class representing basic creature and its attributes
+     *
      */
     class Creature {
     public:
@@ -44,9 +45,9 @@ namespace vasio {
         constexpr inline static float interactionTable[6][6] = {
                 {0.5, 1.5, 1,   1.5, 1,   1},
                 {1,   1,   0.5, 1.5, 1.5, 1.5},
-                {1,   0.5,   1,   1,   2,   0.5},
-                {0.5, 0.5, 1,   1,   1.5,   1.5},
-                {0.5, 1.5, 1,   0.5, 0.5,   1},
+                {1,   0.5, 1,   1,   2,   0.5},
+                {0.5, 0.5, 1,   1,   1.5, 1.5},
+                {0.5, 1.5, 1,   0.5, 0.5, 1},
                 {1.5, 1,   1.5, 0.5, 1,   0.5}
         };
 

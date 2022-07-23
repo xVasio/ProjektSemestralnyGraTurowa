@@ -14,6 +14,7 @@ namespace vasio {
 
     /**
      * Class representing single fight between players
+     *
      */
     class Fight {
     public:

@@ -20,7 +20,7 @@ namespace vasio {
             std::cin >> choice;
             if (choice == "-h" || choice == "--help") {
                 std::cout
-                        << "Difficulty level affects number of rounds and number of enemies. For (Easy) it is 4 rounds, 4 enemies each. For (Medium) it is 5 rounds, 5 enemies each and for (Hard) it is 6 rounds, 6 enemies each "
+                        << "Difficulty level affects number of rounds and number of enemies. For (Easy) it is 4 rounds, 4 enemies each. For (Medium) it is 5 rounds, 5 enemies each and for (Hard) it is 6 rounds, 6 enemies each"
                         << '\n';
             } else if (choice == "1") {
                 difficulty = GameDifficulty::Easy;
@@ -35,6 +35,8 @@ namespace vasio {
         }
     }
 
+
+    // Bug w postaci wpisania chara do inta, naprawa poprzed dodanie ifa/while'a
     auto Game::letHumanPlayerChooseCreatures() -> void {
         constexpr int player1TeamSize = 6;
         int counter = 0;
